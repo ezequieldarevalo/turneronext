@@ -13,7 +13,7 @@ const LoadingContainer = styled.div`
 `;
 
 export interface IQuoteObtaining {
-  availdableDates: string;
+  availdableDates?: string;
 }
 
 export interface IQuoteObtainingError {
