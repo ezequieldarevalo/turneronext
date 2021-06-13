@@ -1,192 +1,106 @@
-import React, { useCallback, useState, useMemo, createContext } from 'react';
-import type { ReactNode } from 'react';
-import styled from 'styled-components';
-import { ApolloError } from '@apollo/client';
-import { useQuery, useMutation, FetchResult } from '@apollo/react-hooks';
+import React, { useCallback, useState, useMemo, createContext } from "react";
+import type { ReactNode } from "react";
+import styled from "styled-components";
+import { ApolloError } from "@apollo/client";
+// import { useQuery, useMutation, FetchResult } from '@apollo/react-hooks';
+import { useQuery } from "@apollo/react-hooks";
 
-import getDeliveryData from '../lib/queries/getQuoteData';
-import LoaderG from '../components/common/LoaderG';
+import getDeliveryData from "../lib/queries/getQuoteData";
+import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
   min-height: 290px;
 `;
-
-// export interface IAvailableShift {
-//   code: string;
-//   description: string;
-// }
-
-// export interface IAvailableDate {
-//   date: string;
-//   availableShifts: IAvailableShift[];
-// }
-
-// export interface ICalendar {
-//   id: string;
-//   availableDates: IAvailableDate[];
-// }
-
-// export interface IProduct {
-//   id: string;
-//   description: string;
-//   quantity: number;
-//   url?: string;
-//   image?: string;
-// }
-
-// export interface IDeliveryAddress {
-//   street: string;
-//   number: number;
-//   city: string;
-//   state: string;
-//   zipCode: string;
-//   floor?: string;
-//   apartment?: string;
-//   observations?: string;
-//   geoLat?: number;
-//   geoLong?: number;
-// }
-
-// interface ISaleChannel {
-//   name: string;
-// }
-
-// interface ICustomer {
-//   name: string;
-//   email: string;
-// }
 
 export interface IQuoteObtaining {
   availdableDates: string;
 }
 
 export interface IQuoteObtainingError {
-    reason: string;
-  }
-
-// export interface IRescheduleResponse {
-//   done: boolean;
-// }
-
-// export enum TReason {
-//   INVALID_ADDRESS = 'INVALID_ADDRESS',
-//   DELIVERY_FAILED = 'DELIVERY_FAILED',
-//   DELIVERY_DATE_CHANGED = 'DELIVERY_DATE_CHANGED',
-//   OPTIONAL_DATE_CHANGE = 'OPTIONAL_DATE_CHANGE',
-// }
-
-// export interface ValidateSchedulingResult {
-//   valid: boolean;
-//   reason: TReason;
-// }
+  reason: string;
+}
 
 interface QuoteObtainingProviderProps {
   id: string;
   children: ReactNode;
+  plant: string;
 }
 
-// export interface IRescheduleState {
-//   done: boolean; // posible cambio/remove
-//   date: string;
-//   shift: string;
-// }
+interface ISelectedDate {
+  date: string;
+  shift: string;
+}
 
-// export interface ISchedulingError {
-//   saleChannel?: string;
-//   reason: string;
-//   date?: string;
-//   shift?: string;
-//   canRetry?: boolean;
-// }
-
-// export const emptySchedulingError: ISchedulingError = {
-//   reason: 'default',
-// };
-
-
+const emptySelectedDate = { date: "", shift: "" };
 
 export type QuoteObtainingContextValue = [
   ApolloError,
   IQuoteObtaining,
-  {
-    
-  }
+  { onSelectDate: (date: string, shift: string) => void }
 ];
 
-export const QuoteObtainingContext = createContext<
-  QuoteObtainingContextValue
->([
+export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
   null,
   null,
-  {
-    
-  },
+  { onSelectDate: (date:string,shift:string) => null },
 ]);
 
-const emptyDateChangeState = {
-  done: false,
-  date: '',
-  shift: '',
-};
+export const emptyQuoteObtainingError={
+    reason: 'default'
+}
 
 export default function QuoteObtainingProvider({
   id,
+  plant,
   children,
 }: QuoteObtainingProviderProps): JSX.Element {
-//   const [dateChangeState, setDateChangeState] = useState<IRescheduleState>(
-//     emptyDateChangeState
-//   );
+  const [selectedDate, setSelectedDate] =
+    useState<ISelectedDate>(emptySelectedDate);
 
-  const { loading: loadingQuery, error: errorQuery, data } = useQuery(
-    getDeliveryData,
-    {
-      variables: { id: id },
-    }
-  );
+  const {
+    loading: loadingQuery,
+    error: errorQuery,
+    data,
+  } = useQuery(getDeliveryData, {
+    variables: { id: id },
+  });
 
-//   const [
-//     doResc,
-//     { error: errorMutation, loading: loadingMutation },
-//   ] = useMutation<IRescheduleResponse>(doReschedule, {
-//     onError: () => {
-//       return;
-//     },
-//   });
+  const onSelectDate = (date: string, shift: string) => {};
 
-//   const error = errorQuery;
+  //   const [
+  //     doResc,
+  //     { error: errorMutation, loading: loadingMutation },
+  //   ] = useMutation<IRescheduleResponse>(doReschedule, {
+  //     onError: () => {
+  //       return;
+  //     },
+  //   });
 
-//   const onDateSubmit = useCallback(
-//     (
-//       id: string,
-//       date: string,
-//       shift: string
-//     ): Promise<FetchResult<IRescheduleResponse>> =>
-//       doResc({
-//         variables: {
-//           id,
-//           date,
-//           shift,
-//         },
-//       }),
-//     []
-//   );
+  //   const error = errorQuery;
 
-//   const changeDate = useCallback((date: string, shift: string) => {
-//     setDateChangeState({ done: true, date, shift });
-//   }, []);
+  //   const onDateSubmit = useCallback(
+  //     (
+  //       id: string,
+  //       date: string,
+  //       shift: string
+  //     ): Promise<FetchResult<IRescheduleResponse>> =>
+  //       doResc({
+  //         variables: {
+  //           id,
+  //           date,
+  //           shift,
+  //         },
+  //       }),
+  //     []
+  //   );
+
+  //   const changeDate = useCallback((date: string, shift: string) => {
+  //     setDateChangeState({ done: true, date, shift });
+  //   }, []);
 
   const value: QuoteObtainingContextValue = useMemo(
-    () => [
-        errorQuery,
-      data?.QuoteObtaining,
-      {
-     
-      },
-    ],
-    [
-        errorQuery,
-      data?.QuoteObtaining,
-    ]
+    () => [errorQuery, data?.QuoteObtaining, {onSelectDate}],
+    [errorQuery, data?.QuoteObtaining,onSelectDate]
   );
 
   if (loadingQuery) {

@@ -19,7 +19,6 @@ function ViewWrapper({ children }: ViewWrapperProps): JSX.Element {
       </MainTitle>
       <MainFlexContainer>
         <ScheduleContainer>{children}</ScheduleContainer>
-        
       </MainFlexContainer>
     </MainContainer>
   );
