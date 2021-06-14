@@ -67,7 +67,6 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      console.log(data);
       const result = { id: _args.id };
       return result;
     }
