@@ -12,7 +12,7 @@ const typeDefs = gql`
 
 
   type Query {
-    getQuoteObtainingData(id: String!,plant: String!): QuoteObtaining
+    getQuoteData(id: String!,plant: String!): QuoteObtaining
   }
 
 `;

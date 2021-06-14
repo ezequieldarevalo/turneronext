@@ -5,7 +5,7 @@ import { ApolloError } from "@apollo/client";
 // import { useQuery, useMutation, FetchResult } from '@apollo/react-hooks';
 import { useQuery } from "@apollo/react-hooks";
 
-import getQuoteObtainingData from "../lib/queries/getQuoteData";
+import getQuoteData from "../lib/queries/getQuoteData";
 import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
@@ -63,7 +63,7 @@ export default function QuoteObtainingProvider({
     loading: loadingQuery,
     error: errorQuery,
     data,
-  } = useQuery(getQuoteObtainingData, {
+  } = useQuery(getQuoteData, {
     variables: { id:id, plant:plant },
   });
 
@@ -101,8 +101,8 @@ export default function QuoteObtainingProvider({
   //   }, []);
 
   const value: QuoteObtainingContextValue = useMemo(
-    () => [errorQuery, data?.QuoteObtaining, {onSelectDate}],
-    [errorQuery, data?.QuoteObtaining,onSelectDate]
+    () => [errorQuery, data?.quotes, {onSelectDate}],
+    [errorQuery, data?.quotes,onSelectDate]
   );
 
   if (loadingQuery) {

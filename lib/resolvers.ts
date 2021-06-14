@@ -21,27 +21,24 @@ const valTur = "api/auth/valTur";
 // }
 
 const Query = {
-  async getQuoteObtainingData(
+  async getQuoteData(
     __parent: unknown,
     _args: GetQuoteDataArgs
   ): Promise<IQuoteObtaining> {
-      console.log("hola")
     let urlBackend = "";
     if (_args.plant === "lasheras") {
       urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + valTur;
     } else {
       urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + valTur;
     }
-    const url = new URL(_args.id, urlBackend);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        nro_turno: _args.id,
+        nro_turno_rto: _args.id,
       }),
     };
-    console.log(url.toString())
-    const response = await fetch(url.toString(), requestOptions);
+    const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
         const errorData: IQuoteObtainingError = await response.json();
