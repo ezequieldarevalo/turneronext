@@ -1,0 +1,8 @@
+{
+  "app.name": "Agendamiento",
+
+  "order.delivery.reschedule.main.title": "Agendá tu entrega",
+
+  "app.quoteObtaining.error.default.title": "Ha ocurrido un error",
+  "app.quoteObtaining.error.default.message": "Intente de nuevo mas tarde"
+}

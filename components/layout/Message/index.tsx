@@ -1,9 +1,9 @@
 import React from 'react';
 import { MessageContainer, MessageContent } from './styles';
-import ErrorImage from '../../icons/ErrorImage';
-import AlertImage from '../../icons/AlertImage';
-import SuccessImage from '../../icons/SuccessImage';
-import WarningImage from '../../icons/WarningImage';
+import ErrorImage from '../../common/icons/ErrorImage';
+import AlertImage from '../../common/icons/AlertImage';
+import SuccessImage from '../../common/icons/SuccessImage';
+import WarningImage from '../../common/icons/WarningImage';
 
 const INFO_COLOR = '#654BB9';
 const ERROR_COLOR = '#b80000';

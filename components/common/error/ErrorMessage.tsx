@@ -22,18 +22,17 @@ function ErrorMessage(): JSX.Element {
   const errorDetails: IQuoteObtainingError = getErrorDetails(
     error?.graphQLErrors[0]?.extensions.details || emptyQuoteObtainingError
   );
-
   return (
     <>
       <MessageTitle type="ERROR">
         <I18n
-          id={`order.delivery.reschedule.error.${errorDetails.reason}.title`}
+          id={`app.quoteObtaining.error.${errorDetails.reason}.title`}
         />
       </MessageTitle>
       <br />
       <p>
         <I18n
-          id={`order.delivery.reschedule.error.${errorDetails.reason}.message`}
+          id={`app.quoteObtaining.error.${errorDetails.reason}.message`}
         />
       </p>
       <br />
