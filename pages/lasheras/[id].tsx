@@ -14,7 +14,7 @@ function QuoteObtainingLhPage(): JSX.Element {
   return (
     <>
       {id ? (
-        <QuoteObtainingProvider id={id.toString()} plant={"lasheras"}>
+        <QuoteObtainingProvider id={id.toString()} plant={"maipu"}>
           <Main />
         </QuoteObtainingProvider>
       ) : (

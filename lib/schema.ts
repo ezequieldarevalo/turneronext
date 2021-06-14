@@ -6,13 +6,13 @@ const typeDefs = gql`
 
 
   type QuoteObtaining {
-    availableDates: String!
+    id: String!
   }
 
 
 
   type Query {
-    getQuoteObtainingData(id: String!): QuoteObtaining
+    getQuoteObtainingData(id: String!,plant: String!): QuoteObtaining
   }
 
 `;

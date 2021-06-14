@@ -13,12 +13,12 @@ export const MessageContainer = styled.div`
 export const MessageContent = styled.div`
   padding-top: 2px;
   margin-left: 9px;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-Regular;
   font-size: 16px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.38;
-  letter-spacing: -0.36px;
+  // letter-spacing: -0.36px;
   color: #000000;
   @media (max-width: 996px) {
     font-size: 15px;

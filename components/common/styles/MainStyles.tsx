@@ -12,7 +12,7 @@ export const MainContainer = styled.div`
     padding-left: 33px;
   }
   @media (max-width: 996px) {
-    margin-top: 60px;
+    margin-top: 10px;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 11px;
@@ -31,7 +31,7 @@ export const MainTitle = styled.div`
   width: 100%;
   position: relative;
   padding-bottom: 18px;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-Bold;
   font-size: 28px;
   font-weight: 600;
   font-stretch: normal;
@@ -53,6 +53,7 @@ export const ScheduleContainer = styled.div`
   position: relative;
   width: 65%;
   // background: red;
+  font-family: Nunito-Regular;
   border-top: solid 1px #dadada;
   padding-right: 2px;
   padding-top: 32px;

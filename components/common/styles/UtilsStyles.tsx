@@ -32,7 +32,7 @@ export const MessageTitle = styled.p`
   font-stretch: normal;
   font-style: normal;
   line-height: 1.41;
-  letter-spacing: -0.38px;
+  // letter-spacing: -0.38px;
   color: ${(props: MessageTitleProps) =>
     props.type === 'SUCCESS' ? '#238d48' : '#b80000'};
 `;

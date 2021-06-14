@@ -5,7 +5,7 @@ import { ApolloError } from "@apollo/client";
 // import { useQuery, useMutation, FetchResult } from '@apollo/react-hooks';
 import { useQuery } from "@apollo/react-hooks";
 
-import getDeliveryData from "../lib/queries/getQuoteData";
+import getQuoteObtainingData from "../lib/queries/getQuoteData";
 import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
@@ -13,7 +13,7 @@ const LoadingContainer = styled.div`
 `;
 
 export interface IQuoteObtaining {
-  availdableDates?: string;
+  id: string;
 }
 
 export interface IQuoteObtainingError {
@@ -57,12 +57,14 @@ export default function QuoteObtainingProvider({
   const [selectedDate, setSelectedDate] =
     useState<ISelectedDate>(emptySelectedDate);
 
+   
+
   const {
     loading: loadingQuery,
     error: errorQuery,
     data,
-  } = useQuery(getDeliveryData, {
-    variables: { id: id },
+  } = useQuery(getQuoteObtainingData, {
+    variables: { id:id, plant:plant },
   });
 
   const onSelectDate = (date: string, shift: string) => {};
