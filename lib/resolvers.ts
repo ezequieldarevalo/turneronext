@@ -67,7 +67,7 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      const result = { id: _args.id };
+      const result = { ...data,id: _args.id };
       return result;
     }
   },

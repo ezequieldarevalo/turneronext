@@ -7,7 +7,6 @@ import ChooseQuote from './layout/operations/ChooseQuote'
 
 function Main(): JSX.Element {
   const [, QuoteObtaining] = useQuoteObtaining();
-  console.log(QuoteObtaining)
   return (
     <>
       {QuoteObtaining? <ChooseQuote /> : (

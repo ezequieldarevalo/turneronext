@@ -4,9 +4,17 @@ import gql from 'graphql-tag';
 
 const typeDefs = gql`
 
+  type tTurno {
+    id: Int!
+    fecha: String!
+    hora: String!
+  }
 
   type QuoteObtaining {
     id: String!
+    tipo_vehiculo: String!
+    precio: Int!
+    turnos: [tTurno]
   }
 
 
