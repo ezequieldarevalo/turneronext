@@ -9,12 +9,13 @@ export const ProductsContainer = styled.div`
     padding: 0;
     border: 0;
     width: 100%;
-    margin-top: 0px;
+    margin-top: 25px;
+    margin-bottom: 25px;
   }
 `;
 
 export const Title = styled.div`
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-SemiBold;
   font-size: 25px;
   font-weight: 600;
   font-stretch: normal;
@@ -60,7 +61,7 @@ export const Image = styled.div`
 
 export const Description = styled.div`
   margin: 6px 0 36px 18px;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-SemiBold;
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;

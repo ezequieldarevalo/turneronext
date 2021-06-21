@@ -19,10 +19,15 @@ const typeDefs = gql`
     dias: [String]!
   }
 
+  type RescheduleResponse {
+    done: Boolean
+  }
+
 
 
   type Query {
     getQuoteData(id: String!,plant: String!): QuoteObtaining
+    doReschedule(email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
   }
 
 `;

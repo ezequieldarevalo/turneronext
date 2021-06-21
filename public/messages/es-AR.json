@@ -16,6 +16,7 @@
 
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
+  "app.quoteObtaining.schedule.calendar.step3.title": "Confirmación Email",
   "app.quoteObtaining.schedule.calendar.subtitle": "Elegí la fecha que querés realizar la revisión",
 
   "app.quoteObtaining.schedule.calendar.subtitleDate":"Fecha de la cita",
@@ -30,6 +31,8 @@
   "order.delivery.reschedule.datepicker.weekday.sun": "DO",
 
   "app.quoteObtaining.schedule.calendar.continue":"CONTINUAR",
+  "app.quoteObtaining.schedule.calendar.pay":"REALIZAR PAGO",
 
-  "app.quoteObtaining.schedule.calendar.paymentMethod.subtitle": "Seleccione con que billetera desea abonar"
+  "app.quoteObtaining.schedule.calendar.paymentMethod.subtitle": "Seleccione con que billetera desea abonar",
+  "app.quoteObtaining.schedule.calendar.emailConf.subtitle": "Ingrese el correo electronico que utilizó al solicitar el servicio"
 }

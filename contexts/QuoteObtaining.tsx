@@ -2,10 +2,10 @@ import React, { useCallback, useState, useMemo, createContext } from "react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
 import { ApolloError } from "@apollo/client";
-// import { useQuery, useMutation, FetchResult } from '@apollo/react-hooks';
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation, FetchResult } from "@apollo/react-hooks";
 
 import getQuoteData from "../lib/queries/getQuoteData";
+import doReschedule from "../lib/queries/doReschedule";
 import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
@@ -37,6 +37,10 @@ interface QuoteObtainingProviderProps {
   plant: string;
 }
 
+export interface IRescheduleResponse {
+  done: boolean;
+}
+
 const emptyQuoteSelected = { id: -1, fecha: "", hora: "" };
 
 export type QuoteObtainingContextValue = [
@@ -45,20 +49,55 @@ export type QuoteObtainingContextValue = [
     quotes: IQuoteObtaining;
     quoteSelected: IQuote;
     dateSelected: boolean;
+    paymentPlatform: string;
+    paymentPlatformSelected: boolean;
+    email: string;
+    emailEntered: boolean;
+    loadingSchedule: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
     onModifyDateAddressChange: () => void;
     resetShift: () => void;
+    onChangePaymentPlatform: (paymentPlatform: string) => void;
+    onSubmitPaymentPlatform: () => void;
+    onModifyPaymentPlatform: () => void;
+    onChangeEmail: (email: string) => void;
+    onModifyEmail: () => void;
+    onSubmitEmail: () => void;
+    onSubmit: (
+      email: string,
+      quoteId: number,
+      tipoVehiculo: string,
+      rtoId: number,
+      paymentMethod: string
+    ) => Promise<FetchResult<IRescheduleResponse>>;
   }
 ];
 
 export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
-  { error: null, quotes: null, quoteSelected: null, dateSelected: null },
+  {
+    error: null,
+    quotes: null,
+    quoteSelected: null,
+    dateSelected: null,
+    paymentPlatform: null,
+    paymentPlatformSelected: null,
+    email: null,
+    emailEntered: null,
+    loadingSchedule: null,
+  },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
     onModifyDateAddressChange: () => null,
     resetShift: () => null,
+    onChangePaymentPlatform: () => null,
+    onSubmitPaymentPlatform: () => null,
+    onModifyPaymentPlatform: () => null,
+    onChangeEmail: () => null,
+    onModifyEmail: () => null,
+    onSubmitEmail: () => null,
+    onSubmit: () => Promise.reject(),
   },
 ]);
 
@@ -76,6 +115,15 @@ export default function QuoteObtainingProvider({
 
   const [dateSelected, setDateSelected] = useState<boolean>(false);
 
+  const [paymentPlatform, setPaymentPlatform] = useState<string>("yacare");
+
+  const [paymentPlatformSelected, setPaymentPlatformSelected] =
+    useState<boolean>(false);
+
+  const [email, setEmail] = useState<string>("");
+
+  const [emailEntered, setEmailEntered] = useState<boolean>(false);
+
   const {
     loading: loadingQuery,
     error: errorQuery,
@@ -83,6 +131,13 @@ export default function QuoteObtainingProvider({
   } = useQuery(getQuoteData, {
     variables: { id: id, plant: plant },
   });
+
+  const [doResc, { error: errorMutation, loading: loadingSchedule }] =
+    useMutation<IRescheduleResponse>(doReschedule, {
+      onError: () => {
+        return;
+      },
+    });
 
   const onSelectDate = (id: number, fecha: string, hora: string): void => {
     setQuoteSelected({ id, fecha, hora });
@@ -94,39 +149,52 @@ export default function QuoteObtainingProvider({
   };
 
   const resetShift = () => {
-    setQuoteSelected({...quoteSelected,hora: null})
+    setQuoteSelected({ ...quoteSelected, hora: null });
   };
 
-  //   const [
-  //     doResc,
-  //     { error: errorMutation, loading: loadingMutation },
-  //   ] = useMutation<IRescheduleResponse>(doReschedule, {
-  //     onError: () => {
-  //       return;
-  //     },
-  //   });
+  const onChangePaymentPlatform = (paymentPlatform: string) => {
+    setPaymentPlatform(paymentPlatform);
+  };
 
-  //   const error = errorQuery;
+  const onSubmitPaymentPlatform = () => {
+    setPaymentPlatformSelected(true);
+  };
 
-  //   const onDateSubmit = useCallback(
-  //     (
-  //       id: string,
-  //       date: string,
-  //       shift: string
-  //     ): Promise<FetchResult<IRescheduleResponse>> =>
-  //       doResc({
-  //         variables: {
-  //           id,
-  //           date,
-  //           shift,
-  //         },
-  //       }),
-  //     []
-  //   );
+  const onModifyPaymentPlatform = () => {
+    setPaymentPlatformSelected(false);
+  };
 
-  //   const changeDate = useCallback((date: string, shift: string) => {
-  //     setDateChangeState({ done: true, date, shift });
-  //   }, []);
+  const onChangeEmail = (email: string) => {
+    setEmail(email);
+  };
+
+  const onModifyEmail = () => {
+    setEmailEntered(false);
+  };
+
+  const onSubmitEmail = () => {
+    setEmailEntered(true);
+  };
+
+  const onSubmit = useCallback(
+    (
+      email: string,
+      quoteId: number,
+      tipoVehiculo: string,
+      rtoId: number,
+      paymentMethod: string
+    ): Promise<FetchResult<IRescheduleResponse>> =>
+      doResc({
+        variables: {
+          email,
+          quoteId,
+          tipoVehiculo,
+          rtoId,
+          paymentMethod,
+        },
+      }),
+    []
+  );
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
@@ -135,17 +203,45 @@ export default function QuoteObtainingProvider({
         quotes: data?.quotes,
         quoteSelected,
         dateSelected,
+        paymentPlatform,
+        paymentPlatformSelected,
+        email,
+        emailEntered,
+        loadingSchedule,
       },
-      { onSelectDate, onModifyDateAddressChange,resetShift },
+      {
+        onSelectDate,
+        onModifyDateAddressChange,
+        resetShift,
+        onChangePaymentPlatform,
+        onSubmitPaymentPlatform,
+        onModifyPaymentPlatform,
+        onChangeEmail,
+        onModifyEmail,
+        onSubmitEmail,
+        onSubmit,
+      },
     ],
     [
       errorQuery,
       data?.quotes,
       quoteSelected,
       dateSelected,
+      paymentPlatform,
+      paymentPlatformSelected,
+      email,
+      emailEntered,
+      loadingSchedule,
       onSelectDate,
       onModifyDateAddressChange,
-      resetShift
+      resetShift,
+      onChangePaymentPlatform,
+      onSubmitPaymentPlatform,
+      onModifyPaymentPlatform,
+      onChangeEmail,
+      onModifyEmail,
+      onSubmitEmail,
+      onSubmit,
     ]
   );
 

@@ -70,7 +70,7 @@ const Subtitle = styled.div`
 `;
 
 const DateSelected = styled.div`
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-Regular;
   font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
@@ -89,7 +89,7 @@ const SubtitleItem = styled.div`
 
 const DateConfirm = styled.div`
   text-align: right;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-SemiBold;
   margin-top: 22px;
   @media (max-width: 996px) {
     margin-top: 33px;

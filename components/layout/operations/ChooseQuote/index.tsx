@@ -5,9 +5,11 @@ import Message from "../../Message";
 import ErrorMessage from "../../../common/error/ErrorMessage";
 import SelectDate from "./views/SelectDate";
 import SelectPaymentMethod from "./views/SelectPaymentMethod";
+import GiveEmail from "./views/GiveEmail"
+import Summary from "./views/Summary"
 
 function ChooseQuote(): JSX.Element {
-  const [{ error, quoteSelected, dateSelected }] = useQuoteObtaining();
+  const [{ error, dateSelected,paymentPlatformSelected,emailEntered }] = useQuoteObtaining();
 
   if (error)
     return (
@@ -25,10 +27,30 @@ function ChooseQuote(): JSX.Element {
       </ViewWrapper>
     );
 
-  if (dateSelected)
+  if (dateSelected && !paymentPlatformSelected)
     return (
       <ViewWrapper hasProducts={true}>
         <SelectPaymentMethod />
+        
+      </ViewWrapper>
+    );
+
+  if (dateSelected && paymentPlatformSelected && !emailEntered)
+    return (
+      <ViewWrapper hasProducts={true}>
+        <>
+          <GiveEmail />
+        </>
+        
+      </ViewWrapper>
+    );
+
+  if (dateSelected && paymentPlatformSelected && emailEntered)
+    return (
+      <ViewWrapper hasProducts={true}>
+        <>
+          <Summary />
+        </>
         
       </ViewWrapper>
     );

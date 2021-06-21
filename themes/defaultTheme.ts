@@ -27,7 +27,7 @@ box-sizing: inherit; /* 2 */
 */
 
 html {
-font-family: 'Work Sans', sans-serif;
+font-family: Nunito-Regular;
 font-weight: 400;
 
 -ms-text-size-adjust: 100%; /* 1 */
@@ -87,24 +87,24 @@ list-style: none;
 * Remove all default styles and all elements look the same 
 */
 
-button,
-input,
-optgroup,
-select,
-textarea {
--webkit-appearance: none;
--moz-appearance: none;
-appearance: none;
-overflow: visible;
-border: 0;
-outline: 0;
-font: inherit;
--webkit-font-smoothing: inherit;
-letter-spacing: inherit;
-color: inherit;
-background: none;
-vertical-align: top;
-}
+// button,
+// input,
+// optgroup,
+// select,
+// textarea {
+// -webkit-appearance: none;
+// -moz-appearance: none;
+// appearance: none;
+// overflow: visible;
+// border: 0;
+// outline: 0;
+// font: inherit;
+// -webkit-font-smoothing: inherit;
+// letter-spacing: inherit;
+// color: inherit;
+// background: none;
+// vertical-align: top;
+// }
 
 /**
 * Avoid no background on Edge and IE 

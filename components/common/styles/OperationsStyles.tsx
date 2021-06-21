@@ -42,7 +42,7 @@ export const IconStep = styled.div`
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
-    line-height: 13px;
+    line-height: 17px;
     letter-spacing: -0.29px;
     margin-top: 4px;
     padding-left: 7px;

@@ -5,6 +5,7 @@ import I18n from "components/common/i18n";
 import GreyStepBox from "components/common/GreyStepBox";
 import styled from "styled-components";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
+import Image from "next/image";
 
 const DateSelected = styled.div`
   position: relative;
@@ -26,11 +27,40 @@ const ChooseMessage = styled.div`
   line-height: 1.88;
   letter-spacing: -0.29px;
   color: #000000;
+`;
 
+const ImgContainer = styled.div`
+  border-radius: 8px;
+`;
+
+const BtnContainer = styled.div`
+  text-align: right;
+  font-family: Nunito-SemiBold;
+  margin-top: 22px;
+  @media (max-width: 996px) {
+    margin-top: 33px;
+  }
+`;
+
+const Btn = styled.button`
+  padding: 15px 28px 14px 27px;
+  border-radius: 2px;
+  background-color: rgb(116, 172, 223);
+  font-size: 15px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.15px;
+  text-align: center;
+  color: #ffffff;
+  @media (max-width: 996px) {
+    width: 100%;
+  }
 `;
 
 function SelectPaymentMethod() {
-  const [{ quoteSelected }, { onModifyDateAddressChange }] =
+  const [{ quoteSelected, paymentPlatform }, { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform }] =
     useQuoteObtaining();
   return (
     <>
@@ -53,9 +83,56 @@ function SelectPaymentMethod() {
       </StepTitle>
 
       <GreyStepBox>
-        <ChooseMessage>
-          <I18n id="app.quoteObtaining.schedule.calendar.paymentMethod.subtitle" />
-        </ChooseMessage>
+        <>
+          <ChooseMessage>
+            <I18n id="app.quoteObtaining.schedule.calendar.paymentMethod.subtitle" />
+          </ChooseMessage>
+          <br/>
+          <br/>
+          <input onClick={()=>onChangePaymentPlatform("yacare")}
+            type="radio"
+            id="Yacare"
+            name="paymentPlatform"
+            value="Yacare"
+            defaultChecked={paymentPlatform==='yacare'}
+          />
+          <label htmlFor="Yacare">Yacare</label>
+          <br/>
+          <ImgContainer>
+            <Image
+              className="platform"
+              src="/img/yacare.png"
+              alt="pepe"
+              width="200"
+              height="65"
+            />
+          </ImgContainer>
+
+          <br/>
+          <input onClick={()=>onChangePaymentPlatform("mercadoPago")}
+            type="radio"
+            id="MercadoPago"
+            name="paymentPlatform"
+            value="MercadoPago"
+            defaultChecked={paymentPlatform==='mercadoPago'}
+          />
+          <label htmlFor="MercadoPago">Mercado Pago</label>
+          <ImgContainer>
+            <Image
+              className="platform"
+              src="/img/meli.png"
+              alt="pepe"
+              width="200"
+              height="65"
+            />
+          </ImgContainer>
+          <BtnContainer>
+          <Btn onClick={()=> onSubmitPaymentPlatform()}>
+          <I18n id="app.quoteObtaining.schedule.calendar.continue" />
+        </Btn>
+          </BtnContainer>
+          
+        </>
       </GreyStepBox>
     </>
   );
