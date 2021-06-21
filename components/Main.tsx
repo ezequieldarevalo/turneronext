@@ -6,10 +6,10 @@ import ErrorMessage from "./common/error/ErrorMessage";
 import ChooseQuote from './layout/operations/ChooseQuote'
 
 function Main(): JSX.Element {
-  const [, QuoteObtaining] = useQuoteObtaining();
+  const [{quotes}] = useQuoteObtaining();
   return (
     <>
-      {QuoteObtaining? <ChooseQuote /> : (
+      {quotes? <ChooseQuote /> : (
         <ViewWrapper>
           <Message type="ERROR">
             <ErrorMessage />

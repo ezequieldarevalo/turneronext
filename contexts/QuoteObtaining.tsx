@@ -12,8 +12,19 @@ const LoadingContainer = styled.div`
   min-height: 290px;
 `;
 
+export interface IQuote {
+  id: number;
+  fecha: string;
+  hora: string;
+}
+
 export interface IQuoteObtaining {
   id: string;
+  plant: string;
+  tipo_vehiculo: string;
+  precio: number;
+  turnos: IQuote[];
+  dias: string[];
 }
 
 export interface IQuoteObtainingError {
@@ -26,48 +37,65 @@ interface QuoteObtainingProviderProps {
   plant: string;
 }
 
-interface ISelectedDate {
-  date: string;
-  shift: string;
-}
-
-const emptySelectedDate = { date: "", shift: "" };
+const emptyQuoteSelected = { id: -1, fecha: "", hora: "" };
 
 export type QuoteObtainingContextValue = [
-  ApolloError,
-  IQuoteObtaining,
-  { onSelectDate: (date: string, shift: string) => void }
+  {
+    error: ApolloError;
+    quotes: IQuoteObtaining;
+    quoteSelected: IQuote;
+    dateSelected: boolean;
+  },
+  {
+    onSelectDate: (id: number, fecha: string, hora: string) => void;
+    onModifyDateAddressChange: () => void;
+    resetShift: () => void;
+  }
 ];
 
 export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
-  null,
-  null,
-  { onSelectDate: (date:string,shift:string) => null },
+  { error: null, quotes: null, quoteSelected: null, dateSelected: null },
+  {
+    onSelectDate: (id: number, fecha: string, hora: string) => null,
+    onModifyDateAddressChange: () => null,
+    resetShift: () => null,
+  },
 ]);
 
-export const emptyQuoteObtainingError={
-    reason: 'default'
-}
+export const emptyQuoteObtainingError = {
+  reason: "default",
+};
 
 export default function QuoteObtainingProvider({
   id,
   plant,
   children,
 }: QuoteObtainingProviderProps): JSX.Element {
-  const [selectedDate, setSelectedDate] =
-    useState<ISelectedDate>(emptySelectedDate);
+  const [quoteSelected, setQuoteSelected] =
+    useState<IQuote>(emptyQuoteSelected);
 
-   
+  const [dateSelected, setDateSelected] = useState<boolean>(false);
 
   const {
     loading: loadingQuery,
     error: errorQuery,
     data,
   } = useQuery(getQuoteData, {
-    variables: { id:id, plant:plant },
+    variables: { id: id, plant: plant },
   });
 
-  const onSelectDate = (date: string, shift: string) => {};
+  const onSelectDate = (id: number, fecha: string, hora: string): void => {
+    setQuoteSelected({ id, fecha, hora });
+    setDateSelected(true);
+  };
+
+  const onModifyDateAddressChange = () => {
+    setDateSelected(false);
+  };
+
+  const resetShift = () => {
+    setQuoteSelected({...quoteSelected,hora: null})
+  };
 
   //   const [
   //     doResc,
@@ -101,8 +129,24 @@ export default function QuoteObtainingProvider({
   //   }, []);
 
   const value: QuoteObtainingContextValue = useMemo(
-    () => [errorQuery, data?.quotes, {onSelectDate}],
-    [errorQuery, data?.quotes,onSelectDate]
+    () => [
+      {
+        error: errorQuery,
+        quotes: data?.quotes,
+        quoteSelected,
+        dateSelected,
+      },
+      { onSelectDate, onModifyDateAddressChange,resetShift },
+    ],
+    [
+      errorQuery,
+      data?.quotes,
+      quoteSelected,
+      dateSelected,
+      onSelectDate,
+      onModifyDateAddressChange,
+      resetShift
+    ]
   );
 
   if (loadingQuery) {

@@ -1,8 +1,35 @@
 {
   "app.name": "Agendamiento",
 
-  "order.delivery.reschedule.main.title": "Agendá tu entrega",
+  "app.quoteObtaining.lasheras.main.title": "Reserva de turno - Revitotal Las Heras",
+  "app.quoteObtaining.maipu.main.title": "Reserva de turno - Revitotal Maipu",
+  "app.quoteObtaining.default.main.title": "Reserva de turno - Revitotal",
+  "app.quoteObtaining.info.title": "Información del turno",
+
+  "app.quoteObtaining.warning.title": "IMPORTANTE",
+  "app.quoteObtaining.warning.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
+  "app.quoteObtaining.warning.message2": "Podrá abonar el turno con Yacaré o Mercado Pago.",
+  "app.quoteObtaining.warning.message3": "La plataforma lo redireccionará al sitio para efectuarlo.",
 
   "app.quoteObtaining.error.default.title": "Ha ocurrido un error",
-  "app.quoteObtaining.error.default.message": "Intente de nuevo mas tarde"
+  "app.quoteObtaining.error.default.message": "Intente de nuevo mas tarde",
+
+  "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
+  "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
+  "app.quoteObtaining.schedule.calendar.subtitle": "Elegí la fecha que querés realizar la revisión",
+
+  "app.quoteObtaining.schedule.calendar.subtitleDate":"Fecha de la cita",
+  "app.quoteObtaining.schedule.calendar.subtitleTime":"Hora de la cita",
+
+  "order.delivery.reschedule.datepicker.weekday.mon": "LU",
+  "order.delivery.reschedule.datepicker.weekday.tue": "MA",
+  "order.delivery.reschedule.datepicker.weekday.wed": "MI",
+  "order.delivery.reschedule.datepicker.weekday.thu": "JU",
+  "order.delivery.reschedule.datepicker.weekday.fri": "VI",
+  "order.delivery.reschedule.datepicker.weekday.sat": "SA",
+  "order.delivery.reschedule.datepicker.weekday.sun": "DO",
+
+  "app.quoteObtaining.schedule.calendar.continue":"CONTINUAR",
+
+  "app.quoteObtaining.schedule.calendar.paymentMethod.subtitle": "Seleccione con que billetera desea abonar"
 }

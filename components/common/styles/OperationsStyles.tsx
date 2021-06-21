@@ -22,16 +22,16 @@ export const IconStep = styled.div`
   width: 35px;
   height: 35px;
   border-radius: 50px;
-  padding: 5px 8px 8px 8px;
+  padding: 4px 6px 8px 8px;
   background: ${(props: IconStepProps) =>
-    props.disabled || props.checked ? 'none' : '#440099'};
+    props.disabled || props.checked ? 'none' : 'rgb(116,172,223)'};
   border: 1px solid
     ${(props: IconStepProps) =>
-      props.disabled || props.checked ? '#888888' : '#440099'};
+      props.disabled || props.checked ? '#888888' : 'rgb(116,172,223)'};
   color: ${(props: IconStepProps) =>
     props.disabled || props.checked ? '#888888' : '#fff'};
   text-align: center;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-Bold;
   font-size: 20px;
   font-weight: 600;
   @media (max-width: 996px) {
@@ -56,12 +56,12 @@ interface TextProps {
 
 export const Text = styled.div`
   margin-left: 13px;
-  font-family: Work Sans, sans-serif;
+  font-family: Nunito-Bold;
   font-size: 22px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  line-height: 1.8;
   letter-spacing: -0.39px;
   color: ${(props: TextProps) =>
     props.disabled || props.checked ? '#888888' : '#000'};

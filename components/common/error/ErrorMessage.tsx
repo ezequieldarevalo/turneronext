@@ -17,7 +17,7 @@ import { MessageTitle } from "../styles/UtilsStyles";
 // const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 function ErrorMessage(): JSX.Element {
-  const [error] = useQuoteObtaining();
+  const [{error}] = useQuoteObtaining();
 
   const errorDetails: IQuoteObtainingError = getErrorDetails(
     error?.graphQLErrors[0]?.extensions.details || emptyQuoteObtainingError

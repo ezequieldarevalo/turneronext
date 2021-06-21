@@ -6,19 +6,26 @@ import {
   ScheduleContainer,
 } from '../../common/styles/MainStyles';
 import I18n from 'components/common/i18n';
+import useQuoteObtaining from 'hooks/useQuoteObtaining'
+import Products from 'components/Products'
 
 interface ViewWrapperProps {
   children: JSX.Element;
+  hasProducts?: boolean;
 }
 
-function ViewWrapper({ children }: ViewWrapperProps): JSX.Element {
+function ViewWrapper({ children, hasProducts }: ViewWrapperProps): JSX.Element {
+  const [{quotes}]=useQuoteObtaining();
+
+
   return (
     <MainContainer>
       <MainTitle>
-        <I18n id="order.delivery.reschedule.main.title" />
+        <I18n id={`app.quoteObtaining.${quotes?.plant || 'default'}.main.title`} />
       </MainTitle>
       <MainFlexContainer>
         <ScheduleContainer>{children}</ScheduleContainer>
+        {hasProducts && <Products />}
       </MainFlexContainer>
     </MainContainer>
   );

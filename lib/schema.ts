@@ -12,9 +12,11 @@ const typeDefs = gql`
 
   type QuoteObtaining {
     id: String!
+    plant: String!
     tipo_vehiculo: String!
     precio: Int!
     turnos: [tTurno]
+    dias: [String]!
   }
 
 

@@ -12,7 +12,7 @@ interface GetQuoteDataArgs {
   plant: string;
 }
 
-const valTur = "api/auth/valTur";
+const valTur = "api/auth/valTur2";
 
 // interface DoRescheduleArgs {
 //   id: string;
@@ -67,7 +67,7 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      const result = { ...data,id: _args.id };
+      const result = { ...data,id: _args.id, plant: _args.plant};
       return result;
     }
   },
