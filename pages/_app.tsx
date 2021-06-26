@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
 import App from "next/app";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { useApollo } from "../lib/apollo";
@@ -8,6 +7,7 @@ import { I18nProvider, IMessages } from "contexts/I18n";
 import initialMessages from "../public/messages/es-AR.json";
 import Header from '../components/layout/structure/Header';
 import { GlobalStyle } from 'themes/defaultTheme';
+import type { AppProps } from 'next/app';
 
 interface II18nStateProps {
   initialLang: string;
@@ -30,12 +30,17 @@ function I18nState({
   );
 }
 
+interface IProps extends AppProps {
+  initialLang: string;
+  initialMessages: IMessages;
+}
+
 function MyApp({
   Component,
   pageProps,
   initialLang,
   initialMessages,
-}: AppProps): JSX.Element {
+}: IProps): JSX.Element {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
