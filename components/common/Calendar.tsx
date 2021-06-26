@@ -118,10 +118,11 @@ const ShiftSelection = styled.select`
   background: white;
   border: 1px solid grey;
   height: 30px;
-  padding-left: 12px;
+  padding-left: 8px;
   padding-top: 3px;
   border-radius: 3px;
   margin-top: 10px;
+  font-size: 16px;
 `;
 
 function Calendar(): JSX.Element {

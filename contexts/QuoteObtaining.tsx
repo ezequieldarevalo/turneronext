@@ -1,4 +1,10 @@
-import React, { useCallback, useState, useMemo, createContext } from "react";
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useMemo,
+  createContext,
+} from "react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
 import { ApolloError } from "@apollo/client";
@@ -19,7 +25,7 @@ export interface IQuote {
 }
 
 export interface IQuoteObtaining {
-  id: string;
+  id: number;
   plant: string;
   tipo_vehiculo: string;
   precio: number;
@@ -38,10 +44,10 @@ interface QuoteObtainingProviderProps {
 }
 
 export interface IRescheduleResponse {
-  done: boolean;
+  url_pago: string;
 }
 
-const emptyQuoteSelected = { id: -1, fecha: "", hora: "" };
+const emptyQuoteSelected = { id: null, fecha: "", hora: "" };
 
 export type QuoteObtainingContextValue = [
   {
@@ -54,6 +60,7 @@ export type QuoteObtainingContextValue = [
     email: string;
     emailEntered: boolean;
     loadingSchedule: boolean;
+    validEmailFormat: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
@@ -65,13 +72,7 @@ export type QuoteObtainingContextValue = [
     onChangeEmail: (email: string) => void;
     onModifyEmail: () => void;
     onSubmitEmail: () => void;
-    onSubmit: (
-      email: string,
-      quoteId: number,
-      tipoVehiculo: string,
-      rtoId: number,
-      paymentMethod: string
-    ) => Promise<FetchResult<IRescheduleResponse>>;
+    onSubmit: () => Promise<FetchResult<IRescheduleResponse>>;
   }
 ];
 
@@ -86,6 +87,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     email: null,
     emailEntered: null,
     loadingSchedule: null,
+    validEmailFormat: null,
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
@@ -124,6 +126,8 @@ export default function QuoteObtainingProvider({
 
   const [emailEntered, setEmailEntered] = useState<boolean>(false);
 
+  const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false)
+
   const {
     loading: loadingQuery,
     error: errorQuery,
@@ -137,6 +141,9 @@ export default function QuoteObtainingProvider({
       onError: () => {
         return;
       },
+      onCompleted: (data)=> {
+        window.location.assign(data.url_pago);
+      }
     });
 
   const onSelectDate = (id: number, fecha: string, hora: string): void => {
@@ -165,6 +172,8 @@ export default function QuoteObtainingProvider({
   };
 
   const onChangeEmail = (email: string) => {
+    if(/^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(email)) setValidEmailFormat(true)
+    else setValidEmailFormat(false) 
     setEmail(email);
   };
 
@@ -173,28 +182,23 @@ export default function QuoteObtainingProvider({
   };
 
   const onSubmitEmail = () => {
-    setEmailEntered(true);
+    if(validEmailFormat) setEmailEntered(true);
   };
 
-  const onSubmit = useCallback(
-    (
-      email: string,
-      quoteId: number,
-      tipoVehiculo: string,
-      rtoId: number,
-      paymentMethod: string
-    ): Promise<FetchResult<IRescheduleResponse>> =>
-      doResc({
-        variables: {
-          email,
-          quoteId,
-          tipoVehiculo,
-          rtoId,
-          paymentMethod,
-        },
-      }),
-    []
-  );
+  const onSubmit = useCallback((): Promise<
+    FetchResult<IRescheduleResponse>
+  > => {
+    return doResc({
+      variables: {
+        plant,
+        email,
+        quoteId: quoteSelected.id,
+        tipoVehiculo: data?.quotes.tipo_vehiculo,
+        rtoId: data?.quotes.id,
+        paymentMethod: paymentPlatform,
+      },
+    });
+  }, [plant, email, quoteSelected, data, paymentPlatform]);
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
@@ -208,6 +212,7 @@ export default function QuoteObtainingProvider({
         email,
         emailEntered,
         loadingSchedule,
+        validEmailFormat
       },
       {
         onSelectDate,
@@ -232,6 +237,7 @@ export default function QuoteObtainingProvider({
       email,
       emailEntered,
       loadingSchedule,
+      validEmailFormat,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,

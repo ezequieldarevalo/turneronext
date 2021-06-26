@@ -47,6 +47,9 @@ const Btn = styled.button`
   @media (max-width: 996px) {
     width: 100%;
   }
+  :disabled{
+    background: grey;
+  }
 `;
 
 const ChooseMessage = styled.div`
@@ -86,7 +89,7 @@ const getImageByPlatform = (platform: string) => {
 }
 
 function GiveEmail():JSX.Element {
-    const [{ quoteSelected, paymentPlatform,email,emailEntered }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
+    const [{ quoteSelected, paymentPlatform,email, validEmailFormat }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
     useQuoteObtaining();
     return (<>
         <StepTitle checked noMargin stepNumber={1}>
@@ -136,7 +139,7 @@ function GiveEmail():JSX.Element {
                     ></TextInput>
           
           <BtnContainer>
-          <Btn onClick={()=> onSubmitEmail()}>
+          <Btn disabled={!validEmailFormat} onClick={()=> onSubmitEmail()}>
           <I18n id="app.quoteObtaining.schedule.calendar.continue" />
         </Btn>
           </BtnContainer>

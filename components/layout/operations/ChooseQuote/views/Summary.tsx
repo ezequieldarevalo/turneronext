@@ -87,16 +87,16 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { quoteSelected, paymentPlatform, email,loadingSchedule},
+    { error, quoteSelected, paymentPlatform, email, loadingSchedule},
     {
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
       onModifyEmail,
-      onSubmitEmail,
+      onSubmit
     },
   ] = useQuoteObtaining();
   return (
-    <LoaderG loadingSchedule noBackground >
+    <LoaderG loading={loadingSchedule} noBackground >
       <StepTitle checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
@@ -137,7 +137,7 @@ function Summary(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
       <BtnContainer>
-        <Btn onClick={() => onSubmitEmail()}>
+        <Btn onClick={() => onSubmit()}>
           <I18n id="app.quoteObtaining.schedule.calendar.pay" />
         </Btn>
       </BtnContainer>

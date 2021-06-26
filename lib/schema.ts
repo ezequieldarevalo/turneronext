@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type QuoteObtaining {
-    id: String!
+    id: Int!
     plant: String!
     tipo_vehiculo: String!
     precio: Int!
@@ -20,14 +20,18 @@ const typeDefs = gql`
   }
 
   type RescheduleResponse {
-    done: Boolean
+    url_pago: String!
   }
 
 
 
   type Query {
     getQuoteData(id: String!,plant: String!): QuoteObtaining
-    doReschedule(email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
+    
+  }
+
+  type Mutation {
+    doReschedule(plant: String!,email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
   }
 
 `;

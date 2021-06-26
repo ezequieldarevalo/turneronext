@@ -9,18 +9,23 @@
   "app.quoteObtaining.warning.title": "IMPORTANTE",
   "app.quoteObtaining.warning.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
   "app.quoteObtaining.warning.message2": "Podrá abonar el turno con Yacaré o Mercado Pago.",
-  "app.quoteObtaining.warning.message3": "La plataforma lo redireccionará al sitio para efectuarlo.",
+  "app.quoteObtaining.warning.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
 
   "app.quoteObtaining.error.default.title": "Ha ocurrido un error",
   "app.quoteObtaining.error.default.message": "Intente de nuevo mas tarde",
+
+  "app.quoteObtaining.error.NOT_IN_RTO.title": "Turno inexistente",
+  "app.quoteObtaining.error.NOT_IN_RTO.message": "No existe un turno con el id ingresado.",
+  "app.quoteObtaining.error.INACTIVE_QUOTE.title": "Turno inactivo",
+  "app.quoteObtaining.error.INACTIVE_QUOTE.message": "El turno ingresado ya no se encuentra activo.",
 
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
   "app.quoteObtaining.schedule.calendar.step3.title": "Confirmación Email",
   "app.quoteObtaining.schedule.calendar.subtitle": "Elegí la fecha que querés realizar la revisión",
 
-  "app.quoteObtaining.schedule.calendar.subtitleDate":"Fecha de la cita",
-  "app.quoteObtaining.schedule.calendar.subtitleTime":"Hora de la cita",
+  "app.quoteObtaining.schedule.calendar.subtitleDate":"Fecha de la revisión",
+  "app.quoteObtaining.schedule.calendar.subtitleTime":"Hora de la revisión",
 
   "order.delivery.reschedule.datepicker.weekday.mon": "LU",
   "order.delivery.reschedule.datepicker.weekday.tue": "MA",
