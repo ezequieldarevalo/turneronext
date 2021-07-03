@@ -78,6 +78,7 @@ export type QuoteObtainingContextValue = [
     emailEntered: boolean;
     loadingSchedule: boolean;
     validEmailFormat: boolean;
+    showError: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
@@ -105,6 +106,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     emailEntered: null,
     loadingSchedule: null,
     validEmailFormat: null,
+    showError: null,
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
