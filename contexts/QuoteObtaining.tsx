@@ -51,6 +51,19 @@ interface IRescheduleResponse {
   Reschedule: IRescheduleResponseReschedule
 }
 
+export interface ISchedulingError {
+  saleChannel?: string;
+  reason: string;
+  date?: string;
+  shift?: string;
+  canRetry?: boolean;
+}
+
+export const emptySchedulingError: ISchedulingError = {
+  reason: 'default',
+};
+
+
 const emptyQuoteSelected = { id: null, fecha: "", hora: "" };
 
 export type QuoteObtainingContextValue = [
@@ -132,6 +145,8 @@ export default function QuoteObtainingProvider({
 
   const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false);
 
+  const [showError,setShowError] = useState<boolean>(false);
+
   const {
     loading: loadingQuery,
     error: errorQuery,
@@ -143,7 +158,7 @@ export default function QuoteObtainingProvider({
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
     useMutation<IRescheduleResponse>(doReschedule, {
       onError: () => {
-        return;
+        setShowError(true);
       },
       onCompleted: (data)=> {
         console.log(data.Reschedule.url_pago)
@@ -158,6 +173,7 @@ export default function QuoteObtainingProvider({
 
   const onModifyDateAddressChange = () => {
     setDateSelected(false);
+    setShowError(false);
   };
 
   const resetShift = () => {
@@ -174,6 +190,7 @@ export default function QuoteObtainingProvider({
 
   const onModifyPaymentPlatform = () => {
     setPaymentPlatformSelected(false);
+    setShowError(false);
   };
 
   const onChangeEmail = (email: string) => {
@@ -184,6 +201,7 @@ export default function QuoteObtainingProvider({
 
   const onModifyEmail = () => {
     setEmailEntered(false);
+    setShowError(false);
   };
 
   const onSubmitEmail = () => {
@@ -208,7 +226,7 @@ export default function QuoteObtainingProvider({
   const value: QuoteObtainingContextValue = useMemo(
     () => [
       {
-        error: errorQuery,
+        error: errorQuery || errorMutation,
         quotes: data?.quotes,
         quoteSelected,
         dateSelected,
@@ -217,7 +235,8 @@ export default function QuoteObtainingProvider({
         email,
         emailEntered,
         loadingSchedule,
-        validEmailFormat
+        validEmailFormat,
+        showError,
       },
       {
         onSelectDate,
@@ -243,6 +262,7 @@ export default function QuoteObtainingProvider({
       emailEntered,
       loadingSchedule,
       validEmailFormat,
+      showError,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,

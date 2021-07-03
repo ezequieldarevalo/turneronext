@@ -7,6 +7,8 @@ import styled from "styled-components";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
 import Image from "next/image";
 import LoaderG from "components/common/LoaderG";
+import Message from "components/layout/Message";
+import ErrorMessage from "components/common/error/ErrorMessage";
 
 const DateSelected = styled.div`
   position: relative;
@@ -87,7 +89,7 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quoteSelected, paymentPlatform, email, loadingSchedule},
+    { error, quoteSelected, paymentPlatform, email, loadingSchedule, showError},
     {
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
@@ -137,6 +139,8 @@ function Summary(): JSX.Element {
           <b>Email:</b> {email}
         </DateSelected>
       </GreyStepBox>
+      {error && showError && <><br/><Message type="ERROR">
+        <ErrorMessage /></Message></>}
       <BtnContainer>
         <Btn onClick={() => onSubmit()}>
           <I18n id="app.quoteObtaining.schedule.calendar.pay" />

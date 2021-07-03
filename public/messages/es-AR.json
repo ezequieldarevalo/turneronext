@@ -19,7 +19,12 @@
   "app.quoteObtaining.error.NOT_IN_RTO.message": "No existe un turno con el id ingresado.",
   "app.quoteObtaining.error.INACTIVE_QUOTE.title": "Turno inactivo",
   "app.quoteObtaining.error.INACTIVE_QUOTE.message": "El turno ingresado ya no se encuentra activo.",
+  "app.quoteObtaining.error.EXISTS_QUOTE_DOMAIN.title": "Turno pendiente",
+  "app.quoteObtaining.error.EXISTS_QUOTE_DOMAIN.message": "Su dominio ya tiene un turno pendiente. Puede acceder al pago del mismo desde el correo que le hemos enviado.",
+  "app.quoteObtaining.error.INVALID_EMAIL.title": "Email no válido",
+  "app.quoteObtaining.error.INVALID_EMAIL.message": "El correo ingresado no coincide con el del trámite.",
 
+  
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
   "app.quoteObtaining.schedule.calendar.step3.title": "Confirmación Email",

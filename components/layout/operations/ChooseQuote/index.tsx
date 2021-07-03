@@ -5,20 +5,40 @@ import Message from "../../Message";
 import ErrorMessage from "../../../common/error/ErrorMessage";
 import SelectDate from "./views/SelectDate";
 import SelectPaymentMethod from "./views/SelectPaymentMethod";
-import GiveEmail from "./views/GiveEmail"
-import Summary from "./views/Summary"
+import GiveEmail from "./views/GiveEmail";
+import Summary from "./views/Summary";
+import {
+  emptySchedulingError,
+  ISchedulingError,
+} from 'contexts/QuoteObtaining';
+import { getErrorDetails } from 'lib/commonFunctions';
+
+
+const EXISTS_QUOTE_DOMAIN='EXISTS_QUOTE_DOMAIN';
+const INVALID_EMAIL='INVALID_EMAIL';
 
 function ChooseQuote(): JSX.Element {
-  const [{ error, dateSelected,paymentPlatformSelected,emailEntered }] = useQuoteObtaining();
+  const [{ error, dateSelected, paymentPlatformSelected, emailEntered }] =
+    useQuoteObtaining();
 
-  if (error)
-    return (
-      <ViewWrapper>
-        <Message type="ERROR">
-          <ErrorMessage />
-        </Message>
-      </ViewWrapper>
+  if (error) {
+    const errorDetails: ISchedulingError = getErrorDetails(
+      error?.graphQLErrors[0]?.extensions.details || emptySchedulingError
     );
+
+    if (
+      errorDetails.reason !== EXISTS_QUOTE_DOMAIN &&
+      errorDetails.reason !== INVALID_EMAIL
+    ) {
+      return (
+        <ViewWrapper>
+          <Message type="ERROR">
+            <ErrorMessage />
+          </Message>
+        </ViewWrapper>
+      );
+    }
+  }
 
   if (!dateSelected)
     return (
@@ -31,7 +51,6 @@ function ChooseQuote(): JSX.Element {
     return (
       <ViewWrapper hasProducts={true}>
         <SelectPaymentMethod />
-        
       </ViewWrapper>
     );
 
@@ -41,7 +60,6 @@ function ChooseQuote(): JSX.Element {
         <>
           <GiveEmail />
         </>
-        
       </ViewWrapper>
     );
 
@@ -51,7 +69,6 @@ function ChooseQuote(): JSX.Element {
         <>
           <Summary />
         </>
-        
       </ViewWrapper>
     );
 }
