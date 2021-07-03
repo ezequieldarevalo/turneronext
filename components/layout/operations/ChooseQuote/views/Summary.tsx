@@ -30,8 +30,10 @@ const BtnContainer = styled.div`
   text-align: right;
   font-family: Nunito-SemiBold;
   margin-top: 22px;
+  margin-bottom: 15px;
   @media (max-width: 996px) {
     margin-top: 33px;
+    margin-bottom: 0;
   }
 `;
 
