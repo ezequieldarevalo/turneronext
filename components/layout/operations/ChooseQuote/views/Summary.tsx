@@ -95,6 +95,7 @@ function Summary(): JSX.Element {
       onSubmit
     },
   ] = useQuoteObtaining();
+
   return (
     <LoaderG loading={loadingSchedule} noBackground >
       <StepTitle checked noMargin stepNumber={1}>

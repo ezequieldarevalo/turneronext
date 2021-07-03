@@ -43,8 +43,12 @@ interface QuoteObtainingProviderProps {
   plant: string;
 }
 
-export interface IRescheduleResponse {
+export interface IRescheduleResponseReschedule {
   url_pago: string;
+}
+
+interface IRescheduleResponse {
+  Reschedule: IRescheduleResponseReschedule
 }
 
 const emptyQuoteSelected = { id: null, fecha: "", hora: "" };
@@ -126,7 +130,7 @@ export default function QuoteObtainingProvider({
 
   const [emailEntered, setEmailEntered] = useState<boolean>(false);
 
-  const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false)
+  const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false);
 
   const {
     loading: loadingQuery,
@@ -142,7 +146,8 @@ export default function QuoteObtainingProvider({
         return;
       },
       onCompleted: (data)=> {
-        window.location.assign(data.url_pago);
+        console.log(data.Reschedule.url_pago)
+        window.location.href=data.Reschedule.url_pago;
       }
     });
 

@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import NewBrand from '../../common/icons/NewBrand';
 
-export default function Header(): JSX.Element {
+export default function HeaderRivadavia(): JSX.Element {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Brand>REVITOTAL</Brand>
+        <Brand>RTO RIVADAVIA</Brand>
       </HeaderContent>
     </HeaderContainer>
   );
@@ -28,7 +28,7 @@ const HeaderContent = styled.div`
 
 const HeaderContainer = styled.div`
   position: sticky;
-  background-color: rgb(116, 172, 223);
+  background-color: #052c33;
   top: 0;
   left: 0;
   width: 100%;
@@ -39,9 +39,7 @@ const HeaderContainer = styled.div`
   @media (max-width: 996px) {
     height: 60px;
   }
-  @media (max-width: 1280px) {
-    padding-left: 25px;
-  }
+  
 `;
 
 const Brand = styled.div`

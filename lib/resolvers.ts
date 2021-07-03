@@ -1,5 +1,5 @@
 import getConfig from "next/config";
-import type {IQuoteObtainingError, IQuoteObtaining, IRescheduleResponse } from "../contexts/QuoteObtaining";
+import type {IQuoteObtainingError, IQuoteObtaining, IRescheduleResponseReschedule } from "../contexts/QuoteObtaining";
 import { ApolloError } from "apollo-server-errors";
 
 const BAD_REQUEST = "BAD_REQUEST";
@@ -11,8 +11,8 @@ interface GetQuoteDataArgs {
   plant: string;
 }
 
-const valTur = "api/auth/valTur2";
-const solTur = "api/auth/solTur";
+const getQuotes = "api/auth/getQuotes";
+const confQuote = "api/auth/confQuote";
 const origen= "T";
 
 interface DoRescheduleArgs {
@@ -30,11 +30,21 @@ const Query = {
     _args: GetQuoteDataArgs
   ): Promise<IQuoteObtaining> {
     let urlBackend = "";
-    if (_args.plant === "lasheras") {
-      urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + valTur;
-    } else {
-      urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + valTur;
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + getQuotes;
+        break;
+      case "maipu":
+        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + getQuotes;
+        break;
+      case "rivadavia":
+        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + getQuotes;
+        break;
+      default:
+        urlBackend = "error";
+        break;
     }
+    
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -81,12 +91,12 @@ const Mutation = {
   async doReschedule(
     __parent: unknown,
     _args: DoRescheduleArgs
-  ): Promise<IRescheduleResponse> {
+  ): Promise<IRescheduleResponseReschedule> {
     let urlBackend = "";
     if (_args.plant === "lasheras") {
-      urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + solTur;
+      urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + confQuote;
     } else {
-      urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + solTur;
+      urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + confQuote;
     }
     const bodyData={
       origen,
@@ -134,7 +144,8 @@ const Mutation = {
         },
       });
     } else {
-      const data = await response.json();      
+      const data = await response.json();  
+      console.log(data)    
       return data;
     }
   },

@@ -5,7 +5,7 @@ import QuoteObtainingProvider from "contexts/QuoteObtaining";
 import ViewWrapper from "../../components/layout/structure/ViewWrapper";
 import Message from "../../components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
-import HeaderRevitotal from "components/layout/structure/HeaderRevitotal";
+import HeaderRivadavia from "components/layout/structure/HeaderRivadavia";
 
 function QuoteObtainingLhPage(): JSX.Element {
   const {
@@ -13,9 +13,9 @@ function QuoteObtainingLhPage(): JSX.Element {
   } = useRouter();
 
   return (
-    <><HeaderRevitotal />
+    <><HeaderRivadavia />
       {id ? (
-        <QuoteObtainingProvider id={id.toString()} plant={"maipu"}>
+        <QuoteObtainingProvider id={id.toString()} plant={"rivadavia"}>
           <Main />
         </QuoteObtainingProvider>
       ) : (

@@ -5,7 +5,6 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { useApollo } from "../lib/apollo";
 import { I18nProvider, IMessages } from "contexts/I18n";
 import initialMessages from "../public/messages/es-AR.json";
-import Header from '../components/layout/structure/Header';
 import { GlobalStyle } from 'themes/defaultTheme';
 import type { AppProps } from 'next/app';
 
@@ -46,7 +45,7 @@ function MyApp({
   return (
     <ApolloProvider client={apolloClient as any}>
       <I18nState initialLang={initialLang} initialMessages={initialMessages}>
-      <Header />
+      
         <Component {...pageProps} />
         <GlobalStyle />
       </I18nState>
