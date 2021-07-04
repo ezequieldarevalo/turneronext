@@ -9,6 +9,7 @@ import Image from "next/image";
 import LoaderG from "components/common/LoaderG";
 import Message from "components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
+import {Btn} from "components/common/styles/UtilsStyles"
 
 const DateSelected = styled.div`
   position: relative;
@@ -34,23 +35,6 @@ const BtnContainer = styled.div`
   @media (max-width: 996px) {
     margin-top: 33px;
     margin-bottom: 0;
-  }
-`;
-
-const Btn = styled.button`
-  padding: 15px 28px 14px 27px;
-  border-radius: 2px;
-  background-color: rgb(116, 172, 223);
-  font-size: 15px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.15px;
-  text-align: center;
-  color: #ffffff;
-  @media (max-width: 996px) {
-    width: 100%;
   }
 `;
 
@@ -91,7 +75,7 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quoteSelected, paymentPlatform, email, loadingSchedule, showError},
+    { error, quotes, quoteSelected, paymentPlatform, email, loadingSchedule, showError},
     {
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
@@ -102,7 +86,7 @@ function Summary(): JSX.Element {
 
   return (
     <LoaderG loading={loadingSchedule} noBackground >
-      <StepTitle checked noMargin stepNumber={1}>
+      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
 
@@ -116,7 +100,7 @@ function Summary(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle checked stepNumber={2}>
+      <StepTitle plant={quotes.plant} checked stepNumber={2}>
         <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
@@ -132,7 +116,7 @@ function Summary(): JSX.Element {
         </ImgContainer>
       </GreyStepBox>
 
-      <StepTitle checked stepNumber={3}>
+      <StepTitle plant={quotes.plant} checked stepNumber={3}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -144,7 +128,7 @@ function Summary(): JSX.Element {
       {error && showError && <><br/><Message type="ERROR">
         <ErrorMessage /></Message></>}
       <BtnContainer>
-        <Btn onClick={() => onSubmit()}>
+        <Btn plant={quotes.plant} onClick={() => onSubmit()}>
           <I18n id="app.quoteObtaining.schedule.calendar.pay" />
         </Btn>
       </BtnContainer>

@@ -80,6 +80,10 @@ const WeekDay = styled.div`
   color: #888888;
 `;
 
+interface IDayProps {
+  plant:string;
+}
+
 const Day = styled.button`
   cursor: pointer;
   position: relative;
@@ -110,7 +114,8 @@ const Day = styled.button`
     line-height: 35px;
     box-sizing: border-box;
     border-radius: 3px;
-    background-color: rgb(116,172,223);
+    background-color: ${(props:IDayProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
+    // background-color: rgb(116,172,223);
     color: #ffffff;
   }
   .disabled {
@@ -243,7 +248,7 @@ function DatePicker({ changeDaySelected }: IProps): JSX.Element {
         {calendar.map((week) => (
           <Week key={week[0].format()}>
             {week.map((day) => (
-              <Day
+              <Day plant={quotes.plant}
                 type="button"
                 key={day.format()}
                 onClick={() => onChangeMomentDay(day)}

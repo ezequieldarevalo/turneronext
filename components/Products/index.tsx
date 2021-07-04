@@ -1,5 +1,5 @@
 import React from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
 import I18n from "components/common/i18n";
 
@@ -14,18 +14,20 @@ import {
 
 const Info = styled.div`
   margin-top: 15px;
-  
 `;
 
 const getAddressPlant = (plant) => {
   if (plant === "maipu")
     return "Mallea S/N entre Alsina y Dorrego General Gutiérrez";
-  else
-    return "Acceso Norte Lateral Este S/N Km. 6,5 Bº El Plumerillo (Las Heras)";
+  else {
+    if (plant === "lasheras")
+      return "Acceso Norte Lateral Este S/N Km. 6,5 Bº El Plumerillo (Las Heras)";
+    else return "San Isidro Norte y calle Belgrano – Rivadavia – Mendoza";
+  }
 };
 
 function Products(): JSX.Element {
-  const [{quotes}] = useQuoteObtaining();
+  const [{ quotes }] = useQuoteObtaining();
 
   return (
     <ProductsContainer>

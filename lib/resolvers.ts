@@ -93,10 +93,19 @@ const Mutation = {
     _args: DoRescheduleArgs
   ): Promise<IRescheduleResponseReschedule> {
     let urlBackend = "";
-    if (_args.plant === "lasheras") {
-      urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + confQuote;
-    } else {
-      urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + confQuote;
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + confQuote;
+        break;
+      case "maipu":
+        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + confQuote;
+        break;
+      case "rivadavia":
+        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + confQuote;
+        break;
+      default:
+        urlBackend = "error";
+        break;
     }
     const bodyData={
       origen,

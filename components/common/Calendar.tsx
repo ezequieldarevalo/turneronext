@@ -8,6 +8,7 @@ import {
 import I18n from "components/common/i18n";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
 import DatePicker from "./DatePicker";
+import {Btn} from "components/common/styles/UtilsStyles"
 
 const CalendarContainer = styled.div`
   position: relative;
@@ -96,22 +97,7 @@ const DateConfirm = styled.div`
   }
 `;
 
-const Btn = styled.button`
-  padding: 15px 28px 14px 27px;
-  border-radius: 2px;
-  background-color: rgb(116, 172, 223);
-  font-size: 15px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.15px;
-  text-align: center;
-  color: #ffffff;
-  @media (max-width: 996px) {
-    width: 100%;
-  }
-`;
+
 
 const ShiftSelection = styled.select`
   width: 75px;
@@ -213,7 +199,7 @@ function Calendar(): JSX.Element {
         </AsideDatePicker>
       </FlexContainer>
       <DateConfirm>
-        <Btn onClick={onSubmit}>
+        <Btn plant={quotes.plant} onClick={onSubmit}>
           <I18n id="app.quoteObtaining.schedule.calendar.continue" />
         </Btn>
       </DateConfirm>

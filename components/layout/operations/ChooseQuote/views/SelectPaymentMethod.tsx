@@ -6,6 +6,7 @@ import GreyStepBox from "components/common/GreyStepBox";
 import styled from "styled-components";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
 import Image from "next/image";
+import {Btn} from "components/common/styles/UtilsStyles"
 
 const DateSelected = styled.div`
   position: relative;
@@ -42,29 +43,12 @@ const BtnContainer = styled.div`
   }
 `;
 
-const Btn = styled.button`
-  padding: 15px 28px 14px 27px;
-  border-radius: 2px;
-  background-color: rgb(116, 172, 223);
-  font-size: 15px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.15px;
-  text-align: center;
-  color: #ffffff;
-  @media (max-width: 996px) {
-    width: 100%;
-  }
-`;
-
 function SelectPaymentMethod() {
-  const [{ quoteSelected, paymentPlatform }, { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform }] =
+  const [{ quotes,quoteSelected, paymentPlatform }, { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform }] =
     useQuoteObtaining();
   return (
     <>
-      <StepTitle checked noMargin stepNumber={1}>
+      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
 
@@ -78,7 +62,7 @@ function SelectPaymentMethod() {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle stepNumber={2}>
+      <StepTitle plant={quotes.plant} stepNumber={2}>
         <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
@@ -127,7 +111,7 @@ function SelectPaymentMethod() {
             />
           </ImgContainer>
           <BtnContainer>
-          <Btn onClick={()=> onSubmitPaymentPlatform()}>
+          <Btn plant={quotes.plant} onClick={()=> onSubmitPaymentPlatform()}>
           <I18n id="app.quoteObtaining.schedule.calendar.continue" />
         </Btn>
           </BtnContainer>

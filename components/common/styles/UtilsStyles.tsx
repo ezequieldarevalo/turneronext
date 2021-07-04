@@ -99,3 +99,24 @@ export const ContainerAddressMap = styled.div`
     height: 138px;
   }
 `;
+
+interface IBtnProps {
+  plant: string;
+}
+
+export const Btn = styled.button`
+  padding: 15px 28px 14px 27px;
+  border-radius: 2px;
+  background-color: ${(props:IBtnProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
+  font-size: 15px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.15px;
+  text-align: center;
+  color: #ffffff;
+  @media (max-width: 996px) {
+    width: 100%;
+  }
+`;

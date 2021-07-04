@@ -40,7 +40,7 @@ function SelectDate() {
           </p>
         </MessageContent>
       </Message>
-      <StepTitle stepNumber={1}>
+      <StepTitle plant={quotes.plant} stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
       <Calendar />

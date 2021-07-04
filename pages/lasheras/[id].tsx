@@ -5,6 +5,8 @@ import QuoteObtainingProvider from "contexts/QuoteObtaining";
 import ViewWrapper from "../../components/layout/structure/ViewWrapper";
 import Message from "../../components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
+import HeaderRevitotal from "components/layout/structure/HeaderRevitotal";
+
 
 function QuoteObtainingLhPage(): JSX.Element {
   const {
@@ -12,7 +14,7 @@ function QuoteObtainingLhPage(): JSX.Element {
   } = useRouter();
 
   return (
-    <>
+    <><HeaderRevitotal />
       {id ? (
         <QuoteObtainingProvider id={id.toString()} plant={"lasheras"}>
           <Main />

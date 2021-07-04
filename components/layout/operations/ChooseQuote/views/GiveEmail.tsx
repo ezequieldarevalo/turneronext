@@ -32,10 +32,14 @@ const BtnContainer = styled.div`
   }
 `;
 
+interface IBtnProps {
+  plant: string;
+}
+
 const Btn = styled.button`
   padding: 15px 28px 14px 27px;
   border-radius: 2px;
-  background-color: rgb(116, 172, 223);
+  background-color: ${(props:IBtnProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
   font-size: 15px;
   font-weight: 600;
   font-stretch: normal;
@@ -89,10 +93,10 @@ const getImageByPlatform = (platform: string) => {
 }
 
 function GiveEmail():JSX.Element {
-    const [{ quoteSelected, paymentPlatform,email, validEmailFormat }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
+    const [{ quotes, quoteSelected, paymentPlatform,email, validEmailFormat }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
     useQuoteObtaining();
     return (<>
-        <StepTitle checked noMargin stepNumber={1}>
+        <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
 
@@ -106,7 +110,7 @@ function GiveEmail():JSX.Element {
         </DateSelected>
       </GreyStepBox>
       
-      <StepTitle checked stepNumber={1}>
+      <StepTitle plant={quotes.plant} checked stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
@@ -122,7 +126,7 @@ function GiveEmail():JSX.Element {
           </ImgContainer>
       </GreyStepBox>
 
-      <StepTitle stepNumber={3}>
+      <StepTitle plant={quotes.plant} stepNumber={3}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -139,7 +143,7 @@ function GiveEmail():JSX.Element {
                     ></TextInput>
           
           <BtnContainer>
-          <Btn disabled={!validEmailFormat} onClick={()=> onSubmitEmail()}>
+          <Btn plant={quotes.plant} disabled={!validEmailFormat} onClick={()=> onSubmitEmail()}>
           <I18n id="app.quoteObtaining.schedule.calendar.continue" />
         </Btn>
           </BtnContainer>

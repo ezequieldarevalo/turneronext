@@ -16,6 +16,7 @@ interface StepTitleProps {
   stepNumber: number;
   children: any;
   checked?: boolean;
+  plant: string;
 }
 
 function StepTitle({
@@ -24,10 +25,11 @@ function StepTitle({
   stepNumber,
   children,
   checked,
+  plant,
 }: StepTitleProps): JSX.Element {
   return (
     <Title noMargin={noMargin}>
-      <IconStep disabled={disabled} checked={checked}>
+      <IconStep disabled={disabled} checked={checked} plant={plant}>
         {checked ? (
           <ContainerCheckedImage>
             <CheckedImage />
