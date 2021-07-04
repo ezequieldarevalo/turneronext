@@ -24,6 +24,8 @@
   "app.quoteObtaining.error.INVALID_EMAIL.title": "Email no válido",
   "app.quoteObtaining.error.INVALID_EMAIL.message": "El correo ingresado no coincide con el del trámite.",
 
+  "app.quoteObtaining.error.notFound.title": "El sitio no existe",
+
   
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
@@ -45,5 +47,12 @@
   "app.quoteObtaining.schedule.calendar.pay":"REALIZAR PAGO",
 
   "app.quoteObtaining.schedule.calendar.paymentMethod.subtitle": "Seleccione con que billetera desea abonar",
-  "app.quoteObtaining.schedule.calendar.emailConf.subtitle": "Ingrese el correo electronico que utilizó al solicitar el servicio"
+  "app.quoteObtaining.schedule.calendar.emailConf.subtitle": "Ingrese el correo electronico que utilizó al solicitar el servicio",
+
+
+  "app.quoteObtaining.error.confirmedQuote.title": "Su turno fue confirmado.",
+  "app.quoteObtaining.error.confirmedQuote.message": "Le hemos enviado un correo electrónico con los detalles de su turno.",
+  "app.quoteObtaining.error.confirmedQuote.thanks": "¡Muchas gracias por habernos elegido!"
+  
+  
 }
