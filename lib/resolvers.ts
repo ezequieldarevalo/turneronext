@@ -121,7 +121,6 @@ const Mutation = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyData),
     };
-    console.log()
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
