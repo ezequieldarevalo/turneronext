@@ -75,7 +75,7 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quotes, quoteSelected, email, loading, showError},
+    { error, quotes, operation, quoteSelected, email, loading, showError},
     {
       onModifyDateAddressChange,
       onModifyEmail,
@@ -112,7 +112,7 @@ function Summary(): JSX.Element {
         <ErrorMessage /></Message></>}
       <BtnContainer>
         <Btn plant={quotes.plant} onClick={() => onSubmit()}>
-          <I18n id="app.quoteObtaining.schedule.calendar.pay" />
+          <I18n id={`app.quoteObtaining.schedule.calendar.${operation}.buttonText`} />
         </Btn>
       </BtnContainer>
     </LoaderG>
