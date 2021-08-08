@@ -17,21 +17,26 @@ const typeDefs = gql`
     precio: Int!
     turnos: [tTurno]
     dias: [String]!
+    fecha: String
+    hora: String
   }
 
   type RescheduleResponse {
     url_pago: String!
   }
 
-
+  type ChangeDateResponse {
+    done: Boolean!
+  }
 
   type Query {
-    getQuoteData(id: String!,plant: String!): QuoteObtaining
+    getQuoteData(id: String!,plant: String!,operation: String!): QuoteObtaining
     
   }
 
   type Mutation {
     doReschedule(plant: String!,email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
+    doChangeDate(plant: String!,email: String!, quoteId: Int!, oldQuoteId: Int!): ChangeDateResponse
   }
 
 `;

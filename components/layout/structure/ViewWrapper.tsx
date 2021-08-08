@@ -16,13 +16,13 @@ interface ViewWrapperProps {
 }
 
 function ViewWrapper({ children, hasProducts, plant }: ViewWrapperProps): JSX.Element {
-  const [{quotes}]=useQuoteObtaining();
+  const [{quotes,operation}]=useQuoteObtaining();
 
 
   return (
     <MainContainer>
       <MainTitle>
-        <I18n id={`app.quoteObtaining.${quotes?.plant || plant || 'default'}.main.title`} />
+        <I18n id={`app.quoteObtaining.${quotes?.plant || plant || 'default'}.main.${operation}.title`} />
       </MainTitle>
       <MainFlexContainer>
         <ScheduleContainer>{children}</ScheduleContainer>

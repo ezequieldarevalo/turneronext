@@ -1,5 +1,5 @@
 import getConfig from "next/config";
-import type {IQuoteObtainingError, IQuoteObtaining, IRescheduleResponseReschedule } from "../contexts/QuoteObtaining";
+import type {IQuoteObtainingError, IQuoteObtaining, IRescheduleResponseReschedule, IDateChangeResponseReschedule } from "../contexts/QuoteObtaining";
 import { ApolloError } from "apollo-server-errors";
 
 const BAD_REQUEST = "BAD_REQUEST";
@@ -9,10 +9,13 @@ const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 interface GetQuoteDataArgs {
   id: string;
   plant: string;
+  operation: string;
 }
 
 const getQuotes = "api/auth/getQuotes";
+const CdGetQuotes = "api/auth/getQuotesForResc";
 const confQuote = "api/auth/confQuote";
+const changeDate = "api/auth/changeDate";
 const origen= "T";
 
 interface DoRescheduleArgs {
@@ -22,6 +25,14 @@ interface DoRescheduleArgs {
   tipoVehiculo: string;
   rtoId: number;
   paymentMethod: string;
+  operation: string;
+}
+
+interface DateChangeArgs {
+  plant: string;
+  email: string;
+  quoteId: number;
+  oldQuoteId: number;
 }
 
 const Query = {
@@ -30,28 +41,39 @@ const Query = {
     _args: GetQuoteDataArgs
   ): Promise<IQuoteObtaining> {
     let urlBackend = "";
+    let urlSuffix="";
+    if(_args.operation==='chooseQuote') urlSuffix=getQuotes;
+    else urlSuffix=CdGetQuotes;
     switch (_args.plant) {
       case "lasheras":
-        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + getQuotes;
+        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + urlSuffix;
         break;
       case "maipu":
-        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + getQuotes;
+        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + urlSuffix;
         break;
       case "rivadavia":
-        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + getQuotes;
+        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + urlSuffix;
         break;
       default:
         urlBackend = "error";
         break;
     }
+
+    let bodyData={};
+    if(_args.operation==='chooseQuote') bodyData={
+      nro_turno_rto: _args.id,
+    };
+    else bodyData={
+      id_turno: _args.id,
+    };
+
     
-    const requestOptions = {
+    const requestOptions={
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nro_turno_rto: _args.id,
-      }),
+      body: JSON.stringify(bodyData),
     };
+    
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
@@ -92,6 +114,7 @@ const Mutation = {
     __parent: unknown,
     _args: DoRescheduleArgs
   ): Promise<IRescheduleResponseReschedule> {
+    
     let urlBackend = "";
     switch (_args.plant) {
       case "lasheras":
@@ -114,6 +137,73 @@ const Mutation = {
       tipo_vehiculo: _args.tipoVehiculo,
       nro_turno_rto: _args.rtoId,
       plataforma_pago: _args.paymentMethod
+    };
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bodyData),
+    };
+    
+    const response = await fetch(urlBackend, requestOptions);
+    if (!response.ok) {
+      if (response.status === 404) {
+        const errorData = await response.json();
+        
+        throw new ApolloError('', errorData.reason, {
+          details: errorData,
+        });
+      }
+      if (response.status === 400) {
+        throw new ApolloError('', BAD_REQUEST, {
+          details: {
+            saleChannel: 'default',
+            reason: BAD_REQUEST,
+          },
+        });
+      }
+      if (response.status === 500) {
+        throw new ApolloError('', INTERNAL_ERROR_SERVER, {
+          details: {
+            saleChannel: 'default',
+            reason: INTERNAL_ERROR_SERVER,
+          },
+        });
+      }
+      throw new ApolloError('', UNKNOWN_ERROR, {
+        details: {
+          saleChannel: 'default',
+          reason: UNKNOWN_ERROR,
+        },
+      });
+    } else {
+      const data = await response.json();
+      return data;
+    }
+  },
+  async doChangeDate(
+    __parent: unknown,
+    _args: DateChangeArgs
+  ): Promise<IDateChangeResponseReschedule> {
+    let urlBackend = "";
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + changeDate;
+        break;
+      case "maipu":
+        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + changeDate;
+        break;
+      case "rivadavia":
+        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + changeDate;
+        break;
+      default:
+        urlBackend = "error";
+        break;
+    }
+    const bodyData={
+      email: _args.email,
+      id_turno_nuevo: _args.quoteId,
+      id_turno_ant: _args.oldQuoteId
     };
   
     const requestOptions = {
@@ -152,9 +242,7 @@ const Mutation = {
         },
       });
     } else {
-      const data = await response.json();  
-      console.log(data)    
-      return data;
+      return {done: true}
     }
   },
 };

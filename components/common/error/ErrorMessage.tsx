@@ -29,7 +29,7 @@ function ErrorMessage(): JSX.Element {
           id={`app.quoteObtaining.error.${errorDetails.reason}.title`}
         />
       </MessageTitle>
-      <br />
+      
       <p>
         <I18n
           id={`app.quoteObtaining.error.${errorDetails.reason}.message`}

@@ -11,6 +11,10 @@ export const getStringDate = (date: string): string => {
     .replace(/,/g, '');
 };
 
+export const getStringTime = (time: string): string => {
+  return time.substr(0,5);
+}
+
 export const getStringDateWithYear = (date: string): string => {
   const day = new Date(date);
   return new Intl.DateTimeFormat('es-AR', {

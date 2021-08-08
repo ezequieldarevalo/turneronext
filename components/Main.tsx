@@ -3,20 +3,23 @@ import useQuoteObtaining from "../hooks/useQuoteObtaining";
 import ViewWrapper from "./layout/structure/ViewWrapper";
 import Message from "./layout/Message";
 import ErrorMessage from "./common/error/ErrorMessage";
-import ChooseQuote from './layout/operations/ChooseQuote'
+import ChooseQuote from "./layout/operations/ChooseQuote";
+import ChangeDate from "./layout/operations/ChangeDate";
 
 function Main(): JSX.Element {
-  const [{quotes}] = useQuoteObtaining();
+  const [{ quotes, operation }] = useQuoteObtaining();
+
+
+  if (operation==='chooseQuote') return <ChooseQuote />;
+
+  if (operation==='changeDate') return <ChangeDate />;
+
   return (
-    <>
-      {quotes? <ChooseQuote /> : (
-        <ViewWrapper>
-          <Message type="ERROR">
-            <ErrorMessage />
-          </Message>
-        </ViewWrapper>
-      )}
-    </>
+    <ViewWrapper>
+      <Message type="ERROR">
+        <ErrorMessage />
+      </Message>
+    </ViewWrapper>
   );
 }
 

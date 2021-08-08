@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query getData($id: String!, $plant: String!) {
-    quotes: getQuoteData(id: $id,plant: $plant) {
+  query getData($id: String!, $plant: String!, $operation: String!) {
+    quotes: getQuoteData(id: $id,plant: $plant, operation: $operation) {
       id
       plant
       tipo_vehiculo
@@ -13,6 +13,8 @@ export default gql`
         fecha
         hora
       }
+      fecha
+      hora
     }
   }
 `;

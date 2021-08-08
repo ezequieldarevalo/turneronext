@@ -1,16 +1,25 @@
 {
   "app.name": "Agendamiento",
 
-  "app.quoteObtaining.lasheras.main.title": "Reserva - Revitotal Las Heras",
-  "app.quoteObtaining.maipu.main.title": "Reserva - Revitotal Maipu",
-  "app.quoteObtaining.rivadavia.main.title": "Reserva - RTO Rivadavia",
-  "app.quoteObtaining.default.main.title": "Reserva de turno",
+  "app.quoteObtaining.lasheras.main.chooseQuote.title": "Reserva - Revitotal Las Heras",
+  "app.quoteObtaining.maipu.main.chooseQuote.title": "Reserva - Revitotal Maipu",
+  "app.quoteObtaining.rivadavia.chooseQuote.main.title": "Reserva - RTO Rivadavia",
+  "app.quoteObtaining.default.main.chooseQuote.title": "Reserva de turno",
+  "app.quoteObtaining.lasheras.main.changeDate.title": "Cambio de fecha - Revitotal Las Heras",
+  "app.quoteObtaining.maipu.main.changeDate.title": "Cambio de fecha - Revitotal Maipu",
+  "app.quoteObtaining.rivadavia.main.changeDate.title": "Cambio de fecha - RTO Rivadavia",
+  "app.quoteObtaining.default.main.changeDate.title": "Cambio de fecha",
   "app.quoteObtaining.info.title": "Información del turno",
 
   "app.quoteObtaining.warning.title": "IMPORTANTE",
-  "app.quoteObtaining.warning.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
-  "app.quoteObtaining.warning.message2": "Podrá abonar el turno con Yacaré o Mercado Pago.",
-  "app.quoteObtaining.warning.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
+  "app.quoteObtaining.warning.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
+  "app.quoteObtaining.warning.chooseQuote.message2": "Podrá abonar el turno con Yacaré o Mercado Pago.",
+  "app.quoteObtaining.warning.chooseQuote.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
+
+  "app.quoteObtaining.warning.chooseQuotes.quoteDate": "Su turno tiene fecha el día",
+  "app.quoteObtaining.warning.chooseQuotes.atTime": "a las",
+
+  "app.quoteObtaining.warning.changeDate.message1": "Para realizar la modificación del turno deberá proporcionar correctamente su casilla de correo.",
 
   "app.quoteObtaining.error.default.title": "Ha ocurrido un error",
   "app.quoteObtaining.error.default.message": "Intente de nuevo mas tarde",
@@ -52,7 +61,14 @@
 
   "app.quoteObtaining.error.confirmedQuote.title": "Su turno fue confirmado.",
   "app.quoteObtaining.error.confirmedQuote.message": "Le hemos enviado un correo electrónico con los detalles de su turno.",
-  "app.quoteObtaining.error.confirmedQuote.thanks": "¡Muchas gracias por habernos elegido!"
+  "app.quoteObtaining.error.confirmedQuote.thanks": "¡Muchas gracias por habernos elegido!",
+
+  "order.delivery.reschedule.dateChange.schedule.title.successReschedule":"Su turno se reagendó exitosamente",
+  "order.delivery.reschedule.dateChange.schedule.message.atDate":"Su servicio se realizará el día",
+  "order.delivery.reschedule.dateChange.schedule.message.atTime":"a las",
+  "order.delivery.reschedule.dateChange.schedule.message.greeting":"Le hemos enviado un correo electrónico con los detalles de la nueva fecha del servicio.",
+  "order.delivery.reschedule.dateChange.schedule.message.thanks": "Muchas gracias."
+
   
   
 }

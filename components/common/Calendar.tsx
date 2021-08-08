@@ -112,8 +112,11 @@ const ShiftSelection = styled.select`
 `;
 
 function Calendar(): JSX.Element {
-  const [{ quotes, quoteSelected }, { onSelectDate, resetShift }] =
+
+    const [{ quotes, quoteSelected }, { onSelectDate, resetShift }] =
     useQuoteObtaining();
+  
+  
 
   const getShiftsByDay = (day: string) => {
     return quotes.turnos.filter((record) => record.fecha + "T00:00:00" === day);
@@ -158,10 +161,6 @@ function Calendar(): JSX.Element {
     setSelectedShift(quote.hora);
     setSelectedQuoteId(quote.id);
   };
-
-  React.useEffect(() => {
-    console.log(selectedDay, selectedQuoteId, selectedShift);
-  }, [selectedDay, selectedQuoteId, selectedShift]);
 
   return (
     <CalendarContainer>

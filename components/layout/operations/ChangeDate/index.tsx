@@ -1,10 +1,8 @@
 import React from "react";
-import useQuoteObtaining from "hooks/useQuoteObtaining";
 import ViewWrapper from "../../structure/ViewWrapper";
 import Message from "../../Message";
 import ErrorMessage from "../../../common/error/ErrorMessage";
 import SelectDate from "../commonViews/SelectDate";
-import SelectPaymentMethod from "./views/SelectPaymentMethod";
 import GiveEmail from "./views/GiveEmail";
 import Summary from "./views/Summary";
 import {
@@ -12,13 +10,15 @@ import {
   ISchedulingError,
 } from 'contexts/QuoteObtaining';
 import { getErrorDetails } from 'lib/commonFunctions';
+import useQuoteObtaining from "hooks/useQuoteObtaining";
+import SuccessChangeDate from "./views/SuccessChangeDate";
 
 
 const EXISTS_QUOTE_DOMAIN='EXISTS_QUOTE_DOMAIN';
 const INVALID_EMAIL='INVALID_EMAIL';
 
 function ChooseQuote(): JSX.Element {
-  const [{ error, dateSelected, paymentPlatformSelected, emailEntered }] =
+  const [{ error, dateSelected, emailEntered, changeDateDone }] =
     useQuoteObtaining();
 
   if (error) {
@@ -47,14 +47,7 @@ function ChooseQuote(): JSX.Element {
       </ViewWrapper>
     );
 
-  if (dateSelected && !paymentPlatformSelected)
-    return (
-      <ViewWrapper hasProducts={true}>
-        <SelectPaymentMethod />
-      </ViewWrapper>
-    );
-
-  if (dateSelected && paymentPlatformSelected && !emailEntered)
+  if (dateSelected && !emailEntered)
     return (
       <ViewWrapper hasProducts={true}>
         <>
@@ -63,7 +56,7 @@ function ChooseQuote(): JSX.Element {
       </ViewWrapper>
     );
 
-  if (dateSelected && paymentPlatformSelected && emailEntered)
+  if (dateSelected && emailEntered && !changeDateDone)
     return (
       <ViewWrapper hasProducts={true}>
         <>
@@ -71,6 +64,16 @@ function ChooseQuote(): JSX.Element {
         </>
       </ViewWrapper>
     );
+
+  if(changeDateDone)
+  return (
+    <ViewWrapper hasProducts={true}>
+      <>
+        <SuccessChangeDate />
+      </>
+    </ViewWrapper>
+  );
+  
 }
 
 export default ChooseQuote;

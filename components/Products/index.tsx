@@ -27,7 +27,7 @@ const getAddressPlant = (plant) => {
 };
 
 function Products(): JSX.Element {
-  const [{ quotes }] = useQuoteObtaining();
+  const [{ quotes, operation }] = useQuoteObtaining();
 
   return (
     <ProductsContainer>
@@ -39,9 +39,10 @@ function Products(): JSX.Element {
           <b>Vehiculo:&nbsp;&nbsp;</b>
           {quotes.tipo_vehiculo}
         </p>
-        <p>
+        {operation==='chooseQuote' && <p>
           <b>Precio:&nbsp;&nbsp;</b>${quotes.precio}.-
-        </p>
+        </p>}
+        
         <p>
           <b>Planta:&nbsp;&nbsp;</b>
           {quotes.plant.toUpperCase()}

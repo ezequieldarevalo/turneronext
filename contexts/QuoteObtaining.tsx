@@ -12,6 +12,7 @@ import { useQuery, useMutation, FetchResult } from "@apollo/react-hooks";
 
 import getQuoteData from "../lib/queries/getQuoteData";
 import doReschedule from "../lib/queries/doReschedule";
+import doDateChange from "../lib/queries/doChangeDate";
 import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
@@ -31,9 +32,13 @@ export interface IQuoteObtaining {
   precio: number;
   turnos: IQuote[];
   dias: string[];
+  fecha?: string;
+  hora?: string;
 }
 
 export interface IQuoteObtainingError {
+  saleChannel?: string;
+  status?: string;
   reason: string;
 }
 
@@ -41,10 +46,15 @@ interface QuoteObtainingProviderProps {
   id: string;
   children: ReactNode;
   plant: string;
+  operation: string;
 }
 
 export interface IRescheduleResponseReschedule {
   url_pago: string;
+}
+
+export interface IDateChangeResponseReschedule {
+  done: boolean;
 }
 
 interface IRescheduleResponse {
@@ -70,15 +80,17 @@ export type QuoteObtainingContextValue = [
   {
     error: ApolloError;
     quotes: IQuoteObtaining;
+    operation: string;
     quoteSelected: IQuote;
     dateSelected: boolean;
     paymentPlatform: string;
     paymentPlatformSelected: boolean;
     email: string;
     emailEntered: boolean;
-    loadingSchedule: boolean;
+    loading: boolean;
     validEmailFormat: boolean;
     showError: boolean;
+    changeDateDone: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
@@ -98,15 +110,17 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
   {
     error: null,
     quotes: null,
+    operation: null,
     quoteSelected: null,
     dateSelected: null,
     paymentPlatform: null,
     paymentPlatformSelected: null,
     email: null,
     emailEntered: null,
-    loadingSchedule: null,
+    loading: null,
     validEmailFormat: null,
     showError: null,
+    changeDateDone: null,
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
@@ -129,6 +143,7 @@ export const emptyQuoteObtainingError = {
 export default function QuoteObtainingProvider({
   id,
   plant,
+  operation,
   children,
 }: QuoteObtainingProviderProps): JSX.Element {
   const [quoteSelected, setQuoteSelected] =
@@ -149,12 +164,14 @@ export default function QuoteObtainingProvider({
 
   const [showError,setShowError] = useState<boolean>(false);
 
+  const [changeDateDone,setChangeDateDone] = useState<boolean>(false);
+
   const {
     loading: loadingQuery,
     error: errorQuery,
     data,
   } = useQuery(getQuoteData, {
-    variables: { id: id, plant: plant },
+    variables: { id: id, plant: plant, operation: operation },
   });
 
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
@@ -163,8 +180,17 @@ export default function QuoteObtainingProvider({
         setShowError(true);
       },
       onCompleted: (data)=> {
-        console.log(data.Reschedule.url_pago)
         window.location.href=data.Reschedule.url_pago;
+      }
+    });
+
+  const [doChDate, { error: errorChangeDate, loading: loadingChangeDate }] =
+    useMutation<IRescheduleResponse>(doDateChange, {
+      onError: () => {
+        setShowError(true);
+      },
+      onCompleted: (data)=> {
+        setChangeDateDone(true)
       }
     });
 
@@ -213,32 +239,54 @@ export default function QuoteObtainingProvider({
   const onSubmit = useCallback((): Promise<
     FetchResult<IRescheduleResponse>
   > => {
-    return doResc({
-      variables: {
+    let variables={};
+    if(operation==='chooseQuote'){
+      variables={
         plant,
         email,
         quoteId: quoteSelected.id,
         tipoVehiculo: data?.quotes.tipo_vehiculo,
         rtoId: data?.quotes.id,
         paymentMethod: paymentPlatform,
-      },
-    });
+      };
+      return doResc({
+        variables
+      });
+    }
+    else {
+      variables={
+        plant,
+        email,
+        quoteId: quoteSelected.id,
+        oldQuoteId: data.quotes.id,
+      }
+      return doChDate({
+        variables
+      });
+    }
+    
   }, [plant, email, quoteSelected, data, paymentPlatform]);
+
+  const error=errorQuery || errorMutation || errorChangeDate;
+
+  const loading=loadingSchedule || loadingChangeDate;
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
       {
-        error: errorQuery || errorMutation,
+        error,
         quotes: data?.quotes,
+        operation,
         quoteSelected,
         dateSelected,
         paymentPlatform,
         paymentPlatformSelected,
         email,
         emailEntered,
-        loadingSchedule,
+        loading,
         validEmailFormat,
         showError,
+        changeDateDone,
       },
       {
         onSelectDate,
@@ -254,7 +302,7 @@ export default function QuoteObtainingProvider({
       },
     ],
     [
-      errorQuery,
+      error,
       data?.quotes,
       quoteSelected,
       dateSelected,
@@ -262,9 +310,10 @@ export default function QuoteObtainingProvider({
       paymentPlatformSelected,
       email,
       emailEntered,
-      loadingSchedule,
+      loading,
       validEmailFormat,
       showError,
+      changeDateDone,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,

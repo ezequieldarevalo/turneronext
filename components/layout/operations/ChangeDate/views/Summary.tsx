@@ -4,12 +4,12 @@ import GreyStepBox from "components/common/GreyStepBox";
 import StepTitle from "components/common/StepTitle";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
 import styled from "styled-components";
-import useQuoteObtaining from "hooks/useQuoteObtaining";
 import Image from "next/image";
 import LoaderG from "components/common/LoaderG";
 import Message from "components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
 import {Btn} from "components/common/styles/UtilsStyles"
+import useQuoteObtaining from "hooks/useQuoteObtaining";
 
 const DateSelected = styled.div`
   position: relative;
@@ -75,10 +75,9 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quotes, quoteSelected, paymentPlatform, email, loading, showError},
+    { error, quotes, quoteSelected, email, loading, showError},
     {
       onModifyDateAddressChange,
-      onModifyPaymentPlatform,
       onModifyEmail,
       onSubmit
     },
@@ -101,22 +100,6 @@ function Summary(): JSX.Element {
       </GreyStepBox>
 
       <StepTitle plant={quotes.plant} checked stepNumber={2}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
-      </StepTitle>
-
-      <GreyStepBox withModify={true} modifyFunction={onModifyPaymentPlatform}>
-        <ImgContainer>
-          <Image
-            className="platform"
-            src={getImageByPlatform(paymentPlatform)}
-            alt="pepe"
-            width="200"
-            height="65"
-          />
-        </ImgContainer>
-      </GreyStepBox>
-
-      <StepTitle plant={quotes.plant} checked stepNumber={3}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 

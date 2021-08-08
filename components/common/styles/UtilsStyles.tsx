@@ -27,6 +27,7 @@ interface MessageTitleProps {
 }
 
 export const MessageTitle = styled.p`
+  margin-bottom: 10px;
   font-size: 17px;
   font-weight: 600;
   font-stretch: normal;
