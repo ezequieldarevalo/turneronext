@@ -15,7 +15,7 @@ function QuoteObtainingLhPage(): JSX.Element {
   return (
     <><HeaderRivadavia />
       {id ? (
-        <QuoteObtainingProvider id={id.toString()} plant={"rivadavia"}>
+        <QuoteObtainingProvider id={id.toString()} plant={"rivadavia"} operation={'chooseQuote'}>
           <Main />
         </QuoteObtainingProvider>
       ) : (
