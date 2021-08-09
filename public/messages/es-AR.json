@@ -32,6 +32,8 @@
   "app.quoteObtaining.error.EXISTS_QUOTE_DOMAIN.message": "Su dominio ya tiene un turno pendiente. Puede acceder al pago del mismo desde el correo que le hemos enviado.",
   "app.quoteObtaining.error.INVALID_EMAIL.title": "Email no válido",
   "app.quoteObtaining.error.INVALID_EMAIL.message": "El correo ingresado no coincide con el del trámite.",
+  "app.quoteObtaining.error.INTERNAL_ERROR_SERVER.title": "Ha sido mal redireccionado desde plataforma RTO",
+  "app.quoteObtaining.error.INTERNAL_ERROR_SERVER.message": "Comuníquese directamente con nosotros para coordinar el servicio. Rivadavia: www.rtorivadavia.com.ar. Las Heras/Maipu: www.revitotal.com.ar",
 
   "app.quoteObtaining.error.notFound.title": "El sitio no existe",
 
