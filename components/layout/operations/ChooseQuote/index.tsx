@@ -12,7 +12,7 @@ import {
   ISchedulingError,
 } from "contexts/QuoteObtaining";
 import { getErrorDetails } from "lib/commonFunctions";
-import SuccessChangeDate from "../ChangeDate/views/SuccessChangeDate";
+import SuccessChangeDate from "../ChooseQuote/views/SuccessChangeDate";
 
 const EXISTS_QUOTE_DOMAIN = "EXISTS_QUOTE_DOMAIN";
 const INVALID_EMAIL = "INVALID_EMAIL";

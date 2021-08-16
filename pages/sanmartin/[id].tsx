@@ -7,7 +7,7 @@ import Message from "../../components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
 import HeaderSanmartin from "components/layout/structure/HeaderSanmartin";
 
-function QuoteObtainingLhPage(): JSX.Element {
+function QuoteObtainingSMPage(): JSX.Element {
   const {
     query: { id },
   } = useRouter();
@@ -29,4 +29,4 @@ function QuoteObtainingLhPage(): JSX.Element {
   );
 }
 
-export default QuoteObtainingLhPage;
+export default QuoteObtainingSMPage;

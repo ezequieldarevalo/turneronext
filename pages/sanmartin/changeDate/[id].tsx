@@ -8,7 +8,7 @@ import ErrorMessage from "components/common/error/ErrorMessage";
 import HeaderSanmartin from "components/layout/structure/HeaderSanmartin";
 
 
-function ChangeDateLHPage(): JSX.Element {
+function ChangeDateSMPage(): JSX.Element {
   const {
     query: { id },
   } = useRouter();
@@ -30,4 +30,4 @@ function ChangeDateLHPage(): JSX.Element {
   );
 }
 
-export default ChangeDateLHPage;
+export default ChangeDateSMPage;
