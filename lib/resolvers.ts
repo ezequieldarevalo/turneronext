@@ -95,8 +95,6 @@ const Query = {
       body: JSON.stringify(bodyData),
     };
 
-    console.log(urlBackend);
-
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
