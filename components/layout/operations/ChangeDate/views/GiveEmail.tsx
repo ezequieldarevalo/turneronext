@@ -39,7 +39,7 @@ interface IBtnProps {
 const Btn = styled.button`
   padding: 15px 28px 14px 27px;
   border-radius: 2px;
-  background-color: ${(props:IBtnProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
+  background-color: ${(props:IBtnProps) => (props.plant==='rivadavia' || props.plant==='sanmartin')? '#052c33' : 'rgb(116,172,223)'  };
   font-size: 15px;
   font-weight: 600;
   font-stretch: normal;
@@ -92,6 +92,12 @@ const getImageByPlatform = (platform: string) => {
     else return "/img/meli.png"
 }
 
+const getGiveEmailStepNumber = (plant: string): number => {
+  if (plant === "sanmartin") return 2;
+  else return 3;
+};
+
+
 function GiveEmail():JSX.Element {
     const [{ quotes, quoteSelected,email, validEmailFormat }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
     useQuoteObtaining();
@@ -111,7 +117,7 @@ function GiveEmail():JSX.Element {
       </GreyStepBox>
       
 
-      <StepTitle plant={quotes.plant} stepNumber={2}>
+      <StepTitle plant={quotes.plant} stepNumber={getGiveEmailStepNumber(quotes.plant)}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 import I18n from "components/common/i18n";
 import GreyStepBox from "components/common/GreyStepBox";
 import StepTitle from "components/common/StepTitle";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
-import styled from "styled-components"
+import styled from "styled-components";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
 import Image from "next/image";
 
@@ -19,7 +19,7 @@ const DateSelected = styled.div`
 `;
 
 const ImgContainer = styled.div`
-margin: 0 auto;
+  margin: 0 auto;
   border-radius: 8px;
 `;
 
@@ -39,7 +39,8 @@ interface IBtnProps {
 const Btn = styled.button`
   padding: 15px 28px 14px 27px;
   border-radius: 2px;
-  background-color: ${(props:IBtnProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
+  background-color: ${(props: IBtnProps) =>
+    (props.plant==='rivadavia' || props.plant==='sanmartin') ? "#052c33" : "rgb(116,172,223)"};
   font-size: 15px;
   font-weight: 600;
   font-stretch: normal;
@@ -51,7 +52,7 @@ const Btn = styled.button`
   @media (max-width: 996px) {
     width: 100%;
   }
-  :disabled{
+  :disabled {
     background: grey;
   }
 `;
@@ -67,20 +68,19 @@ const ChooseMessage = styled.div`
   color: #000000;
 `;
 
-
 interface TextInputProps {
-    fullWidth?: boolean;
-    width?: number;
-    boxHeight?: number;
-    marginTop?: number;
-  }
+  fullWidth?: boolean;
+  width?: number;
+  boxHeight?: number;
+  marginTop?: number;
+}
 
 const TextInput = styled.input`
   width: ${(props: TextInputProps) =>
-    props.fullWidth ? '100%' : props.width + 'px'};
+    props.fullWidth ? "100%" : props.width + "px"};
   font-size: 15px;
   height: ${(props: TextInputProps) =>
-    props.boxHeight ? props.boxHeight + 'px' : '40px'};
+    props.boxHeight ? props.boxHeight + "px" : "40px"};
   border-radius: 2px;
   border: solid 1px #cccccc;
   background-color: #ffffff;
@@ -88,15 +88,28 @@ const TextInput = styled.input`
 `;
 
 const getImageByPlatform = (platform: string) => {
-    if(platform==='yacare') return "/img/yacare.png"
-    else return "/img/meli.png"
-}
+  if (platform === "yacare") return "/img/yacare.png";
+  else return "/img/meli.png";
+};
 
-function GiveEmail():JSX.Element {
-    const [{ quotes, quoteSelected, paymentPlatform,email, validEmailFormat }, { onModifyDateAddressChange, onModifyPaymentPlatform, onChangeEmail ,onSubmitEmail }] =
-    useQuoteObtaining();
-    return (<>
-        <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
+const getGiveEmailStepNumber = (plant: string): number => {
+  if (plant === "sanmartin") return 2;
+  else return 3;
+};
+
+function GiveEmail(): JSX.Element {
+  const [
+    { quotes, quoteSelected, paymentPlatform, email, validEmailFormat },
+    {
+      onModifyDateAddressChange,
+      onModifyPaymentPlatform,
+      onChangeEmail,
+      onSubmitEmail,
+    },
+  ] = useQuoteObtaining();
+  return (
+    <>
+      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
 
@@ -109,24 +122,34 @@ function GiveEmail():JSX.Element {
           <b>Hora:</b> {quoteSelected.hora.substr(0, 5)}
         </DateSelected>
       </GreyStepBox>
-      
-      <StepTitle plant={quotes.plant} checked stepNumber={1}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
-      </StepTitle>
 
-      <GreyStepBox withModify={true} modifyFunction={onModifyPaymentPlatform}>
-      <ImgContainer>
-            <Image
-              className="platform"
-              src={getImageByPlatform(paymentPlatform)}
-              alt="pepe"
-              width="200"
-              height="65"
-            />
-          </ImgContainer>
-      </GreyStepBox>
+      {quotes.plant !== "sanmartin" && (
+        <>
+          <StepTitle plant={quotes.plant} checked stepNumber={1}>
+            <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
+          </StepTitle>
 
-      <StepTitle plant={quotes.plant} stepNumber={3}>
+          <GreyStepBox
+            withModify={true}
+            modifyFunction={onModifyPaymentPlatform}
+          >
+            <ImgContainer>
+              <Image
+                className="platform"
+                src={getImageByPlatform(paymentPlatform)}
+                alt="pepe"
+                width="200"
+                height="65"
+              />
+            </ImgContainer>
+          </GreyStepBox>
+        </>
+      )}
+
+      <StepTitle
+        plant={quotes.plant}
+        stepNumber={getGiveEmailStepNumber(quotes.plant)}
+      >
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -137,19 +160,24 @@ function GiveEmail():JSX.Element {
           </ChooseMessage>
 
           <TextInput
-                      value={email}
-                      onChange={(e) => onChangeEmail(e.target.value)}
-                      width={250}
-                    ></TextInput>
-          
+            value={email}
+            onChange={(e) => onChangeEmail(e.target.value)}
+            width={250}
+          ></TextInput>
+
           <BtnContainer>
-          <Btn plant={quotes.plant} disabled={!validEmailFormat} onClick={()=> onSubmitEmail()}>
-          <I18n id="app.quoteObtaining.schedule.calendar.continue" />
-        </Btn>
+            <Btn
+              plant={quotes.plant}
+              disabled={!validEmailFormat}
+              onClick={() => onSubmitEmail()}
+            >
+              <I18n id="app.quoteObtaining.schedule.calendar.continue" />
+            </Btn>
           </BtnContainer>
-          </></GreyStepBox>
-      </>
-    )
+        </>
+      </GreyStepBox>
+    </>
+  );
 }
 
 export default GiveEmail;

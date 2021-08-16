@@ -91,6 +91,7 @@ export type QuoteObtainingContextValue = [
     validEmailFormat: boolean;
     showError: boolean;
     changeDateDone: boolean;
+    chooseQuoteDone: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
@@ -121,6 +122,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     validEmailFormat: null,
     showError: null,
     changeDateDone: null,
+    chooseQuoteDone: null,
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
@@ -164,6 +166,8 @@ export default function QuoteObtainingProvider({
 
   const [showError,setShowError] = useState<boolean>(false);
 
+  const [chooseQuoteDone,setChooseQuoteDone] = useState<boolean>(false);
+
   const [changeDateDone,setChangeDateDone] = useState<boolean>(false);
 
   const {
@@ -180,7 +184,10 @@ export default function QuoteObtainingProvider({
         setShowError(true);
       },
       onCompleted: (data)=> {
-        window.location.href=data.Reschedule.url_pago;
+        if(plant==='sanmartin')
+          setChooseQuoteDone(true)
+        else
+          window.location.href=data.Reschedule.url_pago;
       }
     });
 
@@ -287,6 +294,7 @@ export default function QuoteObtainingProvider({
         validEmailFormat,
         showError,
         changeDateDone,
+        chooseQuoteDone,
       },
       {
         onSelectDate,
@@ -314,6 +322,7 @@ export default function QuoteObtainingProvider({
       validEmailFormat,
       showError,
       changeDateDone,
+      chooseQuoteDone,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,

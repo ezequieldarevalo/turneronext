@@ -9,7 +9,7 @@ import Image from "next/image";
 import LoaderG from "components/common/LoaderG";
 import Message from "components/layout/Message";
 import ErrorMessage from "components/common/error/ErrorMessage";
-import {Btn} from "components/common/styles/UtilsStyles"
+import { Btn } from "components/common/styles/UtilsStyles";
 
 const DateSelected = styled.div`
   position: relative;
@@ -75,17 +75,25 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quotes, quoteSelected, paymentPlatform, email, loading, showError},
+    {
+      error,
+      quotes,
+      quoteSelected,
+      paymentPlatform,
+      email,
+      loading,
+      showError,
+    },
     {
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
       onModifyEmail,
-      onSubmit
+      onSubmit,
     },
   ] = useQuoteObtaining();
 
   return (
-    <LoaderG loading={loading} noBackground >
+    <LoaderG loading={loading} noBackground>
       <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
@@ -100,21 +108,28 @@ function Summary(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle plant={quotes.plant} checked stepNumber={2}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
-      </StepTitle>
+      {quotes.plant !== "sanmartin" && (
+        <>
+          <StepTitle plant={quotes.plant} checked stepNumber={2}>
+            <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
+          </StepTitle>
 
-      <GreyStepBox withModify={true} modifyFunction={onModifyPaymentPlatform}>
-        <ImgContainer>
-          <Image
-            className="platform"
-            src={getImageByPlatform(paymentPlatform)}
-            alt="pepe"
-            width="200"
-            height="65"
-          />
-        </ImgContainer>
-      </GreyStepBox>
+          <GreyStepBox
+            withModify={true}
+            modifyFunction={onModifyPaymentPlatform}
+          >
+            <ImgContainer>
+              <Image
+                className="platform"
+                src={getImageByPlatform(paymentPlatform)}
+                alt="pepe"
+                width="200"
+                height="65"
+              />
+            </ImgContainer>
+          </GreyStepBox>
+        </>
+      )}
 
       <StepTitle plant={quotes.plant} checked stepNumber={3}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
@@ -125,11 +140,17 @@ function Summary(): JSX.Element {
           <b>Email:</b> {email}
         </DateSelected>
       </GreyStepBox>
-      {error && showError && <><br/><Message type="ERROR">
-        <ErrorMessage /></Message></>}
+      {error && showError && (
+        <>
+          <br />
+          <Message type="ERROR">
+            <ErrorMessage />
+          </Message>
+        </>
+      )}
       <BtnContainer>
         <Btn plant={quotes.plant} onClick={() => onSubmit()}>
-          <I18n id="app.quoteObtaining.schedule.calendar.pay" />
+        <I18n id={`app.quoteObtaining.schedule.calendar.${quotes.plant}.chooseQuote.buttonText`} />
         </Btn>
       </BtnContainer>
     </LoaderG>

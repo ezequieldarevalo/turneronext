@@ -1,5 +1,10 @@
 import getConfig from "next/config";
-import type {IQuoteObtainingError, IQuoteObtaining, IRescheduleResponseReschedule, IDateChangeResponseReschedule } from "../contexts/QuoteObtaining";
+import type {
+  IQuoteObtainingError,
+  IQuoteObtaining,
+  IRescheduleResponseReschedule,
+  IDateChangeResponseReschedule,
+} from "../contexts/QuoteObtaining";
 import { ApolloError } from "apollo-server-errors";
 
 const BAD_REQUEST = "BAD_REQUEST";
@@ -13,10 +18,11 @@ interface GetQuoteDataArgs {
 }
 
 const getQuotes = "api/auth/getQuotes";
+const getQuotes_sanmartin = "api/auth/valTur";
 const CdGetQuotes = "api/auth/getQuotesForResc";
 const confQuote = "api/auth/confQuote";
 const changeDate = "api/auth/changeDate";
-const origen= "T";
+const origen = "T";
 
 interface DoRescheduleArgs {
   plant: string;
@@ -35,45 +41,62 @@ interface DateChangeArgs {
   oldQuoteId: number;
 }
 
+// const getSuffixByPlant = (operation: string, plant: string): string => {
+//   if (operation === "chooseQuote") {
+//     if (plant === "sanmartin") return getQuotes_sanmartin;
+//     else return getQuotes;
+//   } else return CdGetQuotes;
+// };
+
 const Query = {
   async getQuoteData(
     __parent: unknown,
     _args: GetQuoteDataArgs
   ): Promise<IQuoteObtaining> {
     let urlBackend = "";
-    let urlSuffix="";
-    if(_args.operation==='chooseQuote') urlSuffix=getQuotes;
-    else urlSuffix=CdGetQuotes;
+    let urlSuffix = "";
+    if (_args.operation === "chooseQuote") urlSuffix = getQuotes;
+    else urlSuffix = CdGetQuotes;
     switch (_args.plant) {
       case "lasheras":
-        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + urlSuffix;
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + urlSuffix;
         break;
       case "maipu":
-        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + urlSuffix;
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + urlSuffix;
         break;
       case "rivadavia":
-        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + urlSuffix;
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + urlSuffix;
+        break;
+      case "sanmartin":
+        urlBackend =
+          getConfig().serverRuntimeConfig.sanmartinBackendUrl + urlSuffix;
         break;
       default:
         urlBackend = "error";
         break;
     }
 
-    let bodyData={};
-    if(_args.operation==='chooseQuote') bodyData={
-      nro_turno_rto: _args.id,
-    };
-    else bodyData={
-      id_turno: _args.id,
-    };
+    let bodyData = {};
+    if (_args.operation === "chooseQuote")
+      bodyData = {
+        nro_turno_rto: _args.id,
+      };
+    else
+      bodyData = {
+        id_turno: _args.id,
+      };
 
-    
-    const requestOptions={
+    const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
-    
+
+    console.log(urlBackend);
+
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
@@ -103,7 +126,7 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      const result = { ...data,id: _args.id, plant: _args.plant};
+      const result = { ...data, id: _args.id, plant: _args.plant };
       return result;
     }
   },
@@ -114,65 +137,83 @@ const Mutation = {
     __parent: unknown,
     _args: DoRescheduleArgs
   ): Promise<IRescheduleResponseReschedule> {
-    
     let urlBackend = "";
     switch (_args.plant) {
       case "lasheras":
-        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + confQuote;
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + confQuote;
         break;
       case "maipu":
-        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + confQuote;
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + confQuote;
         break;
       case "rivadavia":
-        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + confQuote;
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + confQuote;
+        break;
+      case "sanmartin":
+        urlBackend =
+          getConfig().serverRuntimeConfig.sanmartinBackendUrl + confQuote;
         break;
       default:
         urlBackend = "error";
         break;
     }
-    const bodyData={
-      origen,
-      email: _args.email,
-      id_turno: _args.quoteId,
-      tipo_vehiculo: _args.tipoVehiculo,
-      nro_turno_rto: _args.rtoId,
-      plataforma_pago: _args.paymentMethod
-    };
-  
+
+    let bodyData = {};
+
+    if (_args.plant !== "sanmartin")
+      bodyData = {
+        origen,
+        email: _args.email,
+        id_turno: _args.quoteId,
+        tipo_vehiculo: _args.tipoVehiculo,
+        nro_turno_rto: _args.rtoId,
+        plataforma_pago: _args.paymentMethod,
+      };
+    else
+      bodyData = {
+        origen,
+        email: _args.email,
+        id_turno: _args.quoteId,
+        tipo_vehiculo: _args.tipoVehiculo,
+        nro_turno_rto: _args.rtoId,
+      };
+
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
-    
+
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
         const errorData = await response.json();
-        
-        throw new ApolloError('', errorData.reason, {
+
+        throw new ApolloError("", errorData.reason, {
           details: errorData,
         });
       }
       if (response.status === 400) {
-        throw new ApolloError('', BAD_REQUEST, {
+        throw new ApolloError("", BAD_REQUEST, {
           details: {
-            saleChannel: 'default',
+            saleChannel: "default",
             reason: BAD_REQUEST,
           },
         });
       }
       if (response.status === 500) {
-        throw new ApolloError('', INTERNAL_ERROR_SERVER, {
+        throw new ApolloError("", INTERNAL_ERROR_SERVER, {
           details: {
-            saleChannel: 'default',
+            saleChannel: "default",
             reason: INTERNAL_ERROR_SERVER,
           },
         });
       }
-      throw new ApolloError('', UNKNOWN_ERROR, {
+      throw new ApolloError("", UNKNOWN_ERROR, {
         details: {
-          saleChannel: 'default',
+          saleChannel: "default",
           reason: UNKNOWN_ERROR,
         },
       });
@@ -188,61 +229,68 @@ const Mutation = {
     let urlBackend = "";
     switch (_args.plant) {
       case "lasheras":
-        urlBackend = getConfig().serverRuntimeConfig.lasherasBackendUrl + changeDate;
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + changeDate;
         break;
       case "maipu":
-        urlBackend = getConfig().serverRuntimeConfig.maipuBackendUrl + changeDate;
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + changeDate;
         break;
       case "rivadavia":
-        urlBackend = getConfig().serverRuntimeConfig.rivadaviaBackendUrl + changeDate;
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + changeDate;
         break;
+      case "sanmartin":
+          urlBackend =
+            getConfig().serverRuntimeConfig.sanmartinBackendUrl + changeDate;
+          break;
       default:
         urlBackend = "error";
         break;
     }
-    const bodyData={
+    const bodyData = {
       email: _args.email,
       id_turno_nuevo: _args.quoteId,
-      id_turno_ant: _args.oldQuoteId
+      id_turno_ant: _args.oldQuoteId,
     };
-  
+
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {
         const errorData: IQuoteObtainingError = await response.json();
-        throw new ApolloError('', errorData.reason, {
+        throw new ApolloError("", errorData.reason, {
           details: errorData,
         });
       }
       if (response.status === 400) {
-        throw new ApolloError('', BAD_REQUEST, {
+        throw new ApolloError("", BAD_REQUEST, {
           details: {
-            saleChannel: 'default',
+            saleChannel: "default",
             reason: BAD_REQUEST,
           },
         });
       }
       if (response.status === 500) {
-        throw new ApolloError('', INTERNAL_ERROR_SERVER, {
+        throw new ApolloError("", INTERNAL_ERROR_SERVER, {
           details: {
-            saleChannel: 'default',
+            saleChannel: "default",
             reason: INTERNAL_ERROR_SERVER,
           },
         });
       }
-      throw new ApolloError('', UNKNOWN_ERROR, {
+      throw new ApolloError("", UNKNOWN_ERROR, {
         details: {
-          saleChannel: 'default',
+          saleChannel: "default",
           reason: UNKNOWN_ERROR,
         },
       });
     } else {
-      return {done: true}
+      return { done: true };
     }
   },
 };

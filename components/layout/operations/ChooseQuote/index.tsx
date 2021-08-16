@@ -10,16 +10,24 @@ import Summary from "./views/Summary";
 import {
   emptySchedulingError,
   ISchedulingError,
-} from 'contexts/QuoteObtaining';
-import { getErrorDetails } from 'lib/commonFunctions';
+} from "contexts/QuoteObtaining";
+import { getErrorDetails } from "lib/commonFunctions";
+import SuccessChangeDate from "../ChangeDate/views/SuccessChangeDate";
 
-
-const EXISTS_QUOTE_DOMAIN='EXISTS_QUOTE_DOMAIN';
-const INVALID_EMAIL='INVALID_EMAIL';
+const EXISTS_QUOTE_DOMAIN = "EXISTS_QUOTE_DOMAIN";
+const INVALID_EMAIL = "INVALID_EMAIL";
 
 function ChooseQuote(): JSX.Element {
-  const [{ error, dateSelected, paymentPlatformSelected, emailEntered }] =
-    useQuoteObtaining();
+  const [
+    {
+      quotes,
+      error,
+      dateSelected,
+      paymentPlatformSelected,
+      emailEntered,
+      chooseQuoteDone,
+    },
+  ] = useQuoteObtaining();
 
   if (error) {
     const errorDetails: ISchedulingError = getErrorDetails(
@@ -47,30 +55,59 @@ function ChooseQuote(): JSX.Element {
       </ViewWrapper>
     );
 
-  if (dateSelected && !paymentPlatformSelected)
-    return (
-      <ViewWrapper hasProducts={true}>
-        <SelectPaymentMethod />
-      </ViewWrapper>
-    );
+  if (quotes.plant !== "sanmartin") {
+    if (dateSelected && !paymentPlatformSelected)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <SelectPaymentMethod />
+        </ViewWrapper>
+      );
 
-  if (dateSelected && paymentPlatformSelected && !emailEntered)
-    return (
-      <ViewWrapper hasProducts={true}>
-        <>
-          <GiveEmail />
-        </>
-      </ViewWrapper>
-    );
+    if (dateSelected && paymentPlatformSelected && !emailEntered)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <>
+            <GiveEmail />
+          </>
+        </ViewWrapper>
+      );
 
-  if (dateSelected && paymentPlatformSelected && emailEntered)
-    return (
-      <ViewWrapper hasProducts={true}>
-        <>
-          <Summary />
-        </>
-      </ViewWrapper>
-    );
+    if (dateSelected && paymentPlatformSelected && emailEntered)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <>
+            <Summary />
+          </>
+        </ViewWrapper>
+      );
+  } else {
+    // RTO SAN MARTIN
+    // SIN PAYMENTPLATFLORM
+    if (dateSelected && !emailEntered && !chooseQuoteDone)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <>
+            <GiveEmail />
+          </>
+        </ViewWrapper>
+      );
+
+    if (dateSelected && emailEntered && !chooseQuoteDone)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <>
+            <Summary />
+          </>
+        </ViewWrapper>
+      );
+
+    if (chooseQuoteDone)
+      return (
+        <ViewWrapper hasProducts={true}>
+          <SuccessChangeDate />
+        </ViewWrapper>
+      );
+  }
 }
 
 export default ChooseQuote;

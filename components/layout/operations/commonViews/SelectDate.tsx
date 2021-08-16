@@ -25,7 +25,17 @@ interface IMessagesList {
   content: string;
 }
 
-const chooseQuoteMessages = [
+const getChooseQuoteMessages = (plant:string):IMessagesList[] => {
+  if (plant==='sanmartin')
+  return [{ id: 1, content: `app.quoteObtaining.warning.sanmartin.chooseQuote.message1` }];
+  return [
+    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1` },
+    { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2` },
+    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3` },
+  ];
+}
+
+const chooseQuoteMessages_sanmartin = [
   { id: 1, content: "app.quoteObtaining.warning.chooseQuote.message1" },
   { id: 2, content: "app.quoteObtaining.warning.chooseQuote.message2" },
   { id: 3, content: "app.quoteObtaining.warning.chooseQuote.message3" },
@@ -39,7 +49,7 @@ function SelectDate() {
   const [{ quotes, operation }] = useQuoteObtaining();
 
   const getWarningLinesByOperation = (operation: string): IMessagesList[] => {
-    if (operation === "chooseQuote") return chooseQuoteMessages;
+    if (operation === "chooseQuote") return getChooseQuoteMessages(quotes.plant);
     else return changeDateMessages;
   };
 

@@ -19,11 +19,11 @@ const Info = styled.div`
 const getAddressPlant = (plant) => {
   if (plant === "maipu")
     return "Mallea S/N entre Alsina y Dorrego General Gutiérrez";
-  else {
-    if (plant === "lasheras")
-      return "Acceso Norte Lateral Este S/N Km. 6,5 Bº El Plumerillo (Las Heras)";
-    else return "San Isidro Norte y calle Belgrano – Rivadavia – Mendoza";
-  }
+  if (plant === "lasheras")
+    return "Acceso Norte Lateral Este S/N Km. 6,5 Bº El Plumerillo (Las Heras)";
+  if (plant === 'rivadavia') return "San Isidro Norte y calle Belgrano – Rivadavia – Mendoza";
+    else return 'Carril Montecaseros km 5, San Martín, Mendoza';
+  
 };
 
 function Products(): JSX.Element {

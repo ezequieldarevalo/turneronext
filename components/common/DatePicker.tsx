@@ -114,7 +114,7 @@ const Day = styled.button`
     line-height: 35px;
     box-sizing: border-box;
     border-radius: 3px;
-    background-color: ${(props:IDayProps) => props.plant==='rivadavia'? '#052c33' : 'rgb(116,172,223)'  };
+    background-color: ${(props:IDayProps) => (props.plant==='rivadavia' || props.plant==='sanmartin')? '#052c33' : 'rgb(116,172,223)'  };
     // background-color: rgb(116,172,223);
     color: #ffffff;
   }
