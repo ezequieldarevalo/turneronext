@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
-import moment from 'moment';
-import Dropdown from './icons/Dropdown';
-import I18n from 'components/common/i18n';
-import { capitalizeFirstChar } from '../../lib/commonFunctions';
-import useQuoteObtaining from 'hooks/useQuoteObtaining';
-moment.locale('es'); // moment para el calendario en español
+import React, { useState, useCallback } from "react";
+import styled from "styled-components";
+import moment from "moment";
+import Dropdown from "./icons/Dropdown";
+import I18n from "components/common/i18n";
+import { capitalizeFirstChar } from "../../lib/commonFunctions";
+import useQuoteObtaining from "hooks/useQuoteObtaining";
+moment.locale("es"); // moment para el calendario en español
 
 const DatePickerContainer = styled.div`
   min-height: 338px;
@@ -29,6 +29,7 @@ const PrevMonth = styled.button`
   margin-left: 13px;
   font-size: 19px;
   transform: rotate(-180deg);
+  background-color: transparent;
 `;
 
 const NextMonth = styled.button`
@@ -36,6 +37,7 @@ const NextMonth = styled.button`
   color: #888888;
   margin-right: 11px;
   font-size: 19px;
+  background-color: transparent;
 `;
 
 const MonthName = styled.div`
@@ -81,7 +83,7 @@ const WeekDay = styled.div`
 `;
 
 interface IDayProps {
-  plant:string;
+  plant: string;
 }
 
 const Day = styled.button`
@@ -114,7 +116,10 @@ const Day = styled.button`
     line-height: 35px;
     box-sizing: border-box;
     border-radius: 3px;
-    background-color: ${(props:IDayProps) => (props.plant==='rivadavia' || props.plant==='sanmartin')? '#052c33' : 'rgb(116,172,223)'  };
+    background-color: ${(props: IDayProps) =>
+      props.plant === "rivadavia" || props.plant === "sanmartin"
+        ? "#052c33"
+        : "rgb(116,172,223)"};
     // background-color: rgb(116,172,223);
     color: #ffffff;
   }
@@ -133,44 +138,41 @@ interface IProps {
 }
 
 function isToday(day) {
-  return day.isSame(new Date(), 'day');
+  return day.isSame(new Date(), "day");
 }
 
 function DatePicker({ changeDaySelected }: IProps): JSX.Element {
-  const [{quotes, quoteSelected}] = useQuoteObtaining();
+  const [{ quotes, quoteSelected }] = useQuoteObtaining();
 
-
-  const momentInit = moment(
-    new Date(quoteSelected.fecha || quotes.dias[0])
-  );
+  const momentInit = moment(new Date(quoteSelected.fecha || quotes.dias[0]));
   const [value, setValue] = useState(momentInit);
   const [calendar, setCalendar] = useState(BuildDatePicker(momentInit));
 
   function BuildDatePicker(value) {
-    const startDay = value.clone().startOf('month').startOf('week');
-    const endDay = value.clone().endOf('month').endOf('week');
-    const day = startDay.clone().subtract(1, 'day');
+    const startDay = value.clone().startOf("month").startOf("week");
+    const endDay = value.clone().endOf("month").endOf("week");
+    const day = startDay.clone().subtract(1, "day");
     const calendar = [];
-    while (day.isBefore(endDay, 'day')) {
+    while (day.isBefore(endDay, "day")) {
       calendar.push(
         Array(7)
           .fill(0)
-          .map(() => day.add(1, 'day').clone())
+          .map(() => day.add(1, "day").clone())
       );
     }
     return calendar;
   }
 
   function isSelected(day, value) {
-    return value.isSame(day, 'day');
+    return value.isSame(day, "day");
   }
 
   function beforeToday(day) {
-    return day.isBefore(new Date(), 'day');
+    return day.isBefore(new Date(), "day");
   }
 
   function isAvailable(day) {
-    const calendarDay = day.clone().format('YYYY-MM-DD');
+    const calendarDay = day.clone().format("YYYY-MM-DD");
     const isInAvailableDates = quotes.dias.find(
       (element) => element.substring(0, 10) === calendarDay
     );
@@ -178,27 +180,25 @@ function DatePicker({ changeDaySelected }: IProps): JSX.Element {
   }
 
   function dayStyles(day, value) {
-  
-    if (!isAvailable(day)) return 'disabled';
-    if (isSelected(day, value)) return 'selected';
-    if (isToday(day)) return 'today';
-    return '';
+    if (!isAvailable(day)) return "disabled";
+    if (isSelected(day, value)) return "selected";
+    if (isToday(day)) return "today";
+    return "";
   }
 
-  const currentMonthName = value.format('MMMM');
+  const currentMonthName = value.format("MMMM");
 
-  const currentYear = value.format('YYYY');
+  const currentYear = value.format("YYYY");
 
-  const previousMonth = value.clone().subtract(1, 'month');
+  const previousMonth = value.clone().subtract(1, "month");
 
-  const nextMonth = value.clone().add(1, 'month');
+  const nextMonth = value.clone().add(1, "month");
 
   const onChangeMomentDay = useCallback((momentDay) => {
     setValue(momentDay);
     setCalendar(BuildDatePicker(momentDay));
     const datePicked = quotes.dias.find(
-      (element) =>
-      element.substring(0, 10) === momentDay.format('YYYY-MM-DD')
+      (element) => element.substring(0, 10) === momentDay.format("YYYY-MM-DD")
     );
     if (datePicked) {
       changeDaySelected(datePicked);
@@ -248,14 +248,15 @@ function DatePicker({ changeDaySelected }: IProps): JSX.Element {
         {calendar.map((week) => (
           <Week key={week[0].format()}>
             {week.map((day) => (
-              <Day plant={quotes.plant}
+              <Day
+                plant={quotes.plant}
                 type="button"
                 key={day.format()}
                 onClick={() => onChangeMomentDay(day)}
                 disabled={!isAvailable(day)}
               >
                 <div className={dayStyles(day, value)}>
-                  {day.format('D').toString()}
+                  {day.format("D").toString()}
                 </div>
               </Day>
             ))}
