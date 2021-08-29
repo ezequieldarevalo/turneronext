@@ -4,6 +4,7 @@ import type {
   IQuoteObtaining,
   IRescheduleResponseReschedule,
   IDateChangeResponseReschedule,
+  ICancelQuoteResponseReschedule
 } from "../contexts/QuoteObtaining";
 import { ApolloError } from "apollo-server-errors";
 
@@ -18,10 +19,10 @@ interface GetQuoteDataArgs {
 }
 
 const getQuotes = "api/auth/getQuotes";
-const getQuotes_sanmartin = "api/auth/valTur";
 const CdGetQuotes = "api/auth/getQuotesForResc";
 const confQuote = "api/auth/confQuote";
 const changeDate = "api/auth/changeDate";
+const cancelQuote = "api/auth/cancelQuote";
 const origen = "T";
 
 interface DoRescheduleArgs {
@@ -39,6 +40,12 @@ interface DateChangeArgs {
   email: string;
   quoteId: number;
   oldQuoteId: number;
+}
+
+interface CancelQuoteArgs {
+  plant: string;
+  email: string;
+  quoteId: number;
 }
 
 // const getSuffixByPlant = (operation: string, plant: string): string => {
@@ -94,6 +101,8 @@ const Query = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend,requestOptions)
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
@@ -183,6 +192,8 @@ const Mutation = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend,requestOptions)
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
@@ -291,6 +302,76 @@ const Mutation = {
       return { done: true };
     }
   },
+  async doCancelQuote(
+    __parent: unknown,
+    _args: CancelQuoteArgs
+  ): Promise<ICancelQuoteResponseReschedule> {
+    let urlBackend = "";
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + cancelQuote;
+        break;
+      case "maipu":
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + cancelQuote;
+        break;
+      case "rivadavia":
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + cancelQuote;
+        break;
+      case "sanmartin":
+          urlBackend =
+            getConfig().serverRuntimeConfig.sanmartinBackendUrl + cancelQuote;
+          break;
+      default:
+        urlBackend = "error";
+        break;
+    }
+    const bodyData = {
+      email: _args.email,
+      id_turno: _args.quoteId
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyData),
+    };
+    const response = await fetch(urlBackend, requestOptions);
+    if (!response.ok) {
+      if (response.status === 404) {
+        const errorData: IQuoteObtainingError = await response.json();
+        throw new ApolloError("", errorData.reason, {
+          details: errorData,
+        });
+      }
+      if (response.status === 400) {
+        throw new ApolloError("", BAD_REQUEST, {
+          details: {
+            saleChannel: "default",
+            reason: BAD_REQUEST,
+          },
+        });
+      }
+      if (response.status === 500) {
+        throw new ApolloError("", INTERNAL_ERROR_SERVER, {
+          details: {
+            saleChannel: "default",
+            reason: INTERNAL_ERROR_SERVER,
+          },
+        });
+      }
+      throw new ApolloError("", UNKNOWN_ERROR, {
+        details: {
+          saleChannel: "default",
+          reason: UNKNOWN_ERROR,
+        },
+      });
+    } else {
+      return { done: true };
+    }
+  }
 };
 
 export default { Query, Mutation };

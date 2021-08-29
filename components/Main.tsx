@@ -5,14 +5,16 @@ import Message from "./layout/Message";
 import ErrorMessage from "./common/error/ErrorMessage";
 import ChooseQuote from "./layout/operations/ChooseQuote";
 import ChangeDate from "./layout/operations/ChangeDate";
+import CancelQuote from "./layout/operations/CancelQuote";
 
 function Main(): JSX.Element {
-  const [{ quotes, operation }] = useQuoteObtaining();
+  const [{ operation }] = useQuoteObtaining();
 
+  if (operation === "chooseQuote") return <ChooseQuote />;
 
-  if (operation==='chooseQuote') return <ChooseQuote />;
+  if (operation === "changeDate") return <ChangeDate />;
 
-  if (operation==='changeDate') return <ChangeDate />;
+  if (operation === "cancelQuote") return <CancelQuote />;
 
   return (
     <ViewWrapper>

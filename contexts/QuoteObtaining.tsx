@@ -13,6 +13,7 @@ import { useQuery, useMutation, FetchResult } from "@apollo/react-hooks";
 import getQuoteData from "../lib/queries/getQuoteData";
 import doReschedule from "../lib/queries/doReschedule";
 import doDateChange from "../lib/queries/doChangeDate";
+import doCancelQuote from "../lib/queries/doCancelQuote";
 import LoaderG from "../components/common/LoaderG";
 
 const LoadingContainer = styled.div`
@@ -57,8 +58,12 @@ export interface IDateChangeResponseReschedule {
   done: boolean;
 }
 
+export interface ICancelQuoteResponseReschedule {
+  done: boolean;
+}
+
 interface IRescheduleResponse {
-  Reschedule: IRescheduleResponseReschedule
+  Reschedule: IRescheduleResponseReschedule;
 }
 
 export interface ISchedulingError {
@@ -70,9 +75,8 @@ export interface ISchedulingError {
 }
 
 export const emptySchedulingError: ISchedulingError = {
-  reason: 'default',
+  reason: "default",
 };
-
 
 const emptyQuoteSelected = { id: null, fecha: "", hora: "" };
 
@@ -92,6 +96,7 @@ export type QuoteObtainingContextValue = [
     showError: boolean;
     changeDateDone: boolean;
     chooseQuoteDone: boolean;
+    cancelQuoteDone: boolean;
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => void;
@@ -123,6 +128,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     showError: null,
     changeDateDone: null,
     chooseQuoteDone: null,
+    cancelQuoteDone: null,
   },
   {
     onSelectDate: (id: number, fecha: string, hora: string) => null,
@@ -164,11 +170,13 @@ export default function QuoteObtainingProvider({
 
   const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false);
 
-  const [showError,setShowError] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
 
-  const [chooseQuoteDone,setChooseQuoteDone] = useState<boolean>(false);
+  const [chooseQuoteDone, setChooseQuoteDone] = useState<boolean>(false);
 
-  const [changeDateDone,setChangeDateDone] = useState<boolean>(false);
+  const [changeDateDone, setChangeDateDone] = useState<boolean>(false);
+
+  const [cancelQuoteDone, setCancelQuoteDone] = useState<boolean>(false);
 
   const {
     loading: loadingQuery,
@@ -183,12 +191,10 @@ export default function QuoteObtainingProvider({
       onError: () => {
         setShowError(true);
       },
-      onCompleted: (data)=> {
-        if(plant==='sanmartin')
-          setChooseQuoteDone(true)
-        else
-          window.location.href=data.Reschedule.url_pago;
-      }
+      onCompleted: (data) => {
+        if (plant === "sanmartin") setChooseQuoteDone(true);
+        else window.location.href = data.Reschedule.url_pago;
+      },
     });
 
   const [doChDate, { error: errorChangeDate, loading: loadingChangeDate }] =
@@ -196,9 +202,19 @@ export default function QuoteObtainingProvider({
       onError: () => {
         setShowError(true);
       },
-      onCompleted: (data)=> {
-        setChangeDateDone(true)
-      }
+      onCompleted: (data) => {
+        setChangeDateDone(true);
+      },
+    });
+
+  const [doCanQuote, { error: errorCancelQuote, loading: loadingCancelQuote }] =
+    useMutation<IRescheduleResponse>(doCancelQuote, {
+      onError: () => {
+        setShowError(true);
+      },
+      onCompleted: (data) => {
+        setCancelQuoteDone(true);
+      },
     });
 
   const onSelectDate = (id: number, fecha: string, hora: string): void => {
@@ -229,8 +245,13 @@ export default function QuoteObtainingProvider({
   };
 
   const onChangeEmail = (email: string) => {
-    if(/^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(email)) setValidEmailFormat(true)
-    else setValidEmailFormat(false) 
+    if (
+      /^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(
+        email
+      )
+    )
+      setValidEmailFormat(true);
+    else setValidEmailFormat(false);
     setEmail(email);
   };
 
@@ -240,15 +261,25 @@ export default function QuoteObtainingProvider({
   };
 
   const onSubmitEmail = () => {
-    if(validEmailFormat) setEmailEntered(true);
+    if (validEmailFormat) setEmailEntered(true);
   };
 
   const onSubmit = useCallback((): Promise<
     FetchResult<IRescheduleResponse>
   > => {
-    let variables={};
-    if(operation==='chooseQuote'){
-      variables={
+    let variables = {};
+    if (operation === "cancelQuote") {
+      variables = {
+        plant,
+        email,
+        quoteId: data.quotes.id,
+      };
+      return doCanQuote({
+        variables,
+      });
+    }
+    if (operation === "chooseQuote") {
+      variables = {
         plant,
         email,
         quoteId: quoteSelected.id,
@@ -257,26 +288,24 @@ export default function QuoteObtainingProvider({
         paymentMethod: paymentPlatform,
       };
       return doResc({
-        variables
+        variables,
       });
     }
-    else {
-      variables={
-        plant,
-        email,
-        quoteId: quoteSelected.id,
-        oldQuoteId: data.quotes.id,
-      }
-      return doChDate({
-        variables
-      });
-    }
-    
+    variables = {
+      plant,
+      email,
+      quoteId: quoteSelected.id,
+      oldQuoteId: data.quotes.id,
+    };
+    return doChDate({
+      variables,
+    });
   }, [plant, email, quoteSelected, data, paymentPlatform]);
 
-  const error=errorQuery || errorMutation || errorChangeDate;
+  const error =
+    errorQuery || errorMutation || errorChangeDate || errorCancelQuote;
 
-  const loading=loadingSchedule || loadingChangeDate;
+  const loading = loadingSchedule || loadingChangeDate || loadingCancelQuote;
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
@@ -295,6 +324,7 @@ export default function QuoteObtainingProvider({
         showError,
         changeDateDone,
         chooseQuoteDone,
+        cancelQuoteDone,
       },
       {
         onSelectDate,
@@ -323,6 +353,7 @@ export default function QuoteObtainingProvider({
       showError,
       changeDateDone,
       chooseQuoteDone,
+      cancelQuoteDone,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,

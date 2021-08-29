@@ -12,6 +12,7 @@
   "app.quoteObtaining.sanmartin.main.changeDate.title": "Cambio de fecha - RTO San Martin",
   "app.quoteObtaining.default.main.changeDate.title": "Cambio de fecha",
   "app.quoteObtaining.info.title": "Información del turno",
+  "app.quoteObtaining.sanmartin.main.cancelQuote.title": "Cancelación de turno - RTO San Martin",
 
   "app.quoteObtaining.warning.title": "IMPORTANTE",
   "app.quoteObtaining.warning.lasheras.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
@@ -24,6 +25,7 @@
   "app.quoteObtaining.warning.lasheras.chooseQuote.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
   "app.quoteObtaining.warning.maipu.chooseQuote.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
   "app.quoteObtaining.warning.rivadavia.chooseQuote.message3": "Nuestro lo redireccionará a la plataforma elegida para efectuarlo.",
+
 
   "app.quoteObtaining.warning.chooseQuotes.quoteDate": "Su turno tiene fecha el día",
   "app.quoteObtaining.warning.chooseQuotes.atTime": "a las",
@@ -45,6 +47,12 @@
   "app.quoteObtaining.error.INTERNAL_ERROR_SERVER.message": "Comuníquese directamente con nosotros para coordinar el servicio. Rivadavia: www.rtorivadavia.com.ar. Las Heras/Maipu: www.revitotal.com.ar",
 
   "app.quoteObtaining.error.notFound.title": "El sitio no existe",
+
+  "app.quoteObtaining.error.OLD QUOTE.title": "Turno antiguo",
+  "app.quoteObtaining.error.OLD QUOTE.message": "El turno es antiguo y ya no puede cancelarse.",
+
+  "app.quoteObtaining.error.INEXISTENT QUOTE.title": "Turno inexistente",
+  "app.quoteObtaining.error.INEXISTENT QUOTE.message": "No existe un turno con el id ingresado.",
 
   
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
@@ -68,6 +76,7 @@
   "app.quoteObtaining.schedule.calendar.maipu.chooseQuote.buttonText":"REALIZAR PAGO",
   "app.quoteObtaining.schedule.calendar.sanmartin.chooseQuote.buttonText":"CONFIRMAR",
   "app.quoteObtaining.schedule.calendar.changeDate.buttonText":"CONFIRMAR",
+  "app.quoteObtaining.schedule.calendar.cancelQuote.buttonText": "CANCELAR TURNO",
 
   "app.quoteObtaining.schedule.calendar.paymentMethod.subtitle": "Seleccione con que billetera desea abonar",
   "app.quoteObtaining.schedule.calendar.emailConf.subtitle": "Ingrese el correo electronico que utilizó al solicitar el servicio",
@@ -79,11 +88,13 @@
 
   "order.delivery.reschedule.dateChange.schedule.title.successReschedule":"Su turno se reagendó exitosamente",
   "order.delivery.reschedule.chooseQuote.schedule.title.successReschedule":"Su turno se agendó exitosamente",
+  "order.delivery.reschedule.cancelQuote.schedule.title.quoteCancelled":"Turno cancelado",
   "order.delivery.reschedule.dateChange.schedule.message.atDate":"Su servicio se realizará el día",
   "order.delivery.reschedule.dateChange.schedule.message.atTime":"a las",
   "order.delivery.reschedule.dateChange.schedule.message.greeting":"Le hemos enviado un correo electrónico con los detalles de la nueva fecha del servicio.",
   "order.delivery.reschedule.chooseQuote.schedule.message.greeting":"Le hemos enviado un correo electrónico con los detalles de la fecha del servicio.",
-  "order.delivery.reschedule.dateChange.schedule.message.thanks": "Muchas gracias."
+  "order.delivery.reschedule.dateChange.schedule.message.thanks": "Muchas gracias.",
+  "order.delivery.reschedule.cancelQuote.schedule.message.onlyone": "Su turno se canceló exitosamente."
 
   
   

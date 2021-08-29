@@ -29,6 +29,10 @@ const typeDefs = gql`
     done: Boolean!
   }
 
+  type CancelQuoteResponse {
+    done: Boolean!
+  }
+
   type Query {
     getQuoteData(id: String!,plant: String!,operation: String!): QuoteObtaining
     
@@ -37,6 +41,7 @@ const typeDefs = gql`
   type Mutation {
     doReschedule(plant: String!,email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
     doChangeDate(plant: String!,email: String!, quoteId: Int!, oldQuoteId: Int!): ChangeDateResponse
+    doCancelQuote(plant: String!,email: String!, quoteId: Int!): CancelQuoteResponse
   }
 
 `;
