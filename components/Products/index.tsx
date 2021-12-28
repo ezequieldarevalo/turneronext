@@ -39,7 +39,7 @@ function Products(): JSX.Element {
           <b>Vehiculo:&nbsp;&nbsp;</b>
           {quotes.tipo_vehiculo}
         </p>
-        {operation==='chooseQuote' && <p>
+        {operation==='chooseQuote' && quotes.plant!=='sanmartin' && <p>
           <b>Precio:&nbsp;&nbsp;</b>${quotes.precio}.-
         </p>}
         
