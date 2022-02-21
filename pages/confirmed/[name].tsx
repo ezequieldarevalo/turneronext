@@ -7,6 +7,13 @@ import { MessageTitle } from "../../components/common/styles/UtilsStyles";
 import I18n from "../../components/common/i18n"
 import { useRouter } from "next/router";
 import HeaderRivadavia from "components/layout/structure/HeaderRivadavia";
+import HeaderGodoyCruz from "components/layout/structure/HeaderGodoycruz";
+
+const renderHeader = (plantName) => {
+  if(plantName==='rivadavia') return <HeaderRivadavia />;
+  if(plantName==='godoycruz') return <HeaderGodoyCruz />;
+  return <HeaderRevitotal />;
+}
 
 function confirmed() {
 
@@ -14,7 +21,7 @@ function confirmed() {
     query: { name },
   } = useRouter();
 
-  if(name!=="maipu" && name!=="lasheras" && name!=="rivadavia")
+  if(name!=="maipu" && name!=="lasheras" && name!=="rivadavia" && name!=="godoycruz")
     return (<ViewWrapper>
       <Message type="ERROR">
       <MessageTitle type="ERROR">
@@ -28,7 +35,7 @@ function confirmed() {
   return (
     <>
     {
-      name==="rivadavia"? <HeaderRivadavia /> : <HeaderRevitotal />
+      renderHeader(name)
     }
       <ViewWrapper plant={name}>
         <Message type="SUCCESS">

@@ -40,7 +40,7 @@ const Btn = styled.button`
   padding: 15px 28px 14px 27px;
   border-radius: 2px;
   background-color: ${(props: IBtnProps) =>
-    props.plant === "rivadavia" || props.plant === "sanmartin"
+    props.plant === "rivadavia" || props.plant === "sanmartin" || props.plant==='godoycruz'
       ? "#052c33"
       : "rgb(116,172,223)"};
   font-size: 15px;

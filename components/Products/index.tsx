@@ -22,6 +22,7 @@ const getAddressPlant = (plant) => {
   if (plant === "lasheras")
     return "Acceso Norte Lateral Este S/N Km. 6,5 Bº El Plumerillo (Las Heras)";
   if (plant === 'rivadavia') return "San Isidro Norte y calle Belgrano – Rivadavia – Mendoza";
+  if (plant === 'godoycruz') return "Luis María Drago 51 - Godoy Cruz - Mendoza";
     else return 'Carril Montecaseros km 5, San Martín, Mendoza';
   
 };

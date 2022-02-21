@@ -25,10 +25,10 @@ export const IconStep = styled.div`
   border-radius: 50px;
   padding: 4px 6px 8px 8px;
   background: ${(props: IconStepProps) =>
-    props.disabled || props.checked ? 'none' : (props.plant==='rivadavia' || props.plant==='sanmartin')? '#052c33' : 'rgb(116,172,223)' };
+    props.disabled || props.checked ? 'none' : (props.plant==='rivadavia' || props.plant==='sanmartin' || props.plant==='godoycruz')? '#052c33' : 'rgb(116,172,223)' };
   border: 1px solid
     ${(props: IconStepProps) =>
-      props.disabled || props.checked ? '#888888' : (props.plant==='rivadavia' || props.plant==='sanmartin')? '#052c33' : 'rgb(116,172,223)'};
+      props.disabled || props.checked ? '#888888' : (props.plant==='rivadavia' || props.plant==='sanmartin' || props.plant==='godoycruz')? '#052c33' : 'rgb(116,172,223)'};
   color: ${(props: IconStepProps) =>
     props.disabled || props.checked ? '#888888' : '#fff'};
   text-align: center;

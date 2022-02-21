@@ -81,6 +81,10 @@ const Query = {
         urlBackend =
           getConfig().serverRuntimeConfig.sanmartinBackendUrl + urlSuffix;
         break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + urlSuffix;
+        break;
       default:
         urlBackend = "error";
         break;
@@ -159,6 +163,10 @@ const Mutation = {
       case "sanmartin":
         urlBackend =
           getConfig().serverRuntimeConfig.sanmartinBackendUrl + confQuote;
+        break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + confQuote;
         break;
       default:
         urlBackend = "error";
@@ -249,6 +257,10 @@ const Mutation = {
           urlBackend =
             getConfig().serverRuntimeConfig.sanmartinBackendUrl + changeDate;
           break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + changeDate;
+        break;
       default:
         urlBackend = "error";
         break;
@@ -320,6 +332,10 @@ const Mutation = {
           urlBackend =
             getConfig().serverRuntimeConfig.sanmartinBackendUrl + cancelQuote;
           break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + cancelQuote;
+        break;
       default:
         urlBackend = "error";
         break;

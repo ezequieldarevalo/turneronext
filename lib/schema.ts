@@ -35,7 +35,6 @@ const typeDefs = gql`
 
   type Query {
     getQuoteData(id: String!,plant: String!,operation: String!): QuoteObtaining
-    
   }
 
   type Mutation {
