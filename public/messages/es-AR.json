@@ -59,6 +59,9 @@
   "app.quoteObtaining.error.INEXISTENT QUOTE.title": "Turno inexistente",
   "app.quoteObtaining.error.INEXISTENT QUOTE.message": "No existe un turno con el id ingresado.",
 
+  "app.quoteObtaining.error.DOMAIN_WITH_PENDING_QUOTE.title": "Dominio con turno pendiente",
+  "app.quoteObtaining.error.DOMAIN_WITH_PENDING_QUOTE.message": "Usted tiene un turno pendiente para el dominio ingresado. Dispone del link de pago en su correo electronico.",
+
   
   "app.quoteObtaining.schedule.calendar.step1.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step2.title": "Método de pago",
