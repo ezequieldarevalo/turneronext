@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
-import { ApolloError } from "@apollo/client";
-import { useQuery, useMutation, FetchResult } from "@apollo/react-hooks";
+import { ApolloError, useLazyQuery } from "@apollo/client";
+import { useMutation, FetchResult } from "@apollo/react-hooks";
 
 import getQuoteData from "../lib/queries/getQuoteData";
 import doReschedule from "../lib/queries/doReschedule";
@@ -27,14 +27,17 @@ export interface IQuote {
 }
 
 export interface IQuoteObtaining {
-  id: number;
   plant: string;
   tipo_vehiculo: string;
   precio: number;
-  turnos: IQuote[];
   dias: string[];
+  turnos: IQuote[];
   fecha?: string;
   hora?: string;
+}
+
+export interface IQuoteObtainingResponse {
+  quotes: IQuoteObtaining
 }
 
 export interface IQuoteObtainingError {
@@ -44,7 +47,6 @@ export interface IQuoteObtainingError {
 }
 
 interface QuoteObtainingProviderProps {
-  id: string;
   children: ReactNode;
   plant: string;
   operation: string;
@@ -84,30 +86,36 @@ export type QuoteObtainingContextValue = [
   {
     error: ApolloError;
     quotes: IQuoteObtaining;
+    plant: string;
     operation: string;
+    vehicleType: string;
+    vehicleTypeSelected: boolean;
     quoteSelected: IQuote;
     dateSelected: boolean;
     paymentPlatform: string;
     paymentPlatformSelected: boolean;
     email: string;
-    emailEntered: boolean;
+    dominio: string;
+    telefono: string;
+    fuelType: string;
+    personalInfoEntered: boolean;
     loading: boolean;
-    validEmailFormat: boolean;
     showError: boolean;
     changeDateDone: boolean;
     chooseQuoteDone: boolean;
     cancelQuoteDone: boolean;
   },
   {
+    onSelectVehicleType: (type:string) => void;
+    onModifyVehicleType: () => void;
     onSelectDate: (id: number, fecha: string, hora: string) => void;
     onModifyDateAddressChange: () => void;
     resetShift: () => void;
     onChangePaymentPlatform: (paymentPlatform: string) => void;
     onSubmitPaymentPlatform: () => void;
     onModifyPaymentPlatform: () => void;
-    onChangeEmail: (email: string) => void;
-    onModifyEmail: () => void;
-    onSubmitEmail: () => void;
+    onModifyPersonalInfo: () => void;
+    onSubmitPersonalInfo: (email:string, dominio:string, telefono:string, fuelType:string) => void;
     onSubmit: () => Promise<FetchResult<IRescheduleResponse>>;
   }
 ];
@@ -116,30 +124,36 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
   {
     error: null,
     quotes: null,
+    plant: null,
     operation: null,
+    vehicleType: null,
+    vehicleTypeSelected: null,
     quoteSelected: null,
     dateSelected: null,
     paymentPlatform: null,
     paymentPlatformSelected: null,
     email: null,
-    emailEntered: null,
+    dominio: null,
+    telefono: null,
+    fuelType: null,
+    personalInfoEntered: null,
     loading: null,
-    validEmailFormat: null,
     showError: null,
     changeDateDone: null,
     chooseQuoteDone: null,
     cancelQuoteDone: null,
   },
   {
+    onSelectVehicleType: (type: string) => null,
+    onModifyVehicleType: () => null,
     onSelectDate: (id: number, fecha: string, hora: string) => null,
     onModifyDateAddressChange: () => null,
     resetShift: () => null,
     onChangePaymentPlatform: () => null,
     onSubmitPaymentPlatform: () => null,
     onModifyPaymentPlatform: () => null,
-    onChangeEmail: () => null,
-    onModifyEmail: () => null,
-    onSubmitEmail: () => null,
+    onModifyPersonalInfo: () => null,
+    onSubmitPersonalInfo: () => null,
     onSubmit: () => Promise.reject(),
   },
 ]);
@@ -149,13 +163,16 @@ export const emptyQuoteObtainingError = {
 };
 
 export default function QuoteObtainingProvider({
-  id,
   plant,
   operation,
   children,
 }: QuoteObtainingProviderProps): JSX.Element {
   const [quoteSelected, setQuoteSelected] =
     useState<IQuote>(emptyQuoteSelected);
+
+  const [vehicleType, setVehicleType] = useState<string>('AUTO PARTICULAR');
+
+  const [vehicleTypeSelected, setVehicleTypeSelected] = useState<boolean>(false);
 
   const [dateSelected, setDateSelected] = useState<boolean>(false);
 
@@ -166,9 +183,13 @@ export default function QuoteObtainingProvider({
 
   const [email, setEmail] = useState<string>("");
 
-  const [emailEntered, setEmailEntered] = useState<boolean>(false);
+  const [dominio, setDominio] = useState<string>("");
 
-  const [validEmailFormat, setValidEmailFormat] = useState<boolean>(false);
+  const [telefono, setTelefono] = useState<string>("");
+
+  const [fuelType, setFuelType] = useState<string>("");
+
+  const [personalInfoEntered, setPersonalInfoEntered] = useState<boolean>(false);
 
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -178,13 +199,17 @@ export default function QuoteObtainingProvider({
 
   const [cancelQuoteDone, setCancelQuoteDone] = useState<boolean>(false);
 
-  const {
-    loading: loadingQuery,
-    error: errorQuery,
-    data,
-  } = useQuery(getQuoteData, {
-    variables: { id: id, plant: plant, operation: operation },
-  });
+
+  // const {
+  //   loading: loadingQuery,
+  //   error: errorQuery,
+  //   data,
+  // } = useQuery(getQuoteData, {
+  //   variables: { id: id, plant: plant, operation: operation },
+  // });
+
+  const [getQuotes, {loading: loadingQuery, error: errorQuery, data: quotesData}] =
+    useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onCompleted: () => setVehicleTypeSelected(true)});
 
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
     useMutation<IRescheduleResponse>(doReschedule, {
@@ -217,9 +242,19 @@ export default function QuoteObtainingProvider({
       },
     });
 
+  const onSelectVehicleType = useCallback((type: string):void => {
+    setVehicleType(type);
+    return getQuotes({variables: {vehicleType: type, plant, operation}});
+  }, []);
+
   const onSelectDate = (id: number, fecha: string, hora: string): void => {
     setQuoteSelected({ id, fecha, hora });
     setDateSelected(true);
+  };
+
+  const onModifyVehicleType = () => {
+    setVehicleTypeSelected(false);
+    setShowError(false);
   };
 
   const onModifyDateAddressChange = () => {
@@ -244,24 +279,17 @@ export default function QuoteObtainingProvider({
     setShowError(false);
   };
 
-  const onChangeEmail = (email: string) => {
-    if (
-      /^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(
-        email
-      )
-    )
-      setValidEmailFormat(true);
-    else setValidEmailFormat(false);
-    setEmail(email);
-  };
-
-  const onModifyEmail = () => {
-    setEmailEntered(false);
+  const onModifyPersonalInfo = () => {
+    setPersonalInfoEntered(false);
     setShowError(false);
   };
 
-  const onSubmitEmail = () => {
-    if (validEmailFormat) setEmailEntered(true);
+  const onSubmitPersonalInfo = (email: string, dominio:string, telefono: string, fuelType:string) => {
+    setEmail(email);
+    setDominio(dominio);
+    setTelefono(telefono);
+    setFuelType(fuelType);
+    setPersonalInfoEntered(true);
   };
 
   const onSubmit = useCallback((): Promise<
@@ -272,7 +300,7 @@ export default function QuoteObtainingProvider({
       variables = {
         plant,
         email,
-        quoteId: data.quotes.id,
+        // quoteId: data.quotes.id,
       };
       return doCanQuote({
         variables,
@@ -283,8 +311,8 @@ export default function QuoteObtainingProvider({
         plant,
         email,
         quoteId: quoteSelected.id,
-        tipoVehiculo: data?.quotes.tipo_vehiculo,
-        rtoId: data?.quotes.id,
+        // tipoVehiculo: data?.quotes.tipo_vehiculo,
+        // rtoId: data?.quotes.id,
         paymentMethod: paymentPlatform,
       };
       return doResc({
@@ -295,79 +323,92 @@ export default function QuoteObtainingProvider({
       plant,
       email,
       quoteId: quoteSelected.id,
-      oldQuoteId: data.quotes.id,
+      // oldQuoteId: data.quotes.id,
     };
     return doChDate({
       variables,
     });
-  }, [plant, email, quoteSelected, data, paymentPlatform]);
+  // }, [plant, email, quoteSelected, data, paymentPlatform]);
+}, [plant, email, quoteSelected, paymentPlatform]);
 
   const error =
-    errorQuery || errorMutation || errorChangeDate || errorCancelQuote;
+   errorQuery || errorMutation || errorChangeDate || errorCancelQuote;
 
-  const loading = loadingSchedule || loadingChangeDate || loadingCancelQuote;
+  const loading = loadingQuery || loadingSchedule || loadingChangeDate || loadingCancelQuote;
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
       {
         error,
-        quotes: data?.quotes,
+        quotes: quotesData?.quotes,
+        plant,
         operation,
+        vehicleType,
+        vehicleTypeSelected,
         quoteSelected,
         dateSelected,
         paymentPlatform,
         paymentPlatformSelected,
         email,
-        emailEntered,
+        dominio,
+        telefono,
+        fuelType,
+        personalInfoEntered,
         loading,
-        validEmailFormat,
         showError,
         changeDateDone,
         chooseQuoteDone,
         cancelQuoteDone,
       },
       {
+        onSelectVehicleType,
+        onModifyVehicleType,
         onSelectDate,
         onModifyDateAddressChange,
         resetShift,
         onChangePaymentPlatform,
         onSubmitPaymentPlatform,
         onModifyPaymentPlatform,
-        onChangeEmail,
-        onModifyEmail,
-        onSubmitEmail,
+        onModifyPersonalInfo,
+        onSubmitPersonalInfo,
         onSubmit,
       },
     ],
     [
       error,
-      data?.quotes,
+      quotesData?.quotes,
+      plant,
       quoteSelected,
+      vehicleType,
+      vehicleTypeSelected,
       dateSelected,
       paymentPlatform,
       paymentPlatformSelected,
       email,
-      emailEntered,
+      dominio,
+      telefono,
+      fuelType,
+      personalInfoEntered,
       loading,
-      validEmailFormat,
       showError,
       changeDateDone,
       chooseQuoteDone,
       cancelQuoteDone,
+      onSelectVehicleType,
+      onModifyVehicleType,
       onSelectDate,
       onModifyDateAddressChange,
       resetShift,
       onChangePaymentPlatform,
       onSubmitPaymentPlatform,
       onModifyPaymentPlatform,
-      onChangeEmail,
-      onModifyEmail,
-      onSubmitEmail,
+      onModifyPersonalInfo,
+      onSubmitPersonalInfo,
       onSubmit,
     ]
   );
 
-  if (loadingQuery) {
+  if (loading) {
     return (
       <LoaderG loading noBackground>
         <LoadingContainer />

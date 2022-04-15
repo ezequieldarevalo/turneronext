@@ -13,6 +13,7 @@ const INTERNAL_ERROR_SERVER = "INTERNAL_ERROR_SERVER";
 const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 interface GetQuoteDataArgs {
+  vehicleType: string;
   id: string;
   plant: string;
   operation: string;
@@ -93,7 +94,7 @@ const Query = {
     let bodyData = {};
     if (_args.operation === "chooseQuote")
       bodyData = {
-        nro_turno_rto: _args.id,
+        tipoVehiculo: _args.vehicleType,
       };
     else
       bodyData = {
@@ -105,6 +106,8 @@ const Query = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend, requestOptions);
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
@@ -135,7 +138,7 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      const result = { ...data, id: _args.id, plant: _args.plant };
+      const result = { ...data, plant: _args.plant };
       return result;
     }
   },

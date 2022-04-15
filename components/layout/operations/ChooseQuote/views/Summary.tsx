@@ -78,24 +78,39 @@ function Summary(): JSX.Element {
     {
       error,
       quotes,
+      vehicleType,
       quoteSelected,
       paymentPlatform,
       email,
+      dominio,
+      telefono,
+      fuelType,
       loading,
       showError,
     },
     {
+      onModifyVehicleType,
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
-      onModifyEmail,
+      onModifyPersonalInfo,
       onSubmit,
     },
   ] = useQuoteObtaining();
 
   return (
     <LoaderG loading={loading} noBackground>
-      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
+
+<StepTitle plant={quotes.plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
+      </StepTitle>
+      <GreyStepBox withModify={true} modifyFunction={onModifyVehicleType}>
+        <DateSelected>
+          <b>Tipo de vehiculo:</b>{" "}
+          {vehicleType}
+        </DateSelected>
+      </GreyStepBox>
+      <StepTitle plant={quotes.plant} checked stepNumber={2}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyDateAddressChange}>
@@ -110,8 +125,8 @@ function Summary(): JSX.Element {
 
       {quotes.plant !== "sanmartin" && (
         <>
-          <StepTitle plant={quotes.plant} checked stepNumber={2}>
-            <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
+          <StepTitle plant={quotes.plant} checked stepNumber={3}>
+            <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
           </StepTitle>
 
           <GreyStepBox
@@ -131,13 +146,16 @@ function Summary(): JSX.Element {
         </>
       )}
 
-      <StepTitle plant={quotes.plant} checked stepNumber={3}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
+      <StepTitle plant={quotes.plant} checked stepNumber={4}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
       </StepTitle>
 
-      <GreyStepBox withModify={true} modifyFunction={onModifyEmail}>
+      <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
         <DateSelected>
-          <b>Email:</b> {email}
+          <b>Email:</b> {email}<br />
+          <b>Dominio:</b> {dominio}<br/>
+          <b>Telefono:</b> {telefono}<br/>
+          <b>Combustible:</b> {fuelType}
         </DateSelected>
       </GreyStepBox>
       {error && showError && (

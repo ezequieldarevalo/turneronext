@@ -11,7 +11,6 @@ const typeDefs = gql`
   }
 
   type QuoteObtaining {
-    id: Int!
     plant: String!
     tipo_vehiculo: String!
     precio: Int!
@@ -34,7 +33,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    getQuoteData(id: String!,plant: String!,operation: String!): QuoteObtaining
+    getQuoteData(vehicleType: String!,plant: String!,operation: String!): QuoteObtaining
   }
 
   type Mutation {
