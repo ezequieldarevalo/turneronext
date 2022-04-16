@@ -1,7 +1,7 @@
 # Dockerfile
 
 # base image
-FROM node:14
+FROM node:16
 
 # create & set working directory
 RUN mkdir -p /usr/src
