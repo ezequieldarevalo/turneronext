@@ -11,17 +11,18 @@ import Products from 'components/Products'
 
 interface ViewWrapperProps {
   children: JSX.Element;
+  name?:string;
   hasProducts?: boolean;
 }
 
-function ViewWrapper({ children, hasProducts }: ViewWrapperProps): JSX.Element {
+function ViewWrapper({ children, name, hasProducts }: ViewWrapperProps): JSX.Element {
   const [{plant,operation}]=useQuoteObtaining();
 
 
   return (
     <MainContainer>
       <MainTitle>
-        <I18n id={`app.quoteObtaining.${plant || 'default'}.main.${operation}.title`} />
+        <I18n id={`app.quoteObtaining.${name || plant || 'default'}.main.chooseQuote.title`} />
       </MainTitle>
       <MainFlexContainer>
         <ScheduleContainer>{children}</ScheduleContainer>
