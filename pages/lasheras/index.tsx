@@ -9,7 +9,7 @@ function QuoteObtainingLhPage(): JSX.Element {
   return (
     <>
       <HeaderRevitotal />
-      <QuoteObtainingProvider plant={"lasheras"} operation={'chooseQuote'}>
+      <QuoteObtainingProvider id={''} plant={"lasheras"} operation={'chooseQuote'}>
         <Main />
       </QuoteObtainingProvider>
     </>
