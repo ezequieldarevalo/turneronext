@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import I18n from "components/common/i18n";
 import GreyStepBox from "components/common/GreyStepBox";
 import StepTitle from "components/common/StepTitle";
@@ -96,9 +96,30 @@ const getImageByPlatform = (platform: string) => {
 
 function GiveEmail(): JSX.Element {
   const [
-    { quotes, email, validEmailFormat },
-    { onChangeEmail, onSubmitEmail },
+    { quotes, quoteSelected, email },
+    {
+      onModifyDateAddressChange,
+      onSubmitEmail,
+    },
   ] = useQuoteObtaining();
+
+  useEffect(()=>{
+    onChangeEmail(email);
+  }, [email])
+
+  const [localEmail,setLocalEmail] = useState(email);
+  const [validEmailFormat, setValidEmailFormat] = useState(false);
+
+  const onChangeEmail = (email: string) => {
+    if (
+      /^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(
+        email
+      )
+    )
+      setValidEmailFormat(true);
+    else setValidEmailFormat(false);
+    setLocalEmail(email);
+  };
   return (
     <>
       <StepTitle plant={quotes.plant} stepNumber={1}>
@@ -121,7 +142,7 @@ function GiveEmail(): JSX.Element {
             <Btn
               plant={quotes.plant}
               disabled={!validEmailFormat}
-              onClick={() => onSubmitEmail()}
+              onClick={() => onSubmitEmail(localEmail)}
             >
               <I18n id="app.quoteObtaining.schedule.calendar.continue" />
             </Btn>
