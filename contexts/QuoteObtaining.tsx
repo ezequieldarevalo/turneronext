@@ -357,7 +357,7 @@ export default function QuoteObtainingProvider({
       variables,
     });
   // }, [plant, email, quoteSelected, data, paymentPlatform]);
-}, [plant, email, quoteSelected, paymentPlatform]);
+}, [plant, email, nombre, dominio, telefono, anio, fuelType, quoteSelected, paymentPlatform]);
 
   const error =
    errorQuery || errorMutation || errorChangeDate || errorCancelQuote;
