@@ -244,8 +244,6 @@ function GivePersonalInfo(): JSX.Element {
     setLocalFuelType(fuelType);
   };
 
-  console.log(validEmailFormat, validTelefonoFormat, validDominioFormat, validFuelTypeFormat)
-
   return (
     <>
 
