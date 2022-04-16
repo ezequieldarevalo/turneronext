@@ -74,7 +74,7 @@ function SelectPaymentMethod() {
       </GreyStepBox>
 
       <StepTitle plant={quotes.plant} checked stepNumber={3}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
+        <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
@@ -89,7 +89,7 @@ function SelectPaymentMethod() {
       </GreyStepBox>
 
       <StepTitle plant={quotes.plant} stepNumber={4}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
+        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
       </StepTitle>
 
       <GreyStepBox>
