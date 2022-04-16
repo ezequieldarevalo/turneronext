@@ -37,7 +37,7 @@ function confirmed() {
     {
       renderHeader(name)
     }
-      <ViewWrapper plant={name}>
+      <ViewWrapper name={name}>
         <Message type="SUCCESS">
         <MessageTitle type="SUCCESS">
         <I18n
