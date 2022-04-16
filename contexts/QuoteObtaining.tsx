@@ -47,6 +47,7 @@ export interface IQuoteObtainingError {
 }
 
 interface QuoteObtainingProviderProps {
+  id: string;
   children: ReactNode;
   plant: string;
   operation: string;
@@ -100,6 +101,7 @@ export type QuoteObtainingContextValue = [
     dominio: string;
     telefono: string;
     fuelType: string;
+    emailEntered: boolean;
     personalInfoEntered: boolean;
     loading: boolean;
     showError: boolean;
@@ -116,7 +118,9 @@ export type QuoteObtainingContextValue = [
     onChangePaymentPlatform: (paymentPlatform: string) => void;
     onSubmitPaymentPlatform: () => void;
     onModifyPaymentPlatform: () => void;
+    onModifyEmail: () => void;
     onModifyPersonalInfo: () => void;
+    onSubmitEmail: (email:string) => void;
     onSubmitPersonalInfo: (nombre: string, anio: string, email:string, dominio:string, telefono:string, fuelType:string) => void;
     onSubmit: () => Promise<FetchResult<IRescheduleResponse>>;
   }
@@ -140,6 +144,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     dominio: null,
     telefono: null,
     fuelType: null,
+    emailEntered: null,
     personalInfoEntered: null,
     loading: null,
     showError: null,
@@ -156,7 +161,9 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     onChangePaymentPlatform: () => null,
     onSubmitPaymentPlatform: () => null,
     onModifyPaymentPlatform: () => null,
+    onModifyEmail: () => null,
     onModifyPersonalInfo: () => null,
+    onSubmitEmail: () => null,
     onSubmitPersonalInfo: () => null,
     onSubmit: () => Promise.reject(),
   },
@@ -167,6 +174,7 @@ export const emptyQuoteObtainingError = {
 };
 
 export default function QuoteObtainingProvider({
+  id,
   plant,
   operation,
   children,
@@ -196,6 +204,8 @@ export default function QuoteObtainingProvider({
   const [telefono, setTelefono] = useState<string>("");
 
   const [fuelType, setFuelType] = useState<string>(fuelTypeList[0]);
+
+  const [emailEntered, setEmailEntered] = useState<boolean>(false);
 
   const [personalInfoEntered, setPersonalInfoEntered] = useState<boolean>(false);
 
@@ -279,6 +289,11 @@ export default function QuoteObtainingProvider({
     setShowError(false);
   };
 
+  const onModifyEmail = () => {
+    setEmailEntered(false);
+    setShowError(false);
+  };
+
   const onModifyPersonalInfo = () => {
     setPersonalInfoEntered(false);
     setShowError(false);
@@ -292,6 +307,11 @@ export default function QuoteObtainingProvider({
     setTelefono(telefono);
     setFuelType(fuelType);
     setPersonalInfoEntered(true);
+  };
+
+  const onSubmitEmail = (email: string) => {
+    setEmail(email);
+    setEmailEntered(true);
   };
 
   const onSubmit = useCallback((): Promise<
@@ -361,6 +381,7 @@ export default function QuoteObtainingProvider({
         dominio,
         telefono,
         fuelType,
+        emailEntered,
         personalInfoEntered,
         loading,
         showError,
@@ -377,7 +398,9 @@ export default function QuoteObtainingProvider({
         onChangePaymentPlatform,
         onSubmitPaymentPlatform,
         onModifyPaymentPlatform,
+        onModifyEmail,
         onModifyPersonalInfo,
+        onSubmitEmail,
         onSubmitPersonalInfo,
         onSubmit,
       },
@@ -398,6 +421,7 @@ export default function QuoteObtainingProvider({
       dominio,
       telefono,
       fuelType,
+      emailEntered,
       personalInfoEntered,
       loading,
       showError,
@@ -412,6 +436,8 @@ export default function QuoteObtainingProvider({
       onChangePaymentPlatform,
       onSubmitPaymentPlatform,
       onModifyPaymentPlatform,
+      onSubmitEmail,
+      onModifyEmail,
       onModifyPersonalInfo,
       onSubmitPersonalInfo,
       onSubmit,
