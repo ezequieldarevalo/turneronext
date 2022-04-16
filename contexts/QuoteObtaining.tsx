@@ -230,6 +230,7 @@ export default function QuoteObtainingProvider({
         if (plant === "sanmartin") setChooseQuoteDone(true);
         else window.location.href = data.Reschedule.url_pago;
       },
+      fetchPolicy: 'no-cache',
     });
 
   const [doChDate, { error: errorChangeDate, loading: loadingChangeDate }] =
