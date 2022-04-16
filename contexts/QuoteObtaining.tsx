@@ -219,7 +219,7 @@ export default function QuoteObtainingProvider({
 
 
   const [getQuotes, {loading: loadingQuery, error: errorQuery, data: quotesData}] =
-    useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onCompleted: () => setVehicleTypeSelected(true), fetchPolicy: 'no-cache'});
+    useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onError: () => setVehicleTypeSelected(false), fetchPolicy: 'no-cache'});
 
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
     useMutation<IRescheduleResponse>(doReschedule, {
@@ -256,6 +256,7 @@ export default function QuoteObtainingProvider({
   const onSelectVehicleType = useCallback((type: string):Promise<
   FetchResult<IQuoteObtainingResponse>> => {
     setVehicleType(type);
+    setVehicleTypeSelected(true);
     return getQuotes({variables: {vehicleType: type, plant, operation}});
   }, []);
 
@@ -266,6 +267,7 @@ export default function QuoteObtainingProvider({
 
   const onModifyVehicleType = () => {
     setVehicleTypeSelected(false);
+    setDateSelected(false);
     setShowError(false);
   };
 
