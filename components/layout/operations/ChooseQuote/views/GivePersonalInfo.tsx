@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import I18n from "components/common/i18n";
 import GreyStepBox from "components/common/GreyStepBox";
 import StepTitle from "components/common/StepTitle";
@@ -125,13 +125,13 @@ const getImageByPlatform = (platform: string) => {
 };
 
 const getGiveEmailStepNumber = (plant: string): number => {
-  if (plant === "sanmartin") return 3;
-  else return 4;
+  if (plant === "sanmartin") return 2;
+  else return 3;
 };
 
 function GivePersonalInfo(): JSX.Element {
   const [
-    { quotes, quoteSelected, paymentPlatform, email, dominio, telefono, fuelType, vehicleType },
+    { quotes, quoteSelected, paymentPlatform, nombre, anio, email, dominio, telefono, fuelType, vehicleType },
     {
       onModifyDateAddressChange,
       onModifyPaymentPlatform,
@@ -140,16 +140,65 @@ function GivePersonalInfo(): JSX.Element {
     },
   ] = useQuoteObtaining();
 
+  useEffect(()=>{
+    onChangeEmail(email);
+  }, [email])
+
+  useEffect(()=>{
+    onChangeDominio(dominio);
+  }, [dominio])
+
+  useEffect(()=>{
+    onChangeTelefono(telefono);
+  }, [telefono])
+
+  useEffect(()=>{
+    onChangeFuelType(fuelType);
+  }, [fuelType])
+
+  useEffect(()=>{
+    onChangeNombre(nombre);
+  }, [nombre])
+
+  useEffect(()=>{
+    onChangeAnio(anio);
+  }, [anio])
 
 
+  const [localNombre,setLocalNombre] = useState(nombre);
+  const [validNombreFormat, setValidNombreFormat] = useState(false);
+  const [localAnio,setLocalAnio] = useState(anio);
+  const [validAnioFormat, setValidAnioFormat] = useState(false);
   const [localEmail,setLocalEmail] = useState(email);
   const [validEmailFormat, setValidEmailFormat] = useState(false);
   const [localDominio, setLocalDominio] = useState(dominio);
   const [validDominioFormat, setValidDominioFormat] = useState(false);
   const [localTelefono, setLocalTelefono] = useState(telefono);
   const [validTelefonoFormat, setValidTelefonoFormat] = useState(false);
-  const [localFuelType, setLocalFuelType] = useState(fuelTypeList[0]);
+  const [localFuelType, setLocalFuelType] = useState(fuelType);
   const [validFuelTypeFormat, setValidFuelTypeFormat] = useState(false);
+
+  const onChangeNombre = (nombre: string) => {
+    if (
+      /^[a-zA-Z\s]{3,100}$/.test(
+        nombre
+      )
+    )
+      setValidNombreFormat(true);
+    else setValidNombreFormat(false);
+    setLocalNombre(nombre);
+  };
+
+  const onChangeAnio = (anio: string) => {
+    if (
+      /^[0-9]{4}$/.test(
+        anio
+      )
+    )
+      setValidAnioFormat(true);
+    else setValidAnioFormat(false);
+    setLocalAnio(anio);
+  };
 
   const onChangeEmail = (email: string) => {
     if (
@@ -164,7 +213,7 @@ function GivePersonalInfo(): JSX.Element {
 
   const onChangeDominio = (dominio: string) => {
     if (
-      /^[-\w.%+]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,125}[a-zA-Z]{2,63}$/.test(
+      /^[a-zA-Z0-9-]{1,10}$/.test(
         dominio
       )
     )
@@ -175,7 +224,7 @@ function GivePersonalInfo(): JSX.Element {
 
   const onChangeTelefono = (telefono: string) => {
     if (
-      /^.*$/.test(
+      /^[0-9]{8,16}$/.test(
         telefono
       )
     )
@@ -194,6 +243,8 @@ function GivePersonalInfo(): JSX.Element {
     else setValidFuelTypeFormat(false);
     setLocalFuelType(fuelType);
   };
+
+  console.log(validEmailFormat, validTelefonoFormat, validDominioFormat, validFuelTypeFormat)
 
   return (
     <>
@@ -221,7 +272,7 @@ function GivePersonalInfo(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      {quotes.plant !== "sanmartin" && (
+      {/* {quotes.plant !== "sanmartin" && (
         <>
           <StepTitle plant={quotes.plant} checked stepNumber={3}>
             <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
@@ -242,7 +293,7 @@ function GivePersonalInfo(): JSX.Element {
             </ImgContainer>
           </GreyStepBox>
         </>
-      )}
+      )} */}
 
       <StepTitle
         plant={quotes.plant}
@@ -259,11 +310,31 @@ function GivePersonalInfo(): JSX.Element {
           <div style={{width: "100%", height: "25px"}}></div>
           <InputSection>
             <InputLabel>
+              Nombre:
+            </InputLabel>
+            <TextInput
+              value={localNombre}
+              onChange={(e) => onChangeNombre(e.target.value)}
+              width={250}
+            ></TextInput>
+          </InputSection>
+          <InputSection>
+            <InputLabel>
               Dominio (sin guiones):
             </InputLabel>
             <TextInput
               value={localDominio}
               onChange={(e) => onChangeDominio(e.target.value)}
+              width={250}
+            ></TextInput>
+          </InputSection>
+          <InputSection>
+            <InputLabel>
+              Año (Vehiculo):
+            </InputLabel>
+            <TextInput
+              value={localAnio}
+              onChange={(e) => onChangeAnio(e.target.value)}
               width={250}
             ></TextInput>
           </InputSection>
@@ -294,6 +365,8 @@ function GivePersonalInfo(): JSX.Element {
               Combustible:
             </InputLabel>
          {fuelTypeList.map((fuelType)=> {
+           let checked=false;
+           if(fuelType)
            return (
             <RadioSection>
               <RadioSectionLabel htmlFor={fuelType}>{fuelType}</RadioSectionLabel>
@@ -305,8 +378,8 @@ function GivePersonalInfo(): JSX.Element {
           <BtnContainer>
             <Btn
               plant={quotes.plant}
-              disabled={!validEmailFormat || !validDominioFormat || !validTelefonoFormat || !validFuelTypeFormat}
-              onClick={() => onSubmitPersonalInfo(localEmail, localDominio, localTelefono, localFuelType)}
+              disabled={!validEmailFormat || !validDominioFormat || !validTelefonoFormat || !validFuelTypeFormat || !validAnioFormat || !validNombreFormat}
+              onClick={() => onSubmitPersonalInfo(localNombre, localAnio, localEmail, localDominio, localTelefono, localFuelType)}
             >
               <I18n id="app.quoteObtaining.schedule.calendar.continue" />
             </Btn>

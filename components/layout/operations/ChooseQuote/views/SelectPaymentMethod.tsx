@@ -44,7 +44,8 @@ const BtnContainer = styled.div`
 `;
 
 function SelectPaymentMethod() {
-  const [{ quotes,quoteSelected, paymentPlatform, vehicleType }, { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform, onModifyVehicleType }] =
+  const [{ quotes,quoteSelected, paymentPlatform, vehicleType, nombre, email, dominio, anio, telefono, fuelType },
+    { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform, onModifyVehicleType, onModifyPersonalInfo }] =
     useQuoteObtaining();
   return (
     <>
@@ -72,7 +73,22 @@ function SelectPaymentMethod() {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle plant={quotes.plant} stepNumber={3}>
+      <StepTitle plant={quotes.plant} checked stepNumber={3}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
+      </StepTitle>
+
+      <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
+        <DateSelected>
+          <b>Nombre:</b> {nombre}<br />
+          <b>Email:</b> {email}<br />
+          <b>Dominio:</b> {dominio}<br/>
+          <b>Año:</b> {anio}<br/>
+          <b>Telefono:</b> {telefono}<br/>
+          <b>Combustible:</b> {fuelType}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={quotes.plant} stepNumber={4}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 

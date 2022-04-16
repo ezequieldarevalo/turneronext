@@ -64,8 +64,8 @@
 
   "app.quoteObtaining.schedule.calendar.step1.title": "Tipo de vehiculo",
   "app.quoteObtaining.schedule.calendar.step2.title": "Fecha del turno",
-  "app.quoteObtaining.schedule.calendar.step3.title": "Método de pago",
-  "app.quoteObtaining.schedule.calendar.step4.title": "Datos personales",
+  "app.quoteObtaining.schedule.calendar.step4.title": "Método de pago",
+  "app.quoteObtaining.schedule.calendar.step3.title": "Datos personales",
   "app.quoteObtaining.schedule.calendar.subtitle": "Elegí la fecha que querés realizar la revisión",
 
   "app.quoteObtaining.schedule.calendar.subtitleDate":"Fecha de la revisión",

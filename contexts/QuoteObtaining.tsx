@@ -15,6 +15,7 @@ import doReschedule from "../lib/queries/doReschedule";
 import doDateChange from "../lib/queries/doChangeDate";
 import doCancelQuote from "../lib/queries/doCancelQuote";
 import LoaderG from "../components/common/LoaderG";
+import { fuelTypeList } from 'lib/constants'
 
 const LoadingContainer = styled.div`
   min-height: 290px;
@@ -94,6 +95,8 @@ export type QuoteObtainingContextValue = [
     dateSelected: boolean;
     paymentPlatform: string;
     paymentPlatformSelected: boolean;
+    nombre: string;
+    anio: string;
     email: string;
     dominio: string;
     telefono: string;
@@ -115,7 +118,7 @@ export type QuoteObtainingContextValue = [
     onSubmitPaymentPlatform: () => void;
     onModifyPaymentPlatform: () => void;
     onModifyPersonalInfo: () => void;
-    onSubmitPersonalInfo: (email:string, dominio:string, telefono:string, fuelType:string) => void;
+    onSubmitPersonalInfo: (nombre: string, anio: string, email:string, dominio:string, telefono:string, fuelType:string) => void;
     onSubmit: () => Promise<FetchResult<IRescheduleResponse>>;
   }
 ];
@@ -132,6 +135,8 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
     dateSelected: null,
     paymentPlatform: null,
     paymentPlatformSelected: null,
+    nombre: null,
+    anio: null,
     email: null,
     dominio: null,
     telefono: null,
@@ -181,13 +186,17 @@ export default function QuoteObtainingProvider({
   const [paymentPlatformSelected, setPaymentPlatformSelected] =
     useState<boolean>(false);
 
+  const [nombre, setNombre] = useState<string>("");
+
+  const [anio, setAnio] = useState<string>("");
+
   const [email, setEmail] = useState<string>("");
 
   const [dominio, setDominio] = useState<string>("");
 
   const [telefono, setTelefono] = useState<string>("");
 
-  const [fuelType, setFuelType] = useState<string>("");
+  const [fuelType, setFuelType] = useState<string>(fuelTypeList[0]);
 
   const [personalInfoEntered, setPersonalInfoEntered] = useState<boolean>(false);
 
@@ -209,7 +218,7 @@ export default function QuoteObtainingProvider({
   // });
 
   const [getQuotes, {loading: loadingQuery, error: errorQuery, data: quotesData}] =
-    useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onCompleted: () => setVehicleTypeSelected(true)});
+    useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onCompleted: () => setVehicleTypeSelected(true), fetchPolicy: 'no-cache'});
 
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
     useMutation<IRescheduleResponse>(doReschedule, {
@@ -284,7 +293,9 @@ export default function QuoteObtainingProvider({
     setShowError(false);
   };
 
-  const onSubmitPersonalInfo = (email: string, dominio:string, telefono: string, fuelType:string) => {
+  const onSubmitPersonalInfo = (nombre: string, anio: string, email: string, dominio:string, telefono: string, fuelType:string) => {
+    setNombre(nombre);
+    setAnio(anio);
     setEmail(email);
     setDominio(dominio);
     setTelefono(telefono);
@@ -310,9 +321,13 @@ export default function QuoteObtainingProvider({
       variables = {
         plant,
         email,
+        nombre,
+        dominio,
+        telefono,
+        anio,
+        combustible: fuelType,
         quoteId: quoteSelected.id,
-        // tipoVehiculo: data?.quotes.tipo_vehiculo,
-        // rtoId: data?.quotes.id,
+        tipoVehiculo: quotesData?.quotes.tipo_vehiculo,
         paymentMethod: paymentPlatform,
       };
       return doResc({
@@ -349,6 +364,8 @@ export default function QuoteObtainingProvider({
         dateSelected,
         paymentPlatform,
         paymentPlatformSelected,
+        nombre,
+        anio,
         email,
         dominio,
         telefono,
@@ -384,6 +401,8 @@ export default function QuoteObtainingProvider({
       dateSelected,
       paymentPlatform,
       paymentPlatformSelected,
+      nombre,
+      anio,
       email,
       dominio,
       telefono,

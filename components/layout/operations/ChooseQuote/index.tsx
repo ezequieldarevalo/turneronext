@@ -65,23 +65,23 @@ function ChooseQuote(): JSX.Element {
     );
 
   if (quotes.plant !== "sanmartin") {
-    if (dateSelected && !paymentPlatformSelected)
+    if (dateSelected && !personalInfoEntered)
       return (
         <ViewWrapper hasProducts={true}>
-          <SelectPaymentMethod />
+          <GivePersonalInfo />
         </ViewWrapper>
       );
 
-    if (dateSelected && paymentPlatformSelected && !personalInfoEntered)
+    if (dateSelected && personalInfoEntered && !paymentPlatformSelected)
       return (
         <ViewWrapper hasProducts={true}>
           <>
-            <GivePersonalInfo />
+            <SelectPaymentMethod />
           </>
         </ViewWrapper>
       );
 
-    if (dateSelected && paymentPlatformSelected && personalInfoEntered)
+    if (dateSelected && personalInfoEntered && paymentPlatformSelected)
       return (
         <ViewWrapper hasProducts={true}>
           <>

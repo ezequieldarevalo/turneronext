@@ -37,7 +37,18 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    doReschedule(plant: String!,email: String!, quoteId: Int!, tipoVehiculo: String!, rtoId: Int!, paymentMethod: String!): RescheduleResponse
+    doReschedule(
+      plant: String!,
+      email: String!,
+      dominio: String!,
+      nombre: String!,
+      telefono: String!,
+      anio: String!,
+      combustible: String!,
+      quoteId: Int!,
+      tipoVehiculo: String!,
+      paymentMethod: String!
+    ): RescheduleResponse
     doChangeDate(plant: String!,email: String!, quoteId: Int!, oldQuoteId: Int!): ChangeDateResponse
     doCancelQuote(plant: String!,email: String!, quoteId: Int!): CancelQuoteResponse
   }

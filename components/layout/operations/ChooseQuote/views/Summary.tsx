@@ -81,8 +81,10 @@ function Summary(): JSX.Element {
       vehicleType,
       quoteSelected,
       paymentPlatform,
+      nombre,
       email,
       dominio,
+      anio,
       telefono,
       fuelType,
       loading,
@@ -123,6 +125,21 @@ function Summary(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
+      <StepTitle plant={quotes.plant} checked stepNumber={4}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
+      </StepTitle>
+
+      <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
+        <DateSelected>
+        <b>Nombre:</b> {nombre}<br />
+          <b>Email:</b> {email}<br />
+          <b>Dominio:</b> {dominio}<br/>
+          <b>Año:</b> {anio}<br/>
+          <b>Telefono:</b> {telefono}<br/>
+          <b>Combustible:</b> {fuelType}
+        </DateSelected>
+      </GreyStepBox>
+
       {quotes.plant !== "sanmartin" && (
         <>
           <StepTitle plant={quotes.plant} checked stepNumber={3}>
@@ -146,18 +163,7 @@ function Summary(): JSX.Element {
         </>
       )}
 
-      <StepTitle plant={quotes.plant} checked stepNumber={4}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
-      </StepTitle>
-
-      <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
-        <DateSelected>
-          <b>Email:</b> {email}<br />
-          <b>Dominio:</b> {dominio}<br/>
-          <b>Telefono:</b> {telefono}<br/>
-          <b>Combustible:</b> {fuelType}
-        </DateSelected>
-      </GreyStepBox>
+      
       {error && showError && (
         <>
           <br />

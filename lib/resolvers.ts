@@ -29,9 +29,13 @@ const origen = "T";
 interface DoRescheduleArgs {
   plant: string;
   email: string;
+  dominio: string;
+  nombre: string;
+  telefono: string;
+  anio: string;
+  combustible: string;
   quoteId: number;
   tipoVehiculo: string;
-  rtoId: number;
   paymentMethod: string;
   operation: string;
 }
@@ -182,18 +186,26 @@ const Mutation = {
       bodyData = {
         origen,
         email: _args.email,
+        dominio: _args.dominio,
+        nombre: _args.nombre,
+        telefono: _args.telefono,
+        anio: _args.anio,
+        combustible: _args.combustible,
         id_turno: _args.quoteId,
         tipo_vehiculo: _args.tipoVehiculo,
-        nro_turno_rto: _args.rtoId,
         plataforma_pago: _args.paymentMethod,
       };
     else
       bodyData = {
         origen,
         email: _args.email,
+        dominio: _args.dominio,
+        nombre: _args.nombre,
+        telefono: _args.telefono,
+        anio: _args.anio,
+        combustible: _args.combustible,
         id_turno: _args.quoteId,
         tipo_vehiculo: _args.tipoVehiculo,
-        nro_turno_rto: _args.rtoId,
       };
 
     const requestOptions = {
@@ -201,6 +213,8 @@ const Mutation = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend, requestOptions);
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
