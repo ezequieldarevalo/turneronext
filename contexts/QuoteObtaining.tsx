@@ -6,8 +6,8 @@ import React, {
 } from "react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
-import { ApolloError, useLazyQuery } from "@apollo/client";
-import { useMutation, FetchResult } from "@apollo/react-hooks";
+import { ApolloError } from "@apollo/client";
+import { useLazyQuery, useMutation, FetchResult } from "@apollo/react-hooks";
 
 import getQuoteData from "../lib/queries/getQuoteData";
 import doReschedule from "../lib/queries/doReschedule";
@@ -252,7 +252,8 @@ export default function QuoteObtainingProvider({
       },
     });
 
-  const onSelectVehicleType = useCallback((type: string):void => {
+  const onSelectVehicleType = useCallback((type: string):Promise<
+  FetchResult<IQuoteObtainingResponse>> => {
     setVehicleType(type);
     return getQuotes({variables: {vehicleType: type, plant, operation}});
   }, []);
