@@ -13,6 +13,7 @@ const INTERNAL_ERROR_SERVER = "INTERNAL_ERROR_SERVER";
 const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 interface GetQuoteDataArgs {
+  vehicleType: string;
   id: string;
   plant: string;
   operation: string;
@@ -28,9 +29,13 @@ const origen = "T";
 interface DoRescheduleArgs {
   plant: string;
   email: string;
+  dominio: string;
+  nombre: string;
+  telefono: string;
+  anio: string;
+  combustible: string;
   quoteId: number;
   tipoVehiculo: string;
-  rtoId: number;
   paymentMethod: string;
   operation: string;
 }
@@ -93,7 +98,7 @@ const Query = {
     let bodyData = {};
     if (_args.operation === "chooseQuote")
       bodyData = {
-        nro_turno_rto: _args.id,
+        tipoVehiculo: _args.vehicleType,
       };
     else
       bodyData = {
@@ -105,6 +110,8 @@ const Query = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend, requestOptions);
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
@@ -135,7 +142,7 @@ const Query = {
       });
     } else {
       const data = await response.json();
-      const result = { ...data, id: _args.id, plant: _args.plant };
+      const result = { ...data, plant: _args.plant };
       return result;
     }
   },
@@ -179,18 +186,26 @@ const Mutation = {
       bodyData = {
         origen,
         email: _args.email,
+        dominio: _args.dominio,
+        nombre: _args.nombre,
+        telefono: _args.telefono,
+        anio: _args.anio,
+        combustible: _args.combustible,
         id_turno: _args.quoteId,
         tipo_vehiculo: _args.tipoVehiculo,
-        nro_turno_rto: _args.rtoId,
         plataforma_pago: _args.paymentMethod,
       };
     else
       bodyData = {
         origen,
         email: _args.email,
+        dominio: _args.dominio,
+        nombre: _args.nombre,
+        telefono: _args.telefono,
+        anio: _args.anio,
+        combustible: _args.combustible,
         id_turno: _args.quoteId,
         tipo_vehiculo: _args.tipoVehiculo,
-        nro_turno_rto: _args.rtoId,
       };
 
     const requestOptions = {
@@ -198,6 +213,8 @@ const Mutation = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+
+    console.log(urlBackend, requestOptions);
 
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
