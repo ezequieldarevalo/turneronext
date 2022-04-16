@@ -4,8 +4,9 @@ import ViewWrapper from "../../structure/ViewWrapper";
 import Message from "../../Message";
 import ErrorMessage from "../../../common/error/ErrorMessage";
 import SelectDate from "../commonViews/SelectDate";
+import SelectVehicleType from "../commonViews/SelectVehicleType";
 import SelectPaymentMethod from "./views/SelectPaymentMethod";
-import GiveEmail from "./views/GiveEmail";
+import GivePersonalInfo from "./views/GivePersonalInfo";
 import Summary from "./views/Summary";
 import {
   emptySchedulingError,
@@ -22,9 +23,10 @@ function ChooseQuote(): JSX.Element {
     {
       quotes,
       error,
+      vehicleTypeSelected,
       dateSelected,
       paymentPlatformSelected,
-      emailEntered,
+      personalInfoEntered,
       chooseQuoteDone,
     },
   ] = useQuoteObtaining();
@@ -48,7 +50,14 @@ function ChooseQuote(): JSX.Element {
     }
   }
 
-  if (!dateSelected)
+  if(!vehicleTypeSelected){
+    return (
+      <ViewWrapper hasProducts={false}>
+        <SelectVehicleType />
+      </ViewWrapper>);
+  }
+
+  if (quotes && vehicleTypeSelected && !dateSelected)
     return (
       <ViewWrapper hasProducts={true}>
         <SelectDate />
@@ -56,23 +65,23 @@ function ChooseQuote(): JSX.Element {
     );
 
   if (quotes.plant !== "sanmartin") {
-    if (dateSelected && !paymentPlatformSelected)
+    if (dateSelected && !personalInfoEntered)
       return (
         <ViewWrapper hasProducts={true}>
-          <SelectPaymentMethod />
+          <GivePersonalInfo />
         </ViewWrapper>
       );
 
-    if (dateSelected && paymentPlatformSelected && !emailEntered)
+    if (dateSelected && personalInfoEntered && !paymentPlatformSelected)
       return (
         <ViewWrapper hasProducts={true}>
           <>
-            <GiveEmail />
+            <SelectPaymentMethod />
           </>
         </ViewWrapper>
       );
 
-    if (dateSelected && paymentPlatformSelected && emailEntered)
+    if (dateSelected && personalInfoEntered && paymentPlatformSelected)
       return (
         <ViewWrapper hasProducts={true}>
           <>
@@ -83,16 +92,16 @@ function ChooseQuote(): JSX.Element {
   } else {
     // RTO SAN MARTIN
     // SIN PAYMENTPLATFLORM
-    if (dateSelected && !emailEntered && !chooseQuoteDone)
+    if (dateSelected && !personalInfoEntered && !chooseQuoteDone)
       return (
         <ViewWrapper hasProducts={true}>
           <>
-            <GiveEmail />
+            <GivePersonalInfo />
           </>
         </ViewWrapper>
       );
 
-    if (dateSelected && emailEntered && !chooseQuoteDone)
+    if (dateSelected && personalInfoEntered && !chooseQuoteDone)
       return (
         <ViewWrapper hasProducts={true}>
           <>

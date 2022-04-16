@@ -6,6 +6,7 @@ import styled from "styled-components";
 import StepTitle from "components/common/StepTitle";
 import Calendar from "components/common/Calendar";
 import { getStringDate, getStringTime } from "lib/commonFunctions";
+import GreyStepBox from "components/common/GreyStepBox";
 
 const MessageTitle = styled.p`
   color: #d68227;
@@ -18,6 +19,16 @@ const MessageContent = styled.div`
   padding-bottom: 20px;
   font-family: Nunito-Regular;
   font-size: 15px;
+`;
+const DateSelected = styled.div`
+  position: relative;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.69;
+  letter-spacing: -0.24px;
+  color: #000000;
 `;
 
 interface IMessagesList {
@@ -46,10 +57,10 @@ const changeDateMessages = [
 ];
 
 function SelectDate() {
-  const [{ quotes, operation }] = useQuoteObtaining();
+  const [{ quotes, plant, operation, vehicleType }, {onModifyVehicleType}] = useQuoteObtaining();
 
   const getWarningLinesByOperation = (operation: string): IMessagesList[] => {
-    if (operation === "chooseQuote") return getChooseQuoteMessages(quotes.plant);
+    if (operation === "chooseQuote") return getChooseQuoteMessages(plant);
     else return changeDateMessages;
   };
 
@@ -57,7 +68,7 @@ function SelectDate() {
 
   return (
     <>
-      <Message type={"WARNING"}>
+      {/* <Message type={"WARNING"}>
         <MessageTitle>
           <I18n id="app.quoteObtaining.warning.title" />
         </MessageTitle>
@@ -80,9 +91,18 @@ function SelectDate() {
             );
           })}
         </MessageContent>
-      </Message>
-      <StepTitle plant={quotes.plant} stepNumber={1}>
+      </Message> */}
+      <StepTitle plant={plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
+      </StepTitle>
+      <GreyStepBox withModify={true} modifyFunction={onModifyVehicleType}>
+        <DateSelected>
+          <b>Tipo de vehiculo:</b>{" "}
+          {vehicleType}
+        </DateSelected>
+      </GreyStepBox>
+      <StepTitle plant={plant} stepNumber={2}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
       <Calendar />
     </>

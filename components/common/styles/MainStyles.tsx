@@ -51,7 +51,7 @@ export const MainTitle = styled.div`
 
 export const ScheduleContainer = styled.div`
   position: relative;
-  width: 65%;
+  width: 100%;
   // background: red;
   font-family: Nunito-Regular;
   border-top: solid 1px #dadada;

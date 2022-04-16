@@ -44,12 +44,23 @@ const BtnContainer = styled.div`
 `;
 
 function SelectPaymentMethod() {
-  const [{ quotes,quoteSelected, paymentPlatform }, { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform }] =
+  const [{ quotes,quoteSelected, paymentPlatform, vehicleType, nombre, email, dominio, anio, telefono, fuelType },
+    { onModifyDateAddressChange, onChangePaymentPlatform, onSubmitPaymentPlatform, onModifyVehicleType, onModifyPersonalInfo }] =
     useQuoteObtaining();
   return (
     <>
-      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
+      <StepTitle plant={quotes.plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
+      </StepTitle>
+      <GreyStepBox withModify={true} modifyFunction={onModifyVehicleType}>
+        <DateSelected>
+          <b>Tipo de vehiculo:</b>{" "}
+          {vehicleType}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={quotes.plant} checked  stepNumber={2}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyDateAddressChange}>
@@ -62,8 +73,23 @@ function SelectPaymentMethod() {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle plant={quotes.plant} stepNumber={2}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
+      <StepTitle plant={quotes.plant} checked stepNumber={3}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
+      </StepTitle>
+
+      <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
+        <DateSelected>
+          <b>Nombre:</b> {nombre}<br />
+          <b>Email:</b> {email}<br />
+          <b>Dominio:</b> {dominio}<br/>
+          <b>Año:</b> {anio}<br/>
+          <b>Telefono:</b> {telefono}<br/>
+          <b>Combustible:</b> {fuelType}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={quotes.plant} stepNumber={4}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
       <GreyStepBox>
