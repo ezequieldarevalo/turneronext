@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useState,
-  useEffect,
   useMemo,
   createContext,
 } from "react";
@@ -208,14 +207,6 @@ export default function QuoteObtainingProvider({
 
   const [cancelQuoteDone, setCancelQuoteDone] = useState<boolean>(false);
 
-
-  // const {
-  //   loading: loadingQuery,
-  //   error: errorQuery,
-  //   data,
-  // } = useQuery(getQuoteData, {
-  //   variables: { id: id, plant: plant, operation: operation },
-  // });
 
   const [getQuotes, {loading: loadingQuery, error: errorQuery, data: quotesData}] =
     useLazyQuery<IQuoteObtainingResponse>(getQuoteData,{onCompleted: () => setVehicleTypeSelected(true), fetchPolicy: 'no-cache'});
