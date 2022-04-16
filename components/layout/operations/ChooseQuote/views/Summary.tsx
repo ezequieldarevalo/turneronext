@@ -125,8 +125,8 @@ function Summary(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle plant={quotes.plant} checked stepNumber={4}>
-        <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
+      <StepTitle plant={quotes.plant} checked stepNumber={3}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyPersonalInfo}>
@@ -142,8 +142,8 @@ function Summary(): JSX.Element {
 
       {quotes.plant !== "sanmartin" && (
         <>
-          <StepTitle plant={quotes.plant} checked stepNumber={3}>
-            <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
+          <StepTitle plant={quotes.plant} checked stepNumber={4}>
+            <I18n id="app.quoteObtaining.schedule.calendar.step4.title" />
           </StepTitle>
 
           <GreyStepBox
