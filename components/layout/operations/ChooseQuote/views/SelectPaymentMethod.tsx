@@ -118,7 +118,7 @@ function SelectPaymentMethod() {
             />
           </ImgContainer>
 
-          { quotes.plant!== 'rivadavia' && (<><br/>
+          <br/>
           <input onClick={()=>onChangePaymentPlatform("mercadoPago")}
             type="radio"
             id="MercadoPago"
@@ -135,7 +135,7 @@ function SelectPaymentMethod() {
               width="200"
               height="65"
             />
-          </ImgContainer></>)}
+          </ImgContainer>
           <BtnContainer>
           <Btn plant={quotes.plant} onClick={()=> onSubmitPaymentPlatform()}>
           <I18n id="app.quoteObtaining.schedule.calendar.continue" />
