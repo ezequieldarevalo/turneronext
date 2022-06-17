@@ -180,31 +180,18 @@ const Mutation = {
 
     let bodyData = {};
 
-    if (_args.plant !== "sanmartin")
-      bodyData = {
-        origen,
-        email: _args.email,
-        dominio: _args.dominio,
-        nombre: _args.nombre,
-        telefono: _args.telefono,
-        anio: _args.anio,
-        combustible: _args.combustible,
-        id_turno: _args.quoteId,
-        tipo_vehiculo: _args.tipoVehiculo,
-        plataforma_pago: _args.paymentMethod,
-      };
-    else
-      bodyData = {
-        origen,
-        email: _args.email,
-        dominio: _args.dominio,
-        nombre: _args.nombre,
-        telefono: _args.telefono,
-        anio: _args.anio,
-        combustible: _args.combustible,
-        id_turno: _args.quoteId,
-        tipo_vehiculo: _args.tipoVehiculo,
-      };
+    bodyData = {
+      origen,
+      email: _args.email,
+      dominio: _args.dominio,
+      nombre: _args.nombre,
+      telefono: _args.telefono,
+      anio: _args.anio,
+      combustible: _args.combustible,
+      id_turno: _args.quoteId,
+      tipo_vehiculo: _args.tipoVehiculo,
+      plataforma_pago: _args.paymentMethod || '',
+    };
 
     const requestOptions = {
       method: "POST",
