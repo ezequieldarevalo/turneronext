@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageContainer, MessageContent } from './styles';
 import ErrorImage from '../../common/icons/ErrorImage';
 import AlertImage from '../../common/icons/AlertImage';
+import AlertRevitotalImage from '../../common/icons/AlertRevitotalImage';
 import SuccessImage from '../../common/icons/SuccessImage';
 import WarningImage from '../../common/icons/WarningImage';
 
@@ -11,7 +12,7 @@ const SUCCESS_COLOR = '#238d48';
 const WARNING_COLOR = '#d68227';
 
 interface MessageWrapperProps {
-  type: 'INFO' | 'ERROR' | 'SUCCESS' | 'WARNING';
+  type: 'INFO' | 'ERROR' | 'SUCCESS' | 'WARNING' | 'TEMP_REVI';
   children: any;
 }
 
@@ -20,6 +21,7 @@ const ICONS = {
   ERROR: <ErrorImage />,
   SUCCESS: <SuccessImage />,
   WARNING: <WarningImage />,
+  TEMP_REVI: <AlertRevitotalImage />
 };
 
 const COLORS = {
@@ -27,6 +29,7 @@ const COLORS = {
   ERROR: ERROR_COLOR,
   SUCCESS: SUCCESS_COLOR,
   WARNING: WARNING_COLOR,
+  TEMP_REVI: ERROR_COLOR,
 };
 
 const loadIcon = (type: string) => {
