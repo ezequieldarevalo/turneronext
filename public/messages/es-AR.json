@@ -17,8 +17,8 @@
   "app.quoteObtaining.sanmartin.main.cancelQuote.title": "Cancelación de turno - RTO San Martin",
 
   "app.quoteObtaining.warning.title": "IMPORTANTE",
-  "app.quoteObtaining.warning.lasheras.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
-  "app.quoteObtaining.warning.maipu.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
+  "app.quoteObtaining.warning.lasheras.chooseQuote.message1": "Su turno estará confirmado una vez realizado el pago.",
+  "app.quoteObtaining.warning.maipu.chooseQuote.message1": "Su turno estará confirmado una vez realizado el pago.",
   "app.quoteObtaining.warning.rivadavia.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
   "app.quoteObtaining.warning.godoycruz.chooseQuote.message1": "Tenga en cuenta que su turno estará confirmado una vez realizado el pago.",
   "app.quoteObtaining.warning.sanmartin.chooseQuote.message1": "Luego de confirmar su turno se le enviará un correo electrónico donde encontrará un enlace a un sitio en el cual podrá reprogramarlo.",
@@ -30,6 +30,10 @@
   "app.quoteObtaining.warning.maipu.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma elegida para efectuarlo.",
   "app.quoteObtaining.warning.rivadavia.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma de pago para efectuarlo.",
   "app.quoteObtaining.warning.godoycruz.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma elegida para efectuarlo.",
+  "app.quoteObtaining.warning.lasheras.chooseQuote.message4": "Tenga en cuenta que habrá un aumento en la tarifa para el año 2023.",
+  "app.quoteObtaining.warning.lasheras.chooseQuote.message5": "En caso de concertar un turno para el año siguiente deberá abonar la diferencia al momento de realizar el servicio.",
+  "app.quoteObtaining.warning.maipu.chooseQuote.message4": "Tenga en cuenta que habrá un aumento en la tarifa para el año 2023.",
+  "app.quoteObtaining.warning.maipu.chooseQuote.message5": "En caso de concertar un turno para el año siguiente deberá abonar la diferencia al momento de realizar el servicio.",
 
 
   "app.quoteObtaining.warning.chooseQuotes.quoteDate": "Su turno tiene fecha el día",
