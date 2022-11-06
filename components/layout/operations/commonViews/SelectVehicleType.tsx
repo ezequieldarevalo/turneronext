@@ -20,11 +20,21 @@ interface TitleProps {
       margin-top: ${(props: TitleProps) => (props.noMargin ? '0' : '25px')};
     }
   `;
-
+  interface MessageTitleProps {
+    plant?: string;
+  }
 const MessageTitle = styled.p`
-  color: #d68227;
+  color: ${(props:MessageTitleProps ) => (props.plant ==='lasheras' || props.plant === 'maipu')? '#b80000': '#d68227'};
   font-family: Nunito-Bold;
   font-size: 18px;
+`;
+
+interface MessageLineProps {
+  remarked: boolean;
+}
+const MessageLine = styled.p`
+  ${(props:MessageLineProps ) => (props.remarked)? 'color: #b80000': ''};
+
 `;
 
 const MessageContent = styled.div`
@@ -69,26 +79,35 @@ const BtnContainer = styled.div`
 interface IMessagesList {
   id: number;
   content: string;
+  remarked: boolean;
 }
 
 const getChooseQuoteMessages = (plant:string):IMessagesList[] => {
   if (plant==='sanmartin')
-  return [{ id: 1, content: `app.quoteObtaining.warning.sanmartin.chooseQuote.message1` }];
+  return [{ id: 1, content: `app.quoteObtaining.warning.sanmartin.chooseQuote.message1`, remarked: false }];
+  if (plant==='lasheras' || plant==='maipu')
   return [
-    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1` },
-    { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2` },
-    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3` },
+    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
+    { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message5`, remarked: true },
+    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
+    { id: 4, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
+    { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
+  ]
+  return [
+    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
+    { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
+    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
   ];
 }
 
 const chooseQuoteMessages_sanmartin = [
-  { id: 1, content: "app.quoteObtaining.warning.chooseQuote.message1" },
-  { id: 2, content: "app.quoteObtaining.warning.chooseQuote.message2" },
-  { id: 3, content: "app.quoteObtaining.warning.chooseQuote.message3" },
+  { id: 1, content: "app.quoteObtaining.warning.chooseQuote.message1", remarked: false },
+  { id: 2, content: "app.quoteObtaining.warning.chooseQuote.message2", remarked: false },
+  { id: 3, content: "app.quoteObtaining.warning.chooseQuote.message3", remarked: false },
 ];
 
 const changeDateMessages = [
-  { id: 1, content: "app.quoteObtaining.warning.changeDate.message1" },
+  { id: 1, content: "app.quoteObtaining.warning.changeDate.message1", remarked: false },
 ];
 
 function SelectVehicleType() {
@@ -104,18 +123,25 @@ function SelectVehicleType() {
 
   const warningLines = getWarningLinesByOperation(operation);
 
+  console.log(plant);
+
+  const getMessageType = () => {
+    if(plant==='lasheras' || plant==='maipu') return 'TEMP_REVI';
+    else return 'WARNING';
+  }
+
   return (
     <>
-      <Message type={"WARNING"}>
-        <MessageTitle>
+      <Message type={getMessageType()}>
+        <MessageTitle plant={plant}>
           <I18n id="app.quoteObtaining.warning.title" />
         </MessageTitle>
         <MessageContent>
           {warningLines.map((line: IMessagesList) => {
             return (
-              <p key={line.id}>
+              <MessageLine remarked={line.remarked} key={line.id}>
                 <I18n id={line.content} />
-              </p>
+              </MessageLine>
             );
           })}
         </MessageContent>
