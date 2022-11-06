@@ -123,8 +123,6 @@ function SelectVehicleType() {
 
   const warningLines = getWarningLinesByOperation(operation);
 
-  console.log(plant);
-
   const getMessageType = () => {
     if(plant==='lasheras' || plant==='maipu') return 'TEMP_REVI';
     else return 'WARNING';
