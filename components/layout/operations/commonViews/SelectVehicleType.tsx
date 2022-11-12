@@ -34,7 +34,7 @@ interface MessageLineProps {
 }
 const MessageLine = styled.p`
   ${(props:MessageLineProps ) => (props.remarked)? 'color: #b80000': ''};
-
+  font-weight: ${(props: MessageLineProps) => (props.remarked)? 'bold': 'normal'};
 `;
 
 const MessageContent = styled.div`
@@ -89,6 +89,13 @@ const getChooseQuoteMessages = (plant:string):IMessagesList[] => {
   return [
     { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
     { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message5`, remarked: true },
+    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
+    { id: 4, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
+    { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
+  ]
+  if (plant==='godoycruz' || plant==='rivadavia')
+  return [
+    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
     { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
     { id: 4, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
     { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
