@@ -4,7 +4,6 @@ import Message from "components/layout/Message";
 import I18n from "components/common/i18n";
 import styled from "styled-components";
 import StepTitle from "components/common/StepTitle";
-import { getStringDate, getStringTime } from "lib/commonFunctions";
 import { vehicleTypeList } from "lib/constants";
 import {Btn} from "components/common/styles/UtilsStyles"
 
@@ -85,14 +84,6 @@ interface IMessagesList {
 const getChooseQuoteMessages = (plant:string):IMessagesList[] => {
   if (plant==='sanmartin')
   return [{ id: 1, content: `app.quoteObtaining.warning.sanmartin.chooseQuote.message1`, remarked: false }];
-  if (plant==='lasheras' || plant==='maipu')
-  return [
-    { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
-    { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message5`, remarked: true },
-    { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
-    { id: 4, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
-    { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
-  ]
   if (plant==='godoycruz' || plant==='rivadavia')
   return [
     { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
@@ -130,15 +121,10 @@ function SelectVehicleType() {
 
   const warningLines = getWarningLinesByOperation(operation);
 
-  const getMessageType = () => {
-    if(plant==='lasheras' || plant==='maipu') return 'TEMP_REVI';
-    else return 'WARNING';
-  }
-
   return (
     <>
-      <Message type={getMessageType()}>
-        <MessageTitle plant={plant}>
+      <Message type={'WARNING'}>
+        <MessageTitle>
           <I18n id="app.quoteObtaining.warning.title" />
         </MessageTitle>
         <MessageContent>
