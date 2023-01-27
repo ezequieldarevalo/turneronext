@@ -147,7 +147,7 @@ function Summary(): JSX.Element {
           </StepTitle>
 
           <GreyStepBox
-            withModify={true}
+            withModify={quotes.plant!=='godoycruz' && quotes.plant!=='rivadavia'}
             modifyFunction={onModifyPaymentPlatform}
           >
             <ImgContainer>

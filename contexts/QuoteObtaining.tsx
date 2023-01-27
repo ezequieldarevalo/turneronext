@@ -188,7 +188,7 @@ export default function QuoteObtainingProvider({
 
   const [dateSelected, setDateSelected] = useState<boolean>(false);
 
-  const [paymentPlatform, setPaymentPlatform] = useState<string>("yacare");
+  const [paymentPlatform, setPaymentPlatform] = useState<string>("mercadoPago");
 
   const [paymentPlatformSelected, setPaymentPlatformSelected] =
     useState<boolean>(false);
