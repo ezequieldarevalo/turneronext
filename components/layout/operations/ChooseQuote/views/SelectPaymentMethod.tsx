@@ -93,40 +93,44 @@ function SelectPaymentMethod() {
       </StepTitle>
 
       <GreyStepBox>
-        <>
-          <ChooseMessage>
-            <I18n id="app.quoteObtaining.schedule.calendar.paymentMethod.subtitle" />
-          </ChooseMessage>
-          <br/>
-          <br/>
-          <input onClick={()=>onChangePaymentPlatform("yacare")}
-            type="radio"
-            id="Yacare"
-            name="paymentPlatform"
-            value="Yacare"
-            defaultChecked={paymentPlatform==='yacare'}
-          />
-          <label htmlFor="Yacare">Yacare</label>
-          <br/>
-          <ImgContainer>
-            <Image
-              className="platform"
-              src="/img/yacare.png"
-              alt="pepe"
-              width="200"
-              height="65"
+        <>{quotes.plant!='godoycruz' && quotes.plant!='rivadavia' && (
+          <>
+            <br/>
+            <ChooseMessage>
+              <I18n id="app.quoteObtaining.schedule.calendar.paymentMethod.subtitle" />
+            </ChooseMessage>
+            <br/>
+            <input onClick={()=>onChangePaymentPlatform("yacare")}
+              type="radio"
+              id="Yacare"
+              name="paymentPlatform"
+              value="Yacare"
+              defaultChecked={paymentPlatform==='yacare'}
             />
-          </ImgContainer>
+            <label style={{marginLeft: "5px"}} htmlFor="Yacare">Yacare</label>
+            <br/>
+            <ImgContainer>
+              <Image
+                className="platform"
+                src="/img/yacare.png"
+                alt="pepe"
+                width="200"
+                height="65"
+              />
+            </ImgContainer>
 
-          <br/>
+            <br/>
+          </>
+          )}
           <input onClick={()=>onChangePaymentPlatform("mercadoPago")}
+            disabled={quotes.plant === 'godoycruz' || quotes.plant==='rivadavia'}
             type="radio"
             id="MercadoPago"
             name="paymentPlatform"
             value="MercadoPago"
             defaultChecked={paymentPlatform==='mercadoPago'}
           />
-          <label htmlFor="MercadoPago">Mercado Pago</label>
+          <label style={{marginLeft: "5px"}} htmlFor="MercadoPago">Mercado Pago</label>
           <ImgContainer>
             <Image
               className="platform"
