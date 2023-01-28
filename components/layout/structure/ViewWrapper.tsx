@@ -21,9 +21,15 @@ function ViewWrapper({ children, name, hasProducts }: ViewWrapperProps): JSX.Ele
 
   return (
     <MainContainer>
-      <MainTitle>
-        <I18n id={`app.quoteObtaining.${name || plant || 'default'}.main.chooseQuote.title`} />
-      </MainTitle>
+      {operation !== 'error' ? (
+        <MainTitle>
+          <I18n id={`app.quoteObtaining.${name || plant || 'default'}.main.chooseQuote.title`} />
+        </MainTitle>)
+        :
+        (<MainTitle>
+          <I18n id={'app.quoteObtaining.error.inexistentPlant'} />
+        </MainTitle>)
+      }
       <MainFlexContainer>
         <ScheduleContainer>{children}</ScheduleContainer>
       </MainFlexContainer>

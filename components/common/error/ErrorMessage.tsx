@@ -17,11 +17,28 @@ import { MessageTitle } from "../styles/UtilsStyles";
 // const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 function ErrorMessage(): JSX.Element {
-  const [{error}] = useQuoteObtaining();
+  const [{error, operation}] = useQuoteObtaining();
 
   const errorDetails: IQuoteObtainingError = getErrorDetails(
     error?.graphQLErrors[0]?.extensions.details || emptyQuoteObtainingError
   );
+  if(operation==='error'){
+    return (
+      <>
+        <MessageTitle type="ERROR">
+          <I18n
+            id={`app.quoteObtaining.error.inexistentPlant.title`}
+          />
+        </MessageTitle>
+        
+        <p>
+          <I18n
+            id={`app.quoteObtaining.error.inexistentPlant.message`}
+          />
+        </p>
+        <br />
+      </>);
+  }
   return (
     <>
       <MessageTitle type="ERROR">
