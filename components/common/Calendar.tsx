@@ -113,11 +113,8 @@ const ShiftSelection = styled.select`
 
 function Calendar(): JSX.Element {
 
-    const [{ quotes, quoteSelected }, { onSelectDate, resetShift }] =
-    useQuoteObtaining();
+  const [{ quotes, quoteSelected }, { onSelectDate, resetShift }] = useQuoteObtaining();
   
-  
-
   const getShiftsByDay = (day: string) => {
     return quotes.turnos.filter((record) => record.fecha + "T00:00:00" === day);
   };
@@ -163,47 +160,47 @@ function Calendar(): JSX.Element {
   };
 
   return (
-    <CalendarContainer>
-      <ChooseMessage>
-        <I18n id="app.quoteObtaining.schedule.calendar.subtitle" />
-      </ChooseMessage>
-      <FlexContainer>
-        <DatePicker changeDaySelected={handleSelectedDay} />
-        <AsideDatePicker>
-          <Subtitle>
-            <SubtitleItem>
-              <I18n id="app.quoteObtaining.schedule.calendar.subtitleDate" />
-            </SubtitleItem>
-          </Subtitle>
-          <DateSelected>
-            {selectedDay &&
-              capitalizeFirstChar(getStringDateWithYear(selectedDay))}
-          </DateSelected>
-          <br />
-          <Subtitle>
-            <SubtitleItem>
-              <I18n id="app.quoteObtaining.schedule.calendar.subtitleTime" />
-            </SubtitleItem>
-          </Subtitle>
-          <ShiftSelection
-            defaultValue={quoteSelected?.hora}
-            onChange={handleChangeShift}
-          >
-            {availableShifts.map((shift) => (
-              <option key={shift.id} value={shift.hora}>
-                {shift.hora.substr(0, 5)}
-              </option>
-            ))}
-          </ShiftSelection>
-        </AsideDatePicker>
-      </FlexContainer>
-      <DateConfirm>
-        <Btn plant={quotes.plant} onClick={onSubmit}>
-          <I18n id="app.quoteObtaining.schedule.calendar.continue" />
-        </Btn>
-      </DateConfirm>
-    </CalendarContainer>
-  );
+  <CalendarContainer>
+    <ChooseMessage>
+      <I18n id="app.quoteObtaining.schedule.calendar.subtitle" />
+    </ChooseMessage>
+    <FlexContainer>
+      <DatePicker changeDaySelected={handleSelectedDay} />
+      <AsideDatePicker>
+        <Subtitle>
+          <SubtitleItem>
+            <I18n id="app.quoteObtaining.schedule.calendar.subtitleDate" />
+          </SubtitleItem>
+        </Subtitle>
+        <DateSelected>
+          {selectedDay &&
+            capitalizeFirstChar(getStringDateWithYear(selectedDay))}
+        </DateSelected>
+        <br />
+        <Subtitle>
+          <SubtitleItem>
+            <I18n id="app.quoteObtaining.schedule.calendar.subtitleTime" />
+          </SubtitleItem>
+        </Subtitle>
+        <ShiftSelection
+          defaultValue={quoteSelected?.hora}
+          onChange={handleChangeShift}
+        >
+          {availableShifts.map((shift) => (
+            <option key={shift.id} value={shift.hora}>
+              {shift.hora.substr(0, 5)}
+            </option>
+          ))}
+        </ShiftSelection>
+      </AsideDatePicker>
+    </FlexContainer>
+    <DateConfirm>
+      <Btn plant={quotes.plant} onClick={onSubmit}>
+        <I18n id="app.quoteObtaining.schedule.calendar.continue" />
+      </Btn>
+    </DateConfirm>
+  </CalendarContainer>
+);
 }
 
 export default Calendar;

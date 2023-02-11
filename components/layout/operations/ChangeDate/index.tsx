@@ -17,7 +17,7 @@ import SuccessChangeDate from "./views/SuccessChangeDate";
 const EXISTS_QUOTE_DOMAIN='EXISTS_QUOTE_DOMAIN';
 const INVALID_EMAIL='INVALID_EMAIL';
 
-function ChooseQuote(): JSX.Element {
+function ChangeDate(): JSX.Element {
   const [{ error, dateSelected, emailEntered, changeDateDone }] =
     useQuoteObtaining();
 
@@ -76,4 +76,4 @@ function ChooseQuote(): JSX.Element {
   
 }
 
-export default ChooseQuote;
+export default ChangeDate;

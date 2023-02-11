@@ -18,7 +18,6 @@ const HEADERS = {
 
 const loadHeader = (plantId: string) => {
   const header = HEADERS[plantId]
-  console.log(header);
   return header;
 };
 
@@ -31,7 +30,7 @@ const Index = () => {
     return (
       <>
         {validPlant && loadHeader(plantName) }
-        <QuoteObtainingProvider id={''} plant={plantName} operation={validPlant ? 'chooseQuote' : 'error'}>
+        <QuoteObtainingProvider id={0} plant={plantName} operation={validPlant ? 'chooseQuote' : 'error'}>
             <Main />
         </QuoteObtainingProvider>
       </>

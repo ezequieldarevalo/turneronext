@@ -34,6 +34,7 @@ const typeDefs = gql`
 
   type Query {
     getQuoteData(vehicleType: String!,plant: String!,operation: String!): QuoteObtaining
+    getQuoteDataForResc(id: Int!,plant: String!,operation: String!): QuoteObtaining
   }
 
   type Mutation {
