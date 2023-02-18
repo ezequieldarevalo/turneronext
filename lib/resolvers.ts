@@ -356,7 +356,6 @@ const Mutation = {
       body: JSON.stringify(bodyData),
     };
     const response = await fetch(urlBackend, requestOptions);
-    console.log(response)
     if (!response.ok) {
       if (response.status === 404) {
         const errorData: IQuoteObtainingError = await response.json();
@@ -431,6 +430,7 @@ const Mutation = {
       body: JSON.stringify(bodyData),
     };
     const response = await fetch(urlBackend, requestOptions);
+    console.log(response)
     if (!response.ok) {
       if (response.status === 404) {
         const errorData: IQuoteObtainingError = await response.json();

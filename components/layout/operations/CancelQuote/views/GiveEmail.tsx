@@ -96,7 +96,7 @@ const getImageByPlatform = (platform: string) => {
 
 function GiveEmail(): JSX.Element {
   const [
-    { quotes, quoteSelected, email },
+    { quotes, quoteSelected, plant, email },
     {
       onModifyDateAddressChange,
       onSubmitEmail,
@@ -122,7 +122,7 @@ function GiveEmail(): JSX.Element {
   };
   return (
     <>
-      <StepTitle plant={quotes.plant} stepNumber={1}>
+      <StepTitle plant={plant} stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -133,14 +133,14 @@ function GiveEmail(): JSX.Element {
           </ChooseMessage>
 
           <TextInput
-            value={email}
+            value={localEmail}
             onChange={(e) => onChangeEmail(e.target.value)}
             width={250}
           ></TextInput>
 
           <BtnContainer>
             <Btn
-              plant={quotes.plant}
+              plant={plant}
               disabled={!validEmailFormat}
               onClick={() => onSubmitEmail(localEmail)}
             >

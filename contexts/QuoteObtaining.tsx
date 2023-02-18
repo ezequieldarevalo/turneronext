@@ -343,7 +343,7 @@ export default function QuoteObtainingProvider({
       variables = {
         plant,
         email,
-        // quoteId: data.quotes.id,
+        quoteId: id,
       };
       return doCanQuote({
         variables,

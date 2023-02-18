@@ -103,10 +103,6 @@ function GiveEmail(): JSX.Element {
     },
   ] = useQuoteObtaining();
 
-  // useEffect(()=>{
-  //   onChangeEmail(email);
-  // }, [email])
-
   const [localEmail,setLocalEmail] = useState(email);
   const [validEmailFormat, setValidEmailFormat] = useState(false);
 
