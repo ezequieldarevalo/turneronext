@@ -75,7 +75,7 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quotes, quoteSelected, email, loading, showError},
+    { error, quotes, quoteSelected, email, loading, showError, plant, vehicleType},
     {
       onModifyDateAddressChange,
       onModifyEmail,
@@ -85,8 +85,18 @@ function Summary(): JSX.Element {
 
   return (
     <LoaderG loading={loading} noBackground >
-      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
+      <StepTitle plant={plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
+      </StepTitle>
+      <GreyStepBox>
+        <DateSelected>
+          <b>Tipo de vehiculo:</b>{" "}
+          {vehicleType}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={quotes.plant} checked stepNumber={1}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyDateAddressChange}>

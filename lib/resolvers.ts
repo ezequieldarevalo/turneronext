@@ -2,6 +2,7 @@ import getConfig from "next/config";
 import type {
   IQuoteObtainingError,
   IQuoteObtaining,
+  ICancelQuoteObtaining,
   IRescheduleResponseReschedule,
   IDateChangeResponseReschedule,
   ICancelQuoteResponseReschedule
@@ -14,13 +15,14 @@ const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 interface GetQuoteDataArgs {
   vehicleType: string;
-  id: string;
+  id: number;
   plant: string;
   operation: string;
 }
 
 const getQuotes = "api/auth/getQuotes";
 const CdGetQuotes = "api/auth/getQuotesForResc";
+const CancelGetQuotes = "api/auth/getQuoteForCancel";
 const confQuote = "api/auth/confQuote";
 const changeDate = "api/auth/changeDate";
 const cancelQuote = "api/auth/cancelQuote";
@@ -110,7 +112,156 @@ const Query = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bodyData),
     };
+    const response = await fetch(urlBackend, requestOptions);
+    if (!response.ok) {
+      if (response.status === 404) {
+        const errorData: IQuoteObtainingError = await response.json();
+        throw new ApolloError("", errorData.reason, {
+          details: errorData,
+        });
+      }
+      if (response.status === 400) {
+        throw new ApolloError("", BAD_REQUEST, {
+          details: {
+            reason: BAD_REQUEST,
+          },
+        });
+      }
+      if (response.status === 500) {
+        throw new ApolloError("", INTERNAL_ERROR_SERVER, {
+          details: {
+            reason: INTERNAL_ERROR_SERVER,
+          },
+        });
+      }
+      throw new ApolloError("", UNKNOWN_ERROR, {
+        details: {
+          reason: UNKNOWN_ERROR,
+        },
+      });
+    } else {
+      const data = await response.json();
+      const result = { ...data, plant: _args.plant };
+      return result;
+    }
+  },
+  async getQuoteDataForResc(
+    __parent: unknown,
+    _args: GetQuoteDataArgs
+  ): Promise<IQuoteObtaining> {
+    let urlBackend = "";
+    let urlSuffix = "";
+    if (_args.operation === "chooseQuote") urlSuffix = getQuotes;
+    else urlSuffix = CdGetQuotes;
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + urlSuffix;
+        break;
+      case "maipu":
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + urlSuffix;
+        break;
+      case "rivadavia":
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + urlSuffix;
+        break;
+      case "sanmartin":
+        urlBackend =
+          getConfig().serverRuntimeConfig.sanmartinBackendUrl + urlSuffix;
+        break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + urlSuffix;
+        break;
+      default:
+        urlBackend = "error";
+        break;
+    }
 
+    const bodyData = {
+        id_turno: _args.id,
+      };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyData),
+    };
+    const response = await fetch(urlBackend, requestOptions);
+    if (!response.ok) {
+      if (response.status === 404) {
+        const errorData: IQuoteObtainingError = await response.json();
+        throw new ApolloError("", errorData.reason, {
+          details: errorData,
+        });
+      }
+      if (response.status === 400) {
+        throw new ApolloError("", BAD_REQUEST, {
+          details: {
+            reason: BAD_REQUEST,
+          },
+        });
+      }
+      if (response.status === 500) {
+        throw new ApolloError("", INTERNAL_ERROR_SERVER, {
+          details: {
+            reason: INTERNAL_ERROR_SERVER,
+          },
+        });
+      }
+      throw new ApolloError("", UNKNOWN_ERROR, {
+        details: {
+          reason: UNKNOWN_ERROR,
+        },
+      });
+    } else {
+      const data = await response.json();
+      const result = { ...data, plant: _args.plant };
+      return result;
+    }
+  },
+  async getQuoteDataForCancel(
+    __parent: unknown,
+    _args: GetQuoteDataArgs
+  ): Promise<ICancelQuoteObtaining> {
+    let urlBackend = "";
+    const urlSuffix = CancelGetQuotes;
+    switch (_args.plant) {
+      case "lasheras":
+        urlBackend =
+          getConfig().serverRuntimeConfig.lasherasBackendUrl + urlSuffix;
+        break;
+      case "maipu":
+        urlBackend =
+          getConfig().serverRuntimeConfig.maipuBackendUrl + urlSuffix;
+        break;
+      case "rivadavia":
+        urlBackend =
+          getConfig().serverRuntimeConfig.rivadaviaBackendUrl + urlSuffix;
+        break;
+      case "sanmartin":
+        urlBackend =
+          getConfig().serverRuntimeConfig.sanmartinBackendUrl + urlSuffix;
+        break;
+      case "godoycruz":
+        urlBackend =
+          getConfig().serverRuntimeConfig.godoycruzBackendUrl + urlSuffix;
+        break;
+      default:
+        urlBackend = "error";
+        break;
+    }
+
+    const bodyData = {
+        id_turno: _args.id,
+      };
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyData),
+    };
     const response = await fetch(urlBackend, requestOptions);
     if (!response.ok) {
       if (response.status === 404) {

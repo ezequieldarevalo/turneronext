@@ -20,6 +20,11 @@ const typeDefs = gql`
     hora: String
   }
 
+  type CancelQuoteObtaining {
+    plant: String!
+    quote: tTurno
+  }
+
   type RescheduleResponse {
     url_pago: String!
   }
@@ -34,6 +39,8 @@ const typeDefs = gql`
 
   type Query {
     getQuoteData(vehicleType: String!,plant: String!,operation: String!): QuoteObtaining
+    getQuoteDataForResc(id: Int!,plant: String!,operation: String!): QuoteObtaining
+    getQuoteDataForCancel(id: Int!,plant: String!,operation: String!): CancelQuoteObtaining
   }
 
   type Mutation {
