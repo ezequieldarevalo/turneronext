@@ -12,6 +12,7 @@ import { useLazyQuery, useMutation, FetchResult } from "@apollo/react-hooks";
 
 import getQuoteData from "../lib/queries/getQuoteData";
 import getQuoteDataForResc from "../lib/queries/getQuoteDataForResc";
+import getQuoteDataForCancel from "../lib/queries/getQuoteDataForCancel";
 import doReschedule from "../lib/queries/doReschedule";
 import doChangeDate from "../lib/queries/doChangeDate";
 import doCancelQuote from "../lib/queries/doCancelQuote";
@@ -38,8 +39,22 @@ export interface IQuoteObtaining {
   hora?: string;
 }
 
+export interface ICancelQuoteObtaining {
+  plant: string;
+  quote: IQuote;
+}
+
+export interface ICancelQuoteObtaining {
+  quote: IQuote
+}
+
 export interface IQuoteObtainingResponse {
   quotes: IQuoteObtaining
+}
+
+
+export interface ICancelQuoteObtainingResponse {
+  quotes: ICancelQuoteObtaining
 }
 
 export interface IQuoteObtainingError {
@@ -89,6 +104,7 @@ export type QuoteObtainingContextValue = [
   {
     error: ApolloError;
     quotes: IQuoteObtaining;
+    cancellingQuote: ICancelQuoteObtaining;
     plant: string;
     operation: string;
     vehicleType: string;
@@ -132,6 +148,7 @@ export const QuoteObtainingContext = createContext<QuoteObtainingContextValue>([
   {
     error: null,
     quotes: null,
+    cancellingQuote: null,
     plant: null,
     operation: null,
     vehicleType: null,
@@ -231,6 +248,11 @@ export default function QuoteObtainingProvider({
       },
       fetchPolicy: 'no-cache'});
 
+  const [getQuoteForCancel, {loading: loadingQuery3, error: errorQuery3, data: quotesData3}] =
+  useLazyQuery<ICancelQuoteObtainingResponse>(getQuoteDataForCancel,{
+    onError: () => {},
+    fetchPolicy: 'no-cache'});
+
   const [doResc, { error: errorMutation, loading: loadingSchedule }] =
     useMutation<IRescheduleResponse>(doReschedule, {
       onError: () => {
@@ -329,8 +351,11 @@ export default function QuoteObtainingProvider({
   };
 
   useEffect(() => {
-    if(id){
+    if(id && operation==='changeDate'){
       getQuotesForResc({variables: {id, plant, operation}});
+    }
+    if(id && operation==='cancelQuote'){
+      getQuoteForCancel({variables: {id, plant, operation}});
     }
   },[id])
 
@@ -372,7 +397,6 @@ export default function QuoteObtainingProvider({
       quoteId: quoteSelected.id,
       oldQuoteId: id,
     };
-    console.log(variables)
     return doChDate({
       variables,
     });
@@ -380,15 +404,16 @@ export default function QuoteObtainingProvider({
 }, [plant, email, nombre, dominio, telefono, anio, fuelType, quoteSelected, quotesData, paymentPlatform]);
 
   const error =
-   errorQuery || errorQuery2 || errorMutation || errorChangeDate || errorCancelQuote;
+   errorQuery || errorQuery2 || errorQuery3 || errorMutation || errorChangeDate || errorCancelQuote;
 
-  const loading = loadingQuery || loadingQuery2 || loadingSchedule || loadingChangeDate || loadingCancelQuote;
+  const loading = loadingQuery || loadingQuery2 || loadingQuery3 || loadingSchedule || loadingChangeDate || loadingCancelQuote;
 
   const value: QuoteObtainingContextValue = useMemo(
     () => [
       {
         error,
         quotes: quotesData?.quotes || quotesData2?.quotes,
+        cancellingQuote: quotesData3?.quotes || null,
         plant,
         operation,
         vehicleType,
@@ -430,6 +455,8 @@ export default function QuoteObtainingProvider({
     [
       error,
       quotesData?.quotes,
+      quotesData2?.quotes,
+      quotesData3?.quotes,
       plant,
       quoteSelected,
       vehicleType,

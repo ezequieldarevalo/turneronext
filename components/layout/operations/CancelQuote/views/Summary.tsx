@@ -75,13 +75,26 @@ const getImageByPlatform = (platform: string) => {
 
 function Summary(): JSX.Element {
   const [
-    { error, quotes, quoteSelected, email, loading, showError },
+    { error, cancellingQuote, email, plant, loading, showError },
     { onModifyDateAddressChange, onModifyEmail, onSubmit },
   ] = useQuoteObtaining();
 
   return (
     <LoaderG loading={loading} noBackground>
-      <StepTitle plant={quotes.plant} checked stepNumber={1}>
+
+      <StepTitle plant={plant} noMargin checked stepNumber={1}>
+        <I18n id="app.quoteCancelling.checked.title" />
+      </StepTitle>
+      <GreyStepBox withModify={false}>
+        <DateSelected>
+          <b>Fecha:</b>{" "}
+          {capitalizeFirstChar(getStringDate(cancellingQuote.quote.fecha))}
+          {"."}
+          <br />
+          <b>Hora:</b> {cancellingQuote.quote.hora.substr(0, 5)}
+        </DateSelected>
+      </GreyStepBox>
+      <StepTitle plant={plant} checked stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -99,7 +112,7 @@ function Summary(): JSX.Element {
         </>
       )}
       <BtnContainer>
-        <Btn plant={quotes.plant} onClick={() => onSubmit()}>
+        <Btn plant={plant} onClick={() => onSubmit()}>
           <I18n
             id={`app.quoteObtaining.schedule.calendar.cancelQuote.buttonText`}
           />
