@@ -6,6 +6,12 @@ import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
 import styled from "styled-components";
 import Image from "next/image";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
+import { ICancelQuoteObtaining } from "contexts/QuoteObtaining";
+import LoaderG from "components/common/LoaderG";
+
+const LoadingContainer = styled.div`
+  min-height: 290px;
+`;
 
 const DateSelected = styled.div`
   position: relative;
@@ -96,7 +102,7 @@ const getImageByPlatform = (platform: string) => {
 
 function GiveEmail(): JSX.Element {
   const [
-    { quotes, quoteSelected, email },
+    { cancellingQuote, plant, email, loading },
     {
       onModifyDateAddressChange,
       onSubmitEmail,
@@ -120,9 +126,30 @@ function GiveEmail(): JSX.Element {
     else setValidEmailFormat(false);
     setLocalEmail(email);
   };
+  if (loading) {
+    return (
+      <LoaderG loading noBackground>
+        <LoadingContainer />
+      </LoaderG>
+    );
+  }
+  if(cancellingQuote)
   return (
     <>
-      <StepTitle plant={quotes.plant} stepNumber={1}>
+      <StepTitle plant={plant} noMargin checked stepNumber={1}>
+        <I18n id="app.quoteCancelling.checked.title" />
+      </StepTitle>
+      <GreyStepBox withModify={false}>
+        <DateSelected>
+          <b>Fecha:</b>{" "}
+          {capitalizeFirstChar(getStringDate(cancellingQuote.quote.fecha))}
+          {"."}
+          <br />
+          <b>Hora:</b> {cancellingQuote.quote.hora.substr(0, 5)}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={plant} stepNumber={1}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
@@ -133,14 +160,14 @@ function GiveEmail(): JSX.Element {
           </ChooseMessage>
 
           <TextInput
-            value={email}
+            value={localEmail}
             onChange={(e) => onChangeEmail(e.target.value)}
             width={250}
           ></TextInput>
 
           <BtnContainer>
             <Btn
-              plant={quotes.plant}
+              plant={plant}
               disabled={!validEmailFormat}
               onClick={() => onSubmitEmail(localEmail)}
             >
@@ -151,6 +178,7 @@ function GiveEmail(): JSX.Element {
       </GreyStepBox>
     </>
   );
+  else return null;
 }
 
 export default GiveEmail;

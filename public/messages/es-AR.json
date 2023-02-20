@@ -68,6 +68,16 @@
   "app.quoteObtaining.error.DOMAIN_WITH_PENDING_QUOTE.title": "Dominio con turno pendiente",
   "app.quoteObtaining.error.DOMAIN_WITH_PENDING_QUOTE.message": "Usted tiene un turno pendiente para el dominio ingresado. Dispone del link de pago en su correo electronico.",
 
+  "app.quoteObtaining.error.NOT CONFIRMED QUOTE.title": "Turno no confirmado",
+  "app.quoteObtaining.error.NOT CONFIRMED QUOTE.message": "El turno no puede modificarse porque no ha sido confirmado.",
+
+  "app.quoteObtaining.error.INVALID_STATUS.title":"Estado inválido",
+  "app.quoteObtaining.error.INVALID_STATUS.message": "El estado del turno no permite realizar la operación solicitada.",
+
+  "app.quoteObtaining.error.inexistentPlant": "Planta inexistente",
+  "app.quoteObtaining.error.inexistentPlant.title": "No existe una planta con el nombre ingresado",
+  "app.quoteObtaining.error.inexistentPlant.message": "Verifique el nombre de la planta deseada y vuelva a intentarlo nuevamente.",
+
   "app.quoteObtaining.schedule.calendar.step1.title": "Tipo de vehiculo",
   "app.quoteObtaining.schedule.calendar.step2.title": "Fecha del turno",
   "app.quoteObtaining.schedule.calendar.step4.title": "Método de pago",
@@ -110,8 +120,11 @@
   "order.delivery.reschedule.dateChange.schedule.message.greeting":"Le hemos enviado un correo electrónico con los detalles de la nueva fecha del servicio.",
   "order.delivery.reschedule.chooseQuote.schedule.message.greeting":"Le hemos enviado un correo electrónico con los detalles de la fecha del servicio.",
   "order.delivery.reschedule.dateChange.schedule.message.thanks": "Muchas gracias.",
-  "order.delivery.reschedule.cancelQuote.schedule.message.onlyone": "Su turno se canceló exitosamente."
+  "order.delivery.reschedule.cancelQuote.schedule.message.onlyone": "Su turno se canceló exitosamente.",
 
-  
+  "app.quoteCancelling.checked.title": "Datos del turno",
+  "app.quoteObtaining.error.NO CANCELABLE.title": "Turno no cancelable",
+  "app.quoteObtaining.error.NO CANCELABLE.message": "El estado de su turno no permite la cancelación del mismo."
+
   
 }

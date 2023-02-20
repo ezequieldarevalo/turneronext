@@ -7,6 +7,11 @@ import StepTitle from "components/common/StepTitle";
 import Calendar from "components/common/Calendar";
 import { getStringDate, getStringTime } from "lib/commonFunctions";
 import GreyStepBox from "components/common/GreyStepBox";
+import LoaderG from "components/common/LoaderG";
+
+const LoadingContainer = styled.div`
+  min-height: 290px;
+`;
 
 const MessageTitle = styled.p`
   color: #d68227;
@@ -68,7 +73,7 @@ function SelectDate() {
 
   return (
     <>
-      {/* <Message type={"WARNING"}>
+      {/* <MessagetShiftsByDayge type={"WARNING"}>
         <MessageTitle>
           <I18n id="app.quoteObtaining.warning.title" />
         </MessageTitle>
@@ -95,7 +100,7 @@ function SelectDate() {
       <StepTitle plant={plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
-      <GreyStepBox withModify={true} modifyFunction={onModifyVehicleType}>
+      <GreyStepBox withModify={operation==='chooseQuote'} modifyFunction={onModifyVehicleType}>
         <DateSelected>
           <b>Tipo de vehiculo:</b>{" "}
           {vehicleType}
@@ -104,7 +109,7 @@ function SelectDate() {
       <StepTitle plant={plant} stepNumber={2}>
         <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
-      <Calendar />
+      {quotes ? <Calendar /> : null }
     </>
   );
 }

@@ -96,16 +96,12 @@ const getImageByPlatform = (platform: string) => {
 
 function GiveEmail(): JSX.Element {
   const [
-    { quotes, quoteSelected, email },
+    { quotes, quoteSelected, email, plant, vehicleType },
     {
       onModifyDateAddressChange,
       onSubmitEmail,
     },
   ] = useQuoteObtaining();
-
-  useEffect(()=>{
-    onChangeEmail(email);
-  }, [email])
 
   const [localEmail,setLocalEmail] = useState(email);
   const [validEmailFormat, setValidEmailFormat] = useState(false);
@@ -123,8 +119,18 @@ function GiveEmail(): JSX.Element {
 
   return (
     <>
-      <StepTitle plant={quotes.plant} checked noMargin stepNumber={1}>
+      <StepTitle plant={plant} stepNumber={1} checked noMargin>
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
+      </StepTitle>
+      <GreyStepBox>
+        <DateSelected>
+          <b>Tipo de vehiculo:</b>{" "}
+          {vehicleType}
+        </DateSelected>
+      </GreyStepBox>
+
+      <StepTitle plant={quotes.plant} checked stepNumber={1}>
+        <I18n id="app.quoteObtaining.schedule.calendar.step2.title" />
       </StepTitle>
 
       <GreyStepBox withModify={true} modifyFunction={onModifyDateAddressChange}>
@@ -137,7 +143,7 @@ function GiveEmail(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      <StepTitle plant={quotes.plant} stepNumber={2}>
+      <StepTitle plant={quotes.plant} stepNumber={3}>
         <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
       </StepTitle>
 
