@@ -5,8 +5,7 @@ import StepTitle from "components/common/StepTitle";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
 import styled from "styled-components";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
-import Image from "next/image";
-import { fuelTypeList } from 'lib/constants'
+import { AUTO, fuelTypeList, MOTO_CHICA, MOTO_GRANDE } from 'lib/constants'
 
 const RadioSection = styled.div`
   display: inline-block;
@@ -21,7 +20,6 @@ const RadioSectionLabel = styled.label`
 `;
 
 const InputSection = styled.div`
-  display: inline-block;
   margin-bottom: 10px;
   margin-left: 10px;
   :fist-of-type{
@@ -48,11 +46,6 @@ const DateSelected = styled.div`
   line-height: 1.69;
   letter-spacing: -0.24px;
   color: #000000;
-`;
-
-const ImgContainer = styled.div`
-  margin: 0 auto;
-  border-radius: 8px;
 `;
 
 const BtnContainer = styled.div`
@@ -100,6 +93,11 @@ const ChooseMessage = styled.div`
   color: #000000;
 `;
 
+const ErrorMsg = styled.div`
+  color: red;
+  margin-top: 10px;
+`;
+
 interface TextInputProps {
   fullWidth?: boolean;
   width?: number;
@@ -117,12 +115,10 @@ const TextInput = styled.input`
   border: solid 1px #cccccc;
   background-color: #ffffff;
   padding-left: 8px;
+  @media (max-width: 996px) {
+    max-width: 250px;
+  }
 `;
-
-const getImageByPlatform = (platform: string) => {
-  if (platform === "yacare") return "/img/yacare.png";
-  else return "/img/meli.png";
-};
 
 const getGiveEmailStepNumber = (plant: string): number => {
   if (plant === "sanmartin") return 2;
@@ -131,10 +127,9 @@ const getGiveEmailStepNumber = (plant: string): number => {
 
 function GivePersonalInfo(): JSX.Element {
   const [
-    { quotes, quoteSelected, paymentPlatform, nombre, anio, email, dominio, telefono, fuelType, vehicleType },
+    { quotes, quoteSelected, nombre, anio, email, dominio, telefono, fuelType, vehicleType },
     {
       onModifyDateAddressChange,
-      onModifyPaymentPlatform,
       onSubmitPersonalInfo,
       onModifyVehicleType
     },
@@ -153,7 +148,7 @@ function GivePersonalInfo(): JSX.Element {
   }, [telefono])
 
   useEffect(()=>{
-    onChangeFuelType(fuelType);
+    if(localFuelType === "") onChangeFuelType(fuelType);
   }, [fuelType])
 
   useEffect(()=>{
@@ -164,19 +159,25 @@ function GivePersonalInfo(): JSX.Element {
     onChangeAnio(anio);
   }, [anio])
 
-
+  const [showErrors, setShowErrors] = useState(false);
   const [localNombre,setLocalNombre] = useState(nombre);
   const [validNombreFormat, setValidNombreFormat] = useState(false);
+  const [nombreErrorMsg, setNombreErrorMsg] = useState('');
   const [localAnio,setLocalAnio] = useState(anio);
   const [validAnioFormat, setValidAnioFormat] = useState(false);
+  const [anioErrorMsg, setAnioErrorMsg] = useState('');
   const [localEmail,setLocalEmail] = useState(email);
   const [validEmailFormat, setValidEmailFormat] = useState(false);
+  const [emailErrorMsg, setEmailErrorMsg] = useState('');
   const [localDominio, setLocalDominio] = useState(dominio);
+  const [dominioErrorMsg, setDominioErrorMsg] = useState('');
   const [validDominioFormat, setValidDominioFormat] = useState(false);
   const [localTelefono, setLocalTelefono] = useState(telefono);
   const [validTelefonoFormat, setValidTelefonoFormat] = useState(false);
-  const [localFuelType, setLocalFuelType] = useState(fuelType);
+  const [telefonoErrorMsg, setTelefonoErrorMsg] = useState('');
+  const [localFuelType, setLocalFuelType] = useState('');
   const [validFuelTypeFormat, setValidFuelTypeFormat] = useState(false);
+  const [fuelErrorMsg, setFuelErrorMsg] = useState('');
 
   const onChangeNombre = (nombre: string) => {
     if (
@@ -184,9 +185,15 @@ function GivePersonalInfo(): JSX.Element {
         nombre
       )
     )
-      setValidNombreFormat(true);
-    else setValidNombreFormat(false);
-    setLocalNombre(nombre);
+      {
+        setValidNombreFormat(true);
+        setNombreErrorMsg('');
+      }
+    else {
+      setValidNombreFormat(false);
+      setNombreErrorMsg('El formato del nombre ingresado no es valido')
+    }
+    setLocalNombre(nombre.toUpperCase());
   };
 
   const onChangeAnio = (anio: string) => {
@@ -195,8 +202,14 @@ function GivePersonalInfo(): JSX.Element {
         anio
       )
     )
-      setValidAnioFormat(true);
-    else setValidAnioFormat(false);
+      {
+        setValidAnioFormat(true);
+        setAnioErrorMsg('');
+      }
+    else {
+      setValidAnioFormat(false);
+      setAnioErrorMsg('El formato del año ingresado no es valido')
+    }
     setLocalAnio(anio);
   };
 
@@ -206,20 +219,31 @@ function GivePersonalInfo(): JSX.Element {
         email
       )
     )
-      setValidEmailFormat(true);
-    else setValidEmailFormat(false);
-    setLocalEmail(email);
+      {
+        setValidEmailFormat(true);
+        setEmailErrorMsg('');
+      }
+    else {
+      setValidEmailFormat(false);
+      setEmailErrorMsg('El formato del email ingresado no es valido')
+    }
+    setLocalEmail(email.toUpperCase());
   };
 
   const onChangeDominio = (dominio: string) => {
-    if (
-      /^[a-zA-Z0-9-]{1,10}$/.test(
-        dominio
-      )
-    )
+    const autoRegExp=/^([a-zA-Z]{3}[0-9]{3}|[a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2})$/;
+    const motoRegExp=/^([a-zA-Z]{1}[0-9]{3}[a-zA-Z]{3}|[0-9]{3}[a-zA-Z]{3})$/;
+    const isValidAuto = vehicleType===AUTO && autoRegExp.test(dominio);
+    const isValidMoto = (vehicleType===MOTO_CHICA || vehicleType===MOTO_GRANDE) && motoRegExp.test(dominio);
+    if (isValidAuto || isValidMoto) {
       setValidDominioFormat(true);
-    else setValidDominioFormat(false);
-    setLocalDominio(dominio);
+      setDominioErrorMsg('')
+    }
+    else {
+      setValidDominioFormat(false);
+      setDominioErrorMsg('El formato del dominio ingresado no es valido')
+    }
+    setLocalDominio(dominio.toUpperCase());
   };
 
   const onChangeTelefono = (telefono: string) => {
@@ -228,8 +252,14 @@ function GivePersonalInfo(): JSX.Element {
         telefono
       )
     )
-      setValidTelefonoFormat(true);
-    else setValidTelefonoFormat(false);
+      {
+        setValidTelefonoFormat(true);
+        setTelefonoErrorMsg('');
+      }
+    else {
+      setValidTelefonoFormat(false);
+      setTelefonoErrorMsg('El formato del telefono ingresado no es valido')
+    }
     setLocalTelefono(telefono);
   };
 
@@ -240,9 +270,17 @@ function GivePersonalInfo(): JSX.Element {
       )
     )
     setValidFuelTypeFormat(true);
-    else setValidFuelTypeFormat(false);
+    else {
+      setValidFuelTypeFormat(false);
+      setFuelErrorMsg('Tipo de combustible no es valido')
+    }
     setLocalFuelType(fuelType);
   };
+
+  const handleSubmitPersonalInfo = () => {
+    if(!validEmailFormat || !validDominioFormat || !validTelefonoFormat || !validFuelTypeFormat || !validAnioFormat || !validNombreFormat) setShowErrors(true);
+    else onSubmitPersonalInfo(localNombre, localAnio, localEmail, localDominio, localTelefono, localFuelType);
+  }
 
   return (
     <>
@@ -270,29 +308,6 @@ function GivePersonalInfo(): JSX.Element {
         </DateSelected>
       </GreyStepBox>
 
-      {/* {quotes.plant !== "sanmartin" && (
-        <>
-          <StepTitle plant={quotes.plant} checked stepNumber={3}>
-            <I18n id="app.quoteObtaining.schedule.calendar.step3.title" />
-          </StepTitle>
-
-          <GreyStepBox
-            withModify={true}
-            modifyFunction={onModifyPaymentPlatform}
-          >
-            <ImgContainer>
-              <Image
-                className="platform"
-                src={getImageByPlatform(paymentPlatform)}
-                alt="pepe"
-                width="200"
-                height="65"
-              />
-            </ImgContainer>
-          </GreyStepBox>
-        </>
-      )} */}
-
       <StepTitle
         plant={quotes.plant}
         stepNumber={getGiveEmailStepNumber(quotes.plant)}
@@ -315,6 +330,7 @@ function GivePersonalInfo(): JSX.Element {
               onChange={(e) => onChangeNombre(e.target.value)}
               width={250}
             ></TextInput>
+            <ErrorMsg>{showErrors && nombreErrorMsg}</ErrorMsg>
           </InputSection>
           <InputSection>
             <InputLabel>
@@ -325,6 +341,7 @@ function GivePersonalInfo(): JSX.Element {
               onChange={(e) => onChangeDominio(e.target.value)}
               width={250}
             ></TextInput>
+            <ErrorMsg>{showErrors && dominioErrorMsg}</ErrorMsg>
           </InputSection>
           <InputSection>
             <InputLabel>
@@ -335,6 +352,7 @@ function GivePersonalInfo(): JSX.Element {
               onChange={(e) => onChangeAnio(e.target.value)}
               width={250}
             ></TextInput>
+            <ErrorMsg>{showErrors && anioErrorMsg}</ErrorMsg>
           </InputSection>
           <InputSection>
           <InputLabel>
@@ -343,8 +361,9 @@ function GivePersonalInfo(): JSX.Element {
             <TextInput
               value={localEmail}
               onChange={(e) => onChangeEmail(e.target.value)}
-              width={250}
+              width={300}
             ></TextInput>
+            <ErrorMsg>{showErrors && emailErrorMsg}</ErrorMsg>
           </InputSection>
           <InputSection>
           <InputLabel>
@@ -356,28 +375,29 @@ function GivePersonalInfo(): JSX.Element {
               onChange={(e) => onChangeTelefono(e.target.value)}
               width={250}
             ></TextInput>
+            <ErrorMsg>{showErrors && telefonoErrorMsg}</ErrorMsg>
           </InputSection>
           <br/>
           <InputSection>
           <InputLabel>
               Combustible:
             </InputLabel>
-         {fuelTypeList.map((fuelType)=> {
+         {fuelTypeList.map((fuelT)=> {
            let checked=false;
-           if(fuelType)
+           if(fuelT)
            return (
             <RadioSection>
-              <RadioSectionLabel htmlFor={fuelType}>{fuelType}</RadioSectionLabel>
-              <input onClick={() => onChangeFuelType(fuelType)} type="radio" id={fuelType} name="fuelType" value={fuelType} checked></input>
+              <RadioSectionLabel htmlFor={fuelT}>{fuelT}</RadioSectionLabel>
+              <input onClick={() => onChangeFuelType(fuelT)} type="radio" id={fuelT} name="fuelType" value={fuelT} checked={fuelT===localFuelType} ></input>
             </RadioSection>
            )
          })}
+            <ErrorMsg>{showErrors && fuelErrorMsg}</ErrorMsg>
           </InputSection>
           <BtnContainer>
             <Btn
               plant={quotes.plant}
-              disabled={!validEmailFormat || !validDominioFormat || !validTelefonoFormat || !validFuelTypeFormat || !validAnioFormat || !validNombreFormat}
-              onClick={() => onSubmitPersonalInfo(localNombre, localAnio, localEmail, localDominio, localTelefono, localFuelType)}
+              onClick={handleSubmitPersonalInfo}
             >
               <I18n id="app.quoteObtaining.schedule.calendar.continue" />
             </Btn>
