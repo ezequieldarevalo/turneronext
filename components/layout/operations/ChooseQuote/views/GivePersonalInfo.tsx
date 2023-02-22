@@ -5,7 +5,7 @@ import StepTitle from "components/common/StepTitle";
 import { capitalizeFirstChar, getStringDate } from "lib/commonFunctions";
 import styled from "styled-components";
 import useQuoteObtaining from "hooks/useQuoteObtaining";
-import { AUTO, fuelTypeList, MOTO_CHICA, MOTO_GRANDE } from 'lib/constants'
+import { AUTO, CAMIONETA, fuelTypeList, MOTO_CHICA, MOTO_GRANDE } from 'lib/constants'
 
 const RadioSection = styled.div`
   display: inline-block;
@@ -233,9 +233,9 @@ function GivePersonalInfo(): JSX.Element {
   const onChangeDominio = (dominio: string) => {
     const autoRegExp=/^([a-zA-Z]{3}[0-9]{3}|[a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2})$/;
     const motoRegExp=/^([a-zA-Z]{1}[0-9]{3}[a-zA-Z]{3}|[0-9]{3}[a-zA-Z]{3})$/;
-    const isValidAuto = vehicleType===AUTO && autoRegExp.test(dominio);
+    const isValidAutoCamioneta = (vehicleType===AUTO || vehicleType===CAMIONETA) && autoRegExp.test(dominio);
     const isValidMoto = (vehicleType===MOTO_CHICA || vehicleType===MOTO_GRANDE) && motoRegExp.test(dominio);
-    if (isValidAuto || isValidMoto) {
+    if (isValidAutoCamioneta || isValidMoto) {
       setValidDominioFormat(true);
       setDominioErrorMsg('')
     }
