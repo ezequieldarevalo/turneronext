@@ -30,12 +30,12 @@
   "app.quoteObtaining.warning.maipu.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma elegida para efectuarlo.",
   "app.quoteObtaining.warning.rivadavia.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma de pago para efectuarlo.",
   "app.quoteObtaining.warning.godoycruz.chooseQuote.message3": "Nuestro sistema lo redireccionará a la plataforma elegida para efectuarlo.",
-  "app.quoteObtaining.warning.lasheras.chooseQuote.message4": "Tenga en cuenta que habrá un aumento en la tarifa para el año 2023.",
+  "app.quoteObtaining.warning.lasheras.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2024, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
   "app.quoteObtaining.warning.lasheras.chooseQuote.message5": "En caso de concertar un turno para el año siguiente deberá abonar la diferencia al momento de realizar el servicio.",
-  "app.quoteObtaining.warning.maipu.chooseQuote.message4": "Tenga en cuenta que habrá un aumento en la tarifa para el año 2023.",
+  "app.quoteObtaining.warning.maipu.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2024, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
   "app.quoteObtaining.warning.maipu.chooseQuote.message5": "En caso de concertar un turno para el año siguiente deberá abonar la diferencia al momento de realizar el servicio.",
-  "app.quoteObtaining.warning.rivadavia.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2023, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
-  "app.quoteObtaining.warning.godoycruz.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2023, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
+  "app.quoteObtaining.warning.rivadavia.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2024, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
+  "app.quoteObtaining.warning.godoycruz.chooseQuote.message4": "Recuerde que si su turno corresponde al año 2024, deberá abonar la diferencia por la tarifa vigente al momento de la inspección en el establecimiento.",
 
 
   "app.quoteObtaining.warning.chooseQuotes.quoteDate": "Su turno tiene fecha el día",
