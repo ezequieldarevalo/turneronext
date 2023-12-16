@@ -92,6 +92,7 @@ const getChooseQuoteMessages = (plant:string):IMessagesList[] => {
     { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
   ]
   return [
+    { id: 5, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message4`, remarked: true },
     { id: 1, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message1`, remarked: false },
     { id: 2, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message2`, remarked: false },
     { id: 3, content: `app.quoteObtaining.warning.${plant}.chooseQuote.message3`, remarked: false },
