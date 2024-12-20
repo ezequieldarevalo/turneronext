@@ -93,37 +93,9 @@ function SelectPaymentMethod() {
       </StepTitle>
 
       <GreyStepBox>
-        <>{quotes.plant!='godoycruz' && quotes.plant!='rivadavia' && (
-          <>
-            <br/>
-            <ChooseMessage>
-              <I18n id="app.quoteObtaining.schedule.calendar.paymentMethod.subtitle" />
-            </ChooseMessage>
-            <br/>
-            <input onClick={()=>onChangePaymentPlatform("yacare")}
-              type="radio"
-              id="Yacare"
-              name="paymentPlatform"
-              value="Yacare"
-              defaultChecked={paymentPlatform==='yacare'}
-            />
-            <label style={{marginLeft: "5px"}} htmlFor="Yacare">Yacare</label>
-            <br/>
-            <ImgContainer>
-              <Image
-                className="platform"
-                src="/img/yacare.png"
-                alt="pepe"
-                width="200"
-                height="65"
-              />
-            </ImgContainer>
-
-            <br/>
-          </>
-          )}
+        <>
           <input onClick={()=>onChangePaymentPlatform("mercadoPago")}
-            disabled={quotes.plant === 'godoycruz' || quotes.plant==='rivadavia'}
+            disabled
             type="radio"
             id="MercadoPago"
             name="paymentPlatform"
