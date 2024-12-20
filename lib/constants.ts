@@ -23,7 +23,7 @@ export const fuelTypeList = [
 export const PLANTS=[
     {id: 'lasheras', available: true},
     {id: 'maipu', available: true},
-    {id: 'rivadavia', available: true},
+    // {id: 'rivadavia', available: true},
     {id: 'godoycruz', available: true},
-    {id: 'sanmartin', available: true},
+    // {id: 'sanmartin', available: true},
 ];
