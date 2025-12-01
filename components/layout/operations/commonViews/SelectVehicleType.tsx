@@ -4,7 +4,7 @@ import Message from "components/layout/Message";
 import I18n from "components/common/i18n";
 import styled from "styled-components";
 import StepTitle from "components/common/StepTitle";
-import { vehicleTypeList } from "lib/constants";
+import { vehicleTypeList, vehicleTypeListLasherasMaipu } from "lib/constants";
 import {Btn} from "components/common/styles/UtilsStyles"
 
 interface TitleProps {
@@ -113,7 +113,8 @@ function SelectVehicleType() {
     const [{plant, operation}, { onSelectVehicleType }] =
     useQuoteObtaining();
 
-    const [vehicleTypeSelected, setVehicleTypeSelected] = useState<string>(vehicleTypeList[0]);
+    const currentVehicleTypeList = (plant === 'lasheras' || plant === 'maipu') ? vehicleTypeListLasherasMaipu : vehicleTypeList;
+    const [vehicleTypeSelected, setVehicleTypeSelected] = useState<string>(currentVehicleTypeList[0]);
 
   const getWarningLinesByOperation = (operation: string): IMessagesList[] => {
     if (operation === "chooseQuote") return getChooseQuoteMessages(plant);
@@ -142,7 +143,7 @@ function SelectVehicleType() {
         <I18n id="app.quoteObtaining.schedule.calendar.step1.title" />
       </StepTitle>
       <VehicleTypeSelectionPanel>
-        { vehicleTypeList.map((vehicleType)=>{
+        { currentVehicleTypeList.map((vehicleType)=>{
             let selected = false;
             if(vehicleTypeSelected===vehicleType) {
                 selected=true;
